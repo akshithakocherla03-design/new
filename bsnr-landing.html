@@ -110,7 +110,7 @@ body.menu-open .sheet{clip-path:circle(150% at calc(100% - 44px) 44px);visibilit
 .hero3d{position:relative;height:460vh;background:#2a3329;color:#fff}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
 .stage{perspective:1400px}
-.walk{position:absolute;inset:-7%;z-index:-3;background:url("assets/video/hero-walk.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@52952dce7a741a1f09754e7643edbeeda3a2fc00/assets/video/hero-walk.jpg") center/cover,#0b1a10;transform:translate3d(var(--hx,0px),var(--hy,0px),0) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(var(--hs,1.04));will-change:transform}
+.walk{position:absolute;inset:-14%;z-index:-3;background:url("assets/video/hero-walk.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@52952dce7a741a1f09754e7643edbeeda3a2fc00/assets/video/hero-walk.jpg") center/cover,#0b1a10;transform:translate3d(var(--hx,0px),var(--hy,0px),0) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(var(--hs,1.04));will-change:transform}
 .walk video{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(var(--hb,.7)) saturate(var(--hsat,.95)) contrast(1.04)}
 .walk-light{position:absolute;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(520px circle at var(--lx,50%) var(--ly,45%),rgba(255,240,205,.16),rgba(255,240,205,.04) 45%,transparent 70%);mix-blend-mode:screen;opacity:var(--lo,0);transition:opacity .8s}
 .hl-wrap{transform:translate3d(var(--tx,0px),var(--ty,0px),0);will-change:transform}
@@ -1110,13 +1110,15 @@ section{position:relative}
   walkVid.play().then(() => walkVid.pause()).catch(() => {});
   const lerp = (a, b, k) => a + (b - a) * k;
   let mx = 0, my = 0, cx = 0, cy = 0, lx = .5, ly = .45, over = false, t0 = performance.now();
-  stage.addEventListener('pointermove', e => {
+  // track the pointer anywhere over the hero (including the header and text)
+  addEventListener('pointermove', e => {
     if (e.pointerType !== 'mouse') return;
     const r = stage.getBoundingClientRect();
+    over = e.clientY >= r.top && e.clientY <= r.bottom;
+    if (!over) return;
     mx = (e.clientX - r.left) / r.width - .5; my = (e.clientY - r.top) / r.height - .5;
-    over = true;
-  });
-  stage.addEventListener('pointerleave', () => { mx = my = 0; over = false; });
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => { mx = my = 0; over = false; });
   const hset = (el, k, v) => el.style.setProperty(k, v);
   const walkLoop = now => {
     requestAnimationFrame(walkLoop);
@@ -1134,20 +1136,21 @@ section{position:relative}
     }
     // smoothed pointer: look-around with depth
     const tt = (now - t0) / 1000;
-    cx = lerp(cx, mx, .065); cy = lerp(cy, my, .065);
+    cx = lerp(cx, mx, .09); cy = lerp(cy, my, .09);
     const bob = reduce ? 0 : Math.sin(tt * 1.4) * .012;
-    hset(walk, '--hx', (cx * -70).toFixed(2) + 'px');
-    hset(walk, '--hy', ((cy + bob) * -44).toFixed(2) + 'px');
-    hset(walk, '--ry', (cx * 7).toFixed(3) + 'deg');
-    hset(walk, '--rx', (cy * -5).toFixed(3) + 'deg');
-    hset(walk, '--hs', (1.06 + Math.hypot(cx, cy) * .06 + heroP * .04).toFixed(4));
-    hset(hlWrap, '--tx', (cx * 22).toFixed(2) + 'px');
-    hset(hlWrap, '--ty', (cy * 14).toFixed(2) + 'px');
+    hset(walk, '--hx', (cx * -160).toFixed(2) + 'px');
+    hset(walk, '--hy', ((cy + bob) * -100).toFixed(2) + 'px');
+    hset(walk, '--ry', (cx * 14).toFixed(3) + 'deg');
+    hset(walk, '--rx', (cy * -9).toFixed(3) + 'deg');
+    // forward push as you scroll, plus a lean-in toward the cursor
+    hset(walk, '--hs', (1.02 + Math.hypot(cx, cy) * .1 + heroP * .2).toFixed(4));
+    hset(hlWrap, '--tx', (cx * 40).toFixed(2) + 'px');
+    hset(hlWrap, '--ty', (cy * 26).toFixed(2) + 'px');
     lx = lerp(lx, mx + .5, .09); ly = lerp(ly, my + .5, .09);
     hset(stage, '--lx', (lx * 100).toFixed(2) + '%'); hset(stage, '--ly', (ly * 100).toFixed(2) + '%');
     hset(stage, '--lo', over ? 1 : 0);
     // light lifts as you walk deeper in
-    hset(walk, '--hb', (.68 + heroP * .18).toFixed(3));
+    hset(walk, '--hb', (.82 + heroP * .12).toFixed(3));
   };
   requestAnimationFrame(walkLoop);
 
