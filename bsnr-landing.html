@@ -177,7 +177,7 @@ section{position:relative}
 
 /* Initiative: real rubber plantation footage behind the copy */
 .init{padding:clamp(16px,2vw,24px) 0 0}
-.init-panel{position:relative;overflow:hidden;isolation:isolate;border-radius:var(--radius);color:#fff;background:var(--ink) url("assets/video/rubber-plantation.jpg") center/cover;padding:clamp(28px,5vw,72px)}
+.init-panel{position:relative;overflow:hidden;isolation:isolate;border-radius:var(--radius);color:#fff;background:url("assets/video/rubber-plantation.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8f93d315f697c41a2e82c520d448165175ad906c/assets/video/rubber-plantation.jpg") center/cover,var(--ink);padding:clamp(28px,5vw,72px)}
 .init-grid{display:grid;grid-template-columns:1fr minmax(0,520px);gap:clamp(24px,5vw,80px);align-items:center;min-height:min(760px,88vh)}
 .init-copy{position:relative;z-index:2}
 .init-copy h2{color:#fff;margin:18px 0 22px;font-size:clamp(32px,3.2vw,50px)}
@@ -514,9 +514,8 @@ section{position:relative}
 <section class="init" id="about">
   <div class="wrap">
     <div class="init-panel">
-      <video class="init-video" id="initVideo" muted loop playsinline preload="none" poster="assets/video/rubber-plantation.jpg" aria-hidden="true">
-        <source src="assets/video/rubber-plantation.mp4" type="video/mp4">
-      </video>
+      <!-- Sources are added by script and tried in order: next to this HTML file, the site's assets/video/, then a CDN copy -->
+      <video class="init-video" id="initVideo" muted loop playsinline preload="none" aria-hidden="true" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8f93d315f697c41a2e82c520d448165175ad906c/assets/video/"></video>
       <div class="init-shade" aria-hidden="true"></div>
       <div class="init-grain" aria-hidden="true"></div>
 
@@ -1399,6 +1398,17 @@ function plantation(getP, reduce) {
   /* Initiative: plantation video plays while in view; cycle the three points */
   const init = $('.init');
   const initVideo = $('#initVideo');
+  // The <base> tag points relative URLs at the live site, so also try a copy next to this file, then the CDN
+  const vidBases = [...new Set([
+    new URL('assets/video/', location.href).href,
+    new URL('assets/video/', document.baseURI).href,
+    initVideo.dataset.cdn
+  ])];
+  vidBases.forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
+    const src = document.createElement('source');
+    src.src = base + 'rubber-plantation.' + ext; src.type = type;
+    initVideo.append(src);
+  }));
   new IntersectionObserver(([en]) => {
     if (en.isIntersecting) {
       init.classList.add('in');
