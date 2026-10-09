@@ -390,9 +390,14 @@ section{position:relative}
 .qs li{counter-increment:q;display:grid;grid-template-columns:30px 1fr;gap:10px;font-weight:600;font-size:15px;color:#21402b;line-height:1.45}
 .qs li::before{content:counter(q,decimal-leading-zero);font-family:var(--serif);font-style:italic;font-size:18px;color:var(--forest);line-height:1.2}
 .reg-copy .btn{align-self:flex-start;margin-top:auto}
-.reg-art{position:relative;overflow:hidden;margin:12px;border-radius:calc(var(--radius) - 10px);background:#e9f6d0}
-.reg-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.12);opacity:0;transition:transform 1.4s var(--ease),opacity .8s var(--ease)}
-.reg-pane.on .reg-art img{transform:none;opacity:1}
+.reg-art{position:relative;align-self:center;justify-self:center;width:min(100% - 40px,340px);aspect-ratio:3/4;margin:24px;border-radius:22px;overflow:hidden;background:var(--poster) center/cover,#1b2e22;box-shadow:0 30px 60px -28px rgba(11,31,22,.55),0 0 0 6px rgba(255,255,255,.45);transform:translateY(24px) rotate(1.5deg) scale(.96);opacity:0;transition:transform 1s var(--ease),opacity .7s var(--ease)}
+.reg-pane.on .reg-art{transform:none;opacity:1;transition-delay:.12s}
+.reg-art:hover{transform:rotate(-1deg) scale(1.02)}
+.reg-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 6s ease-out}
+.reg-pane.on .reg-vid{transform:scale(1)}
+.reg-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,22,14,.7));pointer-events:none}
+.reg-cap{position:absolute;z-index:1;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#fff}
+.reg-cap i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 0 rgba(200,241,105,.7);animation:pulse 2s infinite}
 
 /* CTA */
 .cta{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--forest);color:#fff;padding:clamp(48px,8vw,110px) clamp(24px,5vw,72px);text-align:center;isolation:isolate}
@@ -440,7 +445,7 @@ section{position:relative}
 @media (max-width:860px){
   .foot-grid{grid-template-columns:1fr 1fr}
   .reg-pane{grid-template-columns:1fr}
-  .reg-art{min-height:260px}
+  .reg-art{width:calc(100% - 32px);aspect-ratio:16/10;margin:8px auto 24px}
 }
 @media (max-width:560px){
   .init-copy .btn{width:100%;justify-content:center}
@@ -891,7 +896,7 @@ section{position:relative}
             </ul>
             <a class="btn" href="Estate-how-it-work.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
-          <div class="reg-art"><img src="assets/img/farmer_01.png" alt="Estate grower illustration" loading="lazy"></div>
+          <div class="reg-art" style="--poster:url(&quot;assets/video/roles/estate.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/estate.jpg&quot;)"><video class="reg-vid" muted loop playsinline preload="none" data-role="estate" aria-label="Rubber estate, tapped trees"></video><span class="reg-cap"><i></i>Rubber estate, tapped trees</span></div>
         </div>
         <div class="reg-pane" data-role="dealer">
           <div class="reg-copy">
@@ -904,7 +909,7 @@ section{position:relative}
             </ul>
             <a class="btn" href="Dealer-how-it-work.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
-          <div class="reg-art"><img src="assets/img/dealer_02.png" alt="Dealer illustration" loading="lazy"></div>
+          <div class="reg-art" style="--poster:url(&quot;assets/video/roles/dealer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/dealer.jpg&quot;)"><video class="reg-vid" muted loop playsinline preload="none" data-role="dealer" aria-label="Sacks traded at the market"></video><span class="reg-cap"><i></i>Sacks traded at the market</span></div>
         </div>
         <div class="reg-pane" data-role="manufacturer">
           <div class="reg-copy">
@@ -915,7 +920,7 @@ section{position:relative}
             </ul>
             <a class="btn" href="Manufacturer-how-it-work.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
-          <div class="reg-art"><img src="assets/img/manufacturer_03.png" alt="Manufacturer illustration" loading="lazy"></div>
+          <div class="reg-art" style="--poster:url(&quot;assets/video/roles/manufacturer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/manufacturer.jpg&quot;)"><video class="reg-vid" muted loop playsinline preload="none" data-role="manufacturer" aria-label="Rubber worked at the factory"></video><span class="reg-cap"><i></i>Rubber worked at the factory</span></div>
         </div>
         <div class="reg-pane" data-role="processor">
           <div class="reg-copy">
@@ -926,7 +931,7 @@ section{position:relative}
             </ul>
             <a class="btn" href="Processor-how-it-work.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
-          <div class="reg-art"><img src="assets/img/processor_05.png" alt="Processor illustration" loading="lazy"></div>
+          <div class="reg-art" style="--poster:url(&quot;assets/video/roles/processor.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/processor.jpg&quot;)"><video class="reg-vid" muted loop playsinline preload="none" data-role="processor" aria-label="Rubber through the mixing mill"></video><span class="reg-cap"><i></i>Rubber through the mixing mill</span></div>
         </div>
         <div class="reg-pane" data-role="exporter">
           <div class="reg-copy">
@@ -937,7 +942,7 @@ section{position:relative}
             </ul>
             <a class="btn" href="Exporter%20Registation%20how-it-work.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           </div>
-          <div class="reg-art"><img src="assets/img/exporter_04.png" alt="Exporter illustration" loading="lazy"></div>
+          <div class="reg-art" style="--poster:url(&quot;assets/video/roles/exporter.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/exporter.jpg&quot;)"><video class="reg-vid" muted loop playsinline preload="none" data-role="exporter" aria-label="Loaded for export"></video><span class="reg-cap"><i></i>Loaded for export</span></div>
         </div>
       </div>
     </div>
@@ -1684,11 +1689,22 @@ function plantation(getP, reduce) {
   addEventListener('scroll', stFold, { passive: true });
   stFold();
 
+  /* Register: short real clip for the selected role; only the visible one plays */
+  const regVids = $$('.reg-vid');
+  regVids.forEach(v => [...new Set([new URL('assets/video/roles/', location.href).href, new URL('assets/video/roles/', document.baseURI).href, v.closest('.reg-art').style.getPropertyValue('--poster').match(/https:\/\/cdn[^"&)]+\//)[0]])]
+    .forEach(base => { const s = document.createElement('source'); s.src = base + v.dataset.role + '.mp4'; s.type = 'video/mp4'; v.append(s); }));
+  let regSeen = false;
+  const regPlay = () => regVids.forEach(v => {
+    const on = v.closest('.reg-pane').classList.contains('on') && regSeen && !reduce;
+    if (on) { if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); } v.currentTime = 0; v.play().catch(() => {}); } else v.pause();
+  });
+  new IntersectionObserver(([en]) => { regSeen = en.isIntersecting; regPlay(); }, { threshold: .25 }).observe($('.reg-panel'));
   /* Register switcher */
   const regBtns = $$('.reg-btn');
   regBtns.forEach(b => b.addEventListener('click', () => {
     regBtns.forEach(x => x.classList.toggle('on', x === b));
     $$('.reg-pane').forEach(p => p.classList.toggle('on', p.dataset.role === b.dataset.role));
+    regPlay();
   }));
 
   /* Live stats coverflow */
