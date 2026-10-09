@@ -217,34 +217,51 @@ section{position:relative}
 .film-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .film-x{position:absolute;top:16px;right:16px;z-index:2;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:22px;line-height:1}
 
-/* Stats */
-.stats{background:var(--ink);color:#fff;border-radius:var(--radius);margin-inline:16px;overflow:hidden;isolation:isolate}
-.stats::before{content:"";position:absolute;width:900px;height:900px;right:-300px;top:-400px;background:radial-gradient(closest-side,rgba(75,175,71,.35),transparent);z-index:-1;animation:drift 18s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate(-200px,160px)}}
-.stats .lead{color:rgba(255,255,255,.65)}
-.stats .eyebrow{color:var(--lime)}
-.stats-top{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.big-stat{padding:clamp(24px,3vw,40px);border-radius:var(--radius-sm);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line-light)}
-.big-stat strong{display:block;font-size:clamp(48px,7.5vw,110px);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums;margin:18px 0 6px}
-.big-stat strong sup{font-size:.28em;letter-spacing:0;font-weight:600;color:var(--lime);margin-left:6px;vertical-align:top;position:relative;top:.6em}
-.big-stat span{color:rgba(255,255,255,.65);font-weight:500}
-.tag{display:inline-flex;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em;background:rgba(200,241,105,.14);color:var(--lime)}
-.tag--soft{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
-.rows{border-radius:var(--radius-sm);box-shadow:inset 0 0 0 1px var(--line-light);overflow:hidden}
-.row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.5fr auto;gap:24px;align-items:center;padding:22px clamp(18px,3vw,32px);transition:background .3s}
-.row+.row{border-top:1px solid var(--line-light)}
-.row:not(.row--head):hover{background:rgba(255,255,255,.04)}
-.row--head{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);padding-block:16px}
-.row h4{margin:0;font-size:19px;letter-spacing:-.02em}
-.row .n{font-size:28px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.row .n.dim{color:rgba(255,255,255,.55)}
-.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
-.bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--leaf),var(--lime));transition:width 1.6s var(--ease)}
-.bar-wrap{display:grid;gap:8px;font-size:13px;color:rgba(255,255,255,.6)}
-.row .go{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line-light);transition:all .4s var(--ease)}
-.row .go:hover{background:var(--lime);color:var(--ink);transform:rotate(-45deg)}
-.row .go.none{visibility:hidden}
-.m-label{display:none}
+/* Live stats: 3D coverflow of stakeholder cards on a light, frosted panel */
+.stats2{padding-top:clamp(16px,2vw,24px)}
+.stats-panel{position:relative;overflow:hidden;overflow:clip;isolation:isolate;border-radius:var(--radius);padding:clamp(28px,5vw,72px) 0 clamp(24px,4vw,48px);background:#eef0e6}
+.stats-panel .sec-head{padding:0 clamp(24px,5vw,72px);margin-bottom:clamp(8px,2vw,24px)}
+.cf-bg{position:absolute;inset:-40px;z-index:-1}
+.cf-bg-i{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(28px) saturate(1.1);opacity:0;transform:scale(1.1);transition:opacity 1.2s var(--ease),transform 6s ease-out}
+.cf-bg-i.on{opacity:.55;transform:scale(1)}
+.cf-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,243,236,.82),rgba(245,243,236,.55) 45%,rgba(245,243,236,.85))}
+.cf{position:relative;height:clamp(520px,48vw,620px);perspective:1500px;outline:none;touch-action:pan-y;user-select:none}
+.sc{--w:clamp(250px,24vw,330px);position:absolute;left:50%;top:50%;width:var(--w);height:calc(var(--w) * 1.48);margin:calc(var(--w) * -.74) 0 0 calc(var(--w) / -2);border-radius:26px;overflow:hidden;cursor:pointer;color:#fff;background:#cfd4c4;box-shadow:0 30px 60px -28px rgba(11,31,22,.45),0 0 0 1px rgba(255,255,255,.5);transform:translateX(var(--x,0)) translateZ(var(--z,0)) rotateY(var(--ry,0deg));opacity:var(--o,1);z-index:var(--zi,1);transition:transform 1s var(--ease),opacity .8s var(--ease),filter .8s,box-shadow .8s;filter:saturate(.9) brightness(1.03)}
+.sc.on{cursor:default;filter:none;box-shadow:0 40px 80px -30px rgba(11,31,22,.55),0 0 0 1px rgba(255,255,255,.7)}
+.sc-photo{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.08);transition:transform 1.4s var(--ease)}
+.sc.on .sc-photo{transform:scale(1)}
+.sc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,24,15,.35),transparent 30%,rgba(8,24,15,.15) 55%,rgba(8,24,15,.55));pointer-events:none}
+.sc-top{position:absolute;z-index:2;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center}
+.sc-ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.sc.on .sc-ic{background:var(--lime);color:var(--ink);box-shadow:none}
+.sc-k{font-family:var(--serif);font-style:italic;font-size:20px;text-shadow:0 1px 10px rgba(0,0,0,.3)}
+.sc-title{position:absolute;z-index:2;left:22px;right:22px;top:32%;transition:top .9s var(--ease)}
+.sc.on .sc-title{top:15%}
+.sc-title h3{font-size:clamp(26px,2.4vw,34px);font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.sc-line{display:block;width:34px;height:2px;margin:14px 0 10px;background:#fff;opacity:.85}
+.sc-title p{font-size:13.5px;font-weight:600;opacity:.92;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.sc-glass{position:absolute;z-index:2;left:12px;right:12px;bottom:12px;padding:18px;border-radius:20px;color:var(--ink);background:rgba(255,255,255,.72);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8);display:grid;gap:14px;opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.sc.on .sc-glass{opacity:1;transform:none;transition-delay:.25s}
+.sc-nums{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc-nums .lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3;min-height:2.6em}
+.sc-nums strong{display:block;font-size:clamp(24px,2.2vw,30px);font-weight:800;letter-spacing:-.03em;color:#1f7a2e;font-variant-numeric:tabular-nums;line-height:1.1}
+.sc-nums strong.dim{color:var(--ink)}
+.sc-nums small{font-size:.5em;font-weight:700;margin-left:3px;color:var(--muted)}
+.sc .bar-wrap{display:grid;gap:6px;font-size:12px;font-weight:600;color:var(--muted)}
+.sc .bar{height:6px;border-radius:99px;background:rgba(11,31,22,.1);overflow:hidden}
+.sc .bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--leaf),#9fd84a);transition:width 1.4s var(--ease) .3s}
+.sc-btn{justify-content:center}
+.cf-nav{position:absolute;z-index:50;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 0 0 1px rgba(11,31,22,.08),0 10px 30px -12px rgba(11,31,22,.3);color:var(--ink);transition:background .3s,transform .4s var(--ease)}
+.cf-nav:hover{background:var(--lime);transform:scale(1.06)}
+.cf-nav.prev{left:clamp(12px,4vw,56px)}
+.cf-nav.next{right:clamp(12px,4vw,56px)}
+.cf-dots{display:flex;justify-content:center;gap:8px;margin-top:clamp(8px,2vw,20px)}
+.cf-dots button{position:relative;height:8px;width:8px;border-radius:99px;background:rgba(11,31,22,.2);overflow:hidden;transition:width .5s var(--ease),background .3s}
+.cf-dots button.on{width:40px;background:rgba(11,31,22,.12)}
+.cf-dots button.on::after{content:"";position:absolute;inset:0;background:var(--forest);transform-origin:0 50%;animation:cfdot var(--cfdur,4.5s) linear forwards}
+.cf.paused~.cf-dots button.on::after,.cf-dots.paused button.on::after{animation-play-state:paused}
+@keyframes cfdot{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (max-width:560px){.cf-nav{display:none}.cf{height:560px}}
 
 /* EUDR statement */
 .statement{max-width:1100px}
@@ -350,19 +367,13 @@ section{position:relative}
   .init-copy{order:-1}
   .init-points{max-width:none}
   .init-shade{background:linear-gradient(180deg,rgba(6,20,13,.92),rgba(6,20,13,.72) 50%,rgba(6,20,13,.94)),rgba(12,40,24,.25)}
-  .row{grid-template-columns:1fr 1fr 1fr;row-gap:14px}
-  .row--head{display:none}
-  .row h4{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
-  .row .bar-wrap{grid-column:1/3}
-  .m-label{display:block;font-size:12px;color:rgba(255,255,255,.5);font-weight:600}
 }
 @media (max-width:860px){
   .cards,.phase-grid{grid-template-columns:1fr}
-  .stats-top{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
   .reg-pane{grid-template-columns:1fr}
   .reg-art{min-height:260px}
-  .stats,.plan{margin-inline:0;border-radius:0}
+  .plan{margin-inline:0;border-radius:0}
 }
 @media (max-width:560px){
   .init-copy .btn{width:100%;justify-content:center}
@@ -370,10 +381,6 @@ section{position:relative}
   .ticker-label{padding:12px 14px}
   .ticker-label span{display:none}
   .foot-grid{grid-template-columns:1fr}
-  .row{grid-template-columns:1fr 1fr}
-  .row .bar-wrap{grid-column:1/-1}
-  .row .go{position:absolute;right:18px;top:18px}
-  .row{position:relative}
   .seg button{padding:10px 14px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -546,66 +553,101 @@ section{position:relative}
 </div>
 
 <!-- ================= Live stats ================= -->
-<section class="sec stats" id="stats">
+<section class="sec stats2" id="stats">
   <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow rv">Live from the portal</span>
-        <h2 class="split" style="margin-top:18px"><span class="ln"><span>Progress you</span></span><span class="ln"><span style="--d:.08s">can <span class="serif">trace</span></span></span></h2>
+    <div class="stats-panel">
+      <div class="cf-bg" aria-hidden="true"><div class="cf-bg-i" style="background-image:url(&quot;assets/img/stats/plot.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/plot.jpg&quot;)"></div><div class="cf-bg-i" style="background-image:url(&quot;assets/img/stats/growers.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/growers.jpg&quot;)"></div><div class="cf-bg-i" style="background-image:url(&quot;assets/img/stats/dealer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/dealer.jpg&quot;)"></div><div class="cf-bg-i" style="background-image:url(&quot;assets/img/stats/processor.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/processor.jpg&quot;)"></div><div class="cf-bg-i" style="background-image:url(&quot;assets/img/stats/manufacturer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/manufacturer.jpg&quot;)"></div><div class="cf-bg-i" style="background-image:url(&quot;assets/img/stats/exporter.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/exporter.jpg&quot;)"></div></div>
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow rv">Live from the portal</span>
+          <h2 class="split" style="margin-top:18px"><span class="ln"><span>Progress you</span></span><span class="ln"><span style="--d:.08s">can <span class="serif">trace</span></span></span></h2>
+        </div>
+        <p class="lead rv">Figures update directly from the BSNR portal — stakeholders onboarded and those already EUDR approved.</p>
       </div>
-      <p class="lead rv">Figures update directly from the BSNR portal — stakeholders onboarded and those already EUDR approved.</p>
-    </div>
 
-    <div class="stats-top">
-      <div class="big-stat rv">
-        <span class="tag">EUDR approved</span>
-        <strong><span data-stat="PlotArea">—</span><sup>ha</sup></strong>
-        <span>Plot area EUDR approved</span>
+      <div class="cf" id="cf" role="region" aria-roledescription="carousel" aria-label="Live stakeholder figures" tabindex="0">
+        <article class="sc" data-ratio="PlotArea/TotalRegisteredPlotArea" aria-roledescription="slide" aria-label="Plot Area">
+          <div class="sc-photo" style="background-image:url(&quot;assets/img/stats/plot.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/plot.jpg&quot;)"></div>
+          <div class="sc-top"><span class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="sc-k">01</span></div>
+          <div class="sc-title"><h3>Plot Area</h3><span class="sc-line"></span><p>Hectares under the BSNR network</p></div>
+          <div class="sc-glass">
+            <div class="sc-nums">
+              <div><span class="lbl">EUDR Approved</span><strong><span data-stat="PlotArea">—</span><small>ha</small></strong></div>
+              <div><span class="lbl">Hectares covered</span><strong class="dim"><span data-stat="TotalRegisteredPlotArea">—</span><small>ha</small></strong></div>
+            </div>
+            <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
+            
+          </div>
+        </article>
+        <article class="sc" data-ratio="TotalFarmer/TotalRegisteredGrower" aria-roledescription="slide" aria-label="Growers">
+          <div class="sc-photo" style="background-image:url(&quot;assets/img/stats/growers.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/growers.jpg&quot;)"></div>
+          <div class="sc-top"><span class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M7.5 9a4.5 4.5 0 0 1 9 0"/><path d="M8.5 9.5a3.5 3.5 0 0 0 7 0"/><path d="M5 21v-1.5A4.5 4.5 0 0 1 9.5 15h5a4.5 4.5 0 0 1 4.5 4.5V21"/></svg></span><span class="sc-k">02</span></div>
+          <div class="sc-title"><h3>Growers</h3><span class="sc-line"></span><p>Farmer / Estate</p></div>
+          <div class="sc-glass">
+            <div class="sc-nums">
+              <div><span class="lbl">EUDR Approved</span><strong><span data-stat="TotalFarmer">—</span></strong></div>
+              <div><span class="lbl">Growers Onboarded</span><strong class="dim"><span data-stat="TotalRegisteredGrower">—</span></strong></div>
+            </div>
+            <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
+            
+          </div>
+        </article>
+        <article class="sc" data-ratio="TotalDealer/TotalRegisteredDealer" aria-roledescription="slide" aria-label="Dealer">
+          <div class="sc-photo" style="background-image:url(&quot;assets/img/stats/dealer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/dealer.jpg&quot;)"></div>
+          <div class="sc-top"><span class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l1.5-5h13L20 10"/><path d="M4 10h16v1.5a2.5 2.5 0 0 1-5 0 2.5 2.5 0 0 1-5 0 2.5 2.5 0 0 1-5 0z"/><path d="M5.5 13v7h13v-7M10 20v-4h4v4"/></svg></span><span class="sc-k">03</span></div>
+          <div class="sc-title"><h3>Dealer</h3><span class="sc-line"></span><p>Aggregators & sub-dealers</p></div>
+          <div class="sc-glass">
+            <div class="sc-nums">
+              <div><span class="lbl">EUDR Approved</span><strong><span data-stat="TotalDealer">—</span></strong></div>
+              <div><span class="lbl">Dealers Onboarded</span><strong class="dim"><span data-stat="TotalRegisteredDealer">—</span></strong></div>
+            </div>
+            <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
+            <a class="btn btn--sm sc-btn" href="New%20Stakeholders%20page.html?tab=Dealers">View EUDR Approved List <span class="arr"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </article>
+        <article class="sc" data-ratio="TotalProcessor/TotalRegisteredProcessor" aria-roledescription="slide" aria-label="Processor">
+          <div class="sc-photo" style="background-image:url(&quot;assets/img/stats/processor.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/processor.jpg&quot;)"></div>
+          <div class="sc-top"><span class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></svg></span><span class="sc-k">04</span></div>
+          <div class="sc-title"><h3>Processor</h3><span class="sc-line"></span><p>Rubber & latex processing</p></div>
+          <div class="sc-glass">
+            <div class="sc-nums">
+              <div><span class="lbl">EUDR Approved</span><strong><span data-stat="TotalProcessor">—</span></strong></div>
+              <div><span class="lbl">Processors Onboarded</span><strong class="dim"><span data-stat="TotalRegisteredProcessor">—</span></strong></div>
+            </div>
+            <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
+            <a class="btn btn--sm sc-btn" href="New%20Stakeholders%20page.html?tab=Processors">View EUDR Approved List <span class="arr"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </article>
+        <article class="sc" data-ratio="TotalManufacturer/TotalRegisteredManufacturer" aria-roledescription="slide" aria-label="Manufacturer">
+          <div class="sc-photo" style="background-image:url(&quot;assets/img/stats/manufacturer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/manufacturer.jpg&quot;)"></div>
+          <div class="sc-top"><span class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l5 3V10l5 3V7l5 3v11z"/><path d="M3 21h18M7 17h2M12 17h2M17 17h1"/></svg></span><span class="sc-k">05</span></div>
+          <div class="sc-title"><h3>Manufacturer</h3><span class="sc-line"></span><p>Rubber product makers</p></div>
+          <div class="sc-glass">
+            <div class="sc-nums">
+              <div><span class="lbl">EUDR Approved</span><strong><span data-stat="TotalManufacturer">—</span></strong></div>
+              <div><span class="lbl">Manufacturers Onboarded</span><strong class="dim"><span data-stat="TotalRegisteredManufacturer">—</span></strong></div>
+            </div>
+            <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
+            <a class="btn btn--sm sc-btn" href="New%20Stakeholders%20page.html?tab=Manufacturers">View EUDR Approved List <span class="arr"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </article>
+        <article class="sc" data-ratio="TotalExporter/TotalRegisteredExporter" aria-roledescription="slide" aria-label="Exporters">
+          <div class="sc-photo" style="background-image:url(&quot;assets/img/stats/exporter.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8baddaf486bcf121970611877011480d0b6034a6/assets/img/stats/exporter.jpg&quot;)"></div>
+          <div class="sc-top"><span class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l2 5h14l2-5z"/><path d="M5 15V9h14v6M9 9V5h6v4"/><path d="M2 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/></svg></span><span class="sc-k">06</span></div>
+          <div class="sc-title"><h3>Exporters</h3><span class="sc-line"></span><p>Supplying EU member countries</p></div>
+          <div class="sc-glass">
+            <div class="sc-nums">
+              <div><span class="lbl">EUDR Approved</span><strong><span data-stat="TotalExporter">—</span></strong></div>
+              <div><span class="lbl">Exporters Onboarded</span><strong class="dim"><span data-stat="TotalRegisteredExporter">—</span></strong></div>
+            </div>
+            <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
+            
+          </div>
+        </article>
+        <button class="cf-nav prev" type="button" aria-label="Previous"><svg width="18" height="18" viewBox="0 0 12 12"><path d="M10 6H2M5.5 2.5L2 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="cf-nav next" type="button" aria-label="Next"><svg width="18" height="18" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
-      <div class="big-stat rv" style="--d:.1s">
-        <span class="tag tag--soft">Onboarded</span>
-        <strong><span data-stat="TotalRegisteredPlotArea">—</span><sup>ha</sup></strong>
-        <span>Hectares covered</span>
-      </div>
-    </div>
-
-    <div class="rows rv">
-      <div class="row row--head"><span>Stakeholder</span><span>EUDR approved</span><span>Onboarded</span><span>Approval rate</span><span></span></div>
-      <div class="row" data-ratio="TotalFarmer/TotalRegisteredGrower">
-        <h4>Growers <small class="m-label">Farmer / Estate</small></h4>
-        <div><span class="m-label">EUDR approved</span><span class="n" data-stat="TotalFarmer">—</span></div>
-        <div><span class="m-label">Onboarded</span><span class="n dim" data-stat="TotalRegisteredGrower">—</span></div>
-        <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
-        <span class="go none"></span>
-      </div>
-      <div class="row" data-ratio="TotalDealer/TotalRegisteredDealer">
-        <h4>Dealers</h4>
-        <div><span class="m-label">EUDR approved</span><span class="n" data-stat="TotalDealer">—</span></div>
-        <div><span class="m-label">Onboarded</span><span class="n dim" data-stat="TotalRegisteredDealer">—</span></div>
-        <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
-        <a class="go" href="New%20Stakeholders%20page.html?tab=Dealers" aria-label="View EUDR approved dealers"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <div class="row" data-ratio="TotalProcessor/TotalRegisteredProcessor">
-        <h4>Processors</h4>
-        <div><span class="m-label">EUDR approved</span><span class="n" data-stat="TotalProcessor">—</span></div>
-        <div><span class="m-label">Onboarded</span><span class="n dim" data-stat="TotalRegisteredProcessor">—</span></div>
-        <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
-        <a class="go" href="New%20Stakeholders%20page.html?tab=Processors" aria-label="View EUDR approved processors"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <div class="row" data-ratio="TotalManufacturer/TotalRegisteredManufacturer">
-        <h4>Manufacturers</h4>
-        <div><span class="m-label">EUDR approved</span><span class="n" data-stat="TotalManufacturer">—</span></div>
-        <div><span class="m-label">Onboarded</span><span class="n dim" data-stat="TotalRegisteredManufacturer">—</span></div>
-        <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
-        <a class="go" href="New%20Stakeholders%20page.html?tab=Manufacturers" aria-label="View EUDR approved manufacturers"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <div class="row" data-ratio="TotalExporter/TotalRegisteredExporter">
-        <h4>Exporters</h4>
-        <div><span class="m-label">EUDR approved</span><span class="n" data-stat="TotalExporter">—</span></div>
-        <div><span class="m-label">Onboarded</span><span class="n dim" data-stat="TotalRegisteredExporter">—</span></div>
-        <div class="bar-wrap"><div class="bar"><i></i></div><span class="pct">—</span></div>
-        <span class="go none"></span>
-      </div>
+      <div class="cf-dots" id="cfDots" role="tablist" aria-label="Choose a stakeholder"></div>
     </div>
   </div>
 </section>
@@ -1459,6 +1501,76 @@ function plantation(getP, reduce) {
     $$('.reg-pane').forEach(p => p.classList.toggle('on', p.dataset.role === b.dataset.role));
   }));
 
+  /* Live stats coverflow */
+  const cf = $('#cf'), cards = $$('.sc', cf), bgs = $$('.cf-bg-i'), dotsEl = $('#cfDots'), CF_DUR = 4500;
+  let cfI = 0, cfTimer, cfHover = false, cfVisible = false, liveStats = null;
+  const dots = cards.map((c, k) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('aria-label', c.getAttribute('aria-label'));
+    b.addEventListener('click', () => cfGo(k));
+    dotsEl.append(b); return b;
+  });
+  document.documentElement.style.setProperty('--cfdur', CF_DUR + 'ms');
+  const cfLayout = () => {
+    const w = cards[0].offsetWidth, n = cards.length, small = innerWidth < 560;
+    const gap = w * (small ? .6 : .9);
+    cards.forEach((c, k) => {
+      let d = k - cfI;
+      if (d > n / 2) d -= n;
+      if (d < -n / 2) d += n;
+      const a = Math.abs(d);
+      c.style.setProperty('--x', d * gap - Math.sign(d) * Math.max(0, a - 1) * gap * .22 + 'px');
+      c.style.setProperty('--z', -a * 170 + 'px');
+      c.style.setProperty('--ry', d * -24 + 'deg');
+      c.style.setProperty('--o', a > 2 ? 0 : a === 2 ? .75 : 1);
+      c.style.setProperty('--zi', 10 - a);
+      c.style.pointerEvents = a > 2 ? 'none' : '';
+      c.classList.toggle('on', d === 0);
+      c.setAttribute('aria-hidden', d !== 0);
+      $$('a', c).forEach(l => { l.tabIndex = d === 0 ? 0 : -1; });
+    });
+    bgs.forEach((b, k) => b.classList.toggle('on', k === cfI));
+    dots.forEach((b, k) => { b.classList.remove('on'); if (k === cfI) { void b.offsetWidth; b.classList.add('on'); } });
+  };
+  const cfSchedule = () => {
+    clearTimeout(cfTimer);
+    dotsEl.classList.toggle('paused', cfHover || !cfVisible || reduce);
+    if (!cfHover && cfVisible && !reduce) cfTimer = setTimeout(() => cfGo(cfI + 1), CF_DUR);
+  };
+  const fillCard = c => {
+    if (!liveStats) return;
+    $$('[data-stat]', c).forEach(el => { const v = Number(liveStats[el.dataset.stat]); if (Number.isFinite(v)) countUp(el, v); });
+    const [a, b] = c.dataset.ratio.split('/').map(k => Number(liveStats[k]));
+    if (b > 0) {
+      const pct = Math.min(100, Math.round(a / b * 100));
+      $('.bar i', c).style.width = pct + '%';
+      $('.pct', c).textContent = pct + '% EUDR approved';
+    }
+  };
+  const cfGo = i => {
+    cfI = (i + cards.length) % cards.length;
+    cfLayout(); fillCard(cards[cfI]); cfSchedule();
+  };
+  cards.forEach((c, k) => c.addEventListener('click', e => { if (k !== cfI) { e.preventDefault(); cfGo(k); } }));
+  $('.cf-nav.prev').addEventListener('click', () => cfGo(cfI - 1));
+  $('.cf-nav.next').addEventListener('click', () => cfGo(cfI + 1));
+  cf.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') cfGo(cfI - 1); if (e.key === 'ArrowRight') cfGo(cfI + 1); });
+  cf.addEventListener('mouseenter', () => { cfHover = true; cfSchedule(); });
+  cf.addEventListener('mouseleave', () => { cfHover = false; cfSchedule(); });
+  let sx = null, swiped = false;
+  cf.addEventListener('pointerdown', e => { if (e.target.closest('.cf-nav')) return; sx = e.clientX; swiped = false; });
+  cf.addEventListener('pointermove', e => {
+    if (sx === null || swiped || Math.abs(e.clientX - sx) < 50) return;
+    swiped = true;
+    cfGo(cfI + (e.clientX < sx ? 1 : -1));
+  });
+  addEventListener('pointerup', () => { sx = null; });
+  // a swipe shouldn't also count as a click on whatever card is under the pointer
+  cf.addEventListener('click', e => { if (swiped) { e.stopPropagation(); e.preventDefault(); swiped = false; } }, true);
+  new IntersectionObserver(([en]) => { cfVisible = en.isIntersecting; cfSchedule(); }, { threshold: .35 }).observe(cf);
+  addEventListener('resize', cfLayout);
+  cfLayout();
+
   /* Live stats from the BSNR portal */
   const fmt = n => Math.round(n).toLocaleString('en-IN');
   const countUp = (el, to) => {
@@ -1480,20 +1592,8 @@ function plantation(getP, reduce) {
   })
     .then(r => r.json())
     .then(res => {
-      const s = res.data[0][0];
-      $$('[data-stat]').forEach(el => {
-        const v = Number(s[el.dataset.stat]);
-        if (Number.isFinite(v)) whenVisible(el, () => countUp(el, v));
-      });
-      $$('[data-ratio]').forEach(row => {
-        const [a, b] = row.dataset.ratio.split('/').map(k => Number(s[k]));
-        if (!(b > 0)) return;
-        const pct = Math.min(100, Math.round(a / b * 100));
-        whenVisible(row, () => {
-          $('.bar i', row).style.width = pct + '%';
-          $('.pct', row).textContent = pct + '% EUDR approved';
-        });
-      });
+      liveStats = res.data[0][0];
+      cards.forEach(c => whenVisible(c, () => fillCard(c)));
     })
     .catch(() => {});
 })();
