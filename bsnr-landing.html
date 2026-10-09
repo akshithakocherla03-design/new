@@ -109,9 +109,8 @@ body.menu-open .sheet{clip-path:circle(150% at calc(100% - 44px) 44px);visibilit
 /* Hero: scroll-driven 3D rubber plantation */
 .hero3d{position:relative;height:460vh;background:#2a3329;color:#fff}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
-#gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-3}
-.fallback{position:absolute;inset:-20px;z-index:-4;background:#07100b url("assets/img/agriculture/hero_bg_1.png") center/cover;filter:brightness(.4) saturate(.85) blur(2px);display:none}
-.no-gl .fallback{display:block}
+.walk{position:absolute;inset:-3%;z-index:-3;background:url("assets/video/hero-walk.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@bdde40edc0e2ab0cb50bfb53ef6752db966da0bd/assets/video/hero-walk.jpg") center/cover,#0b1a10;transform:translate(var(--hx,0px),var(--hy,0px)) scale(var(--hs,1.06))}
+.walk video{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(var(--hb,.55)) saturate(var(--hsat,.85)) contrast(1.05)}
 .tilt{position:absolute;inset:0;z-index:-2;pointer-events:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 30%,transparent 58%,#000 100%);mask-image:linear-gradient(180deg,#000 0%,transparent 30%,transparent 58%,#000 100%)}
 .vig{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 42% 34% at 50% 50%,rgba(6,14,9,.42),transparent 100%),radial-gradient(ellipse 80% 75% at 50% 46%,transparent 40%,rgba(4,10,6,.7) 100%),linear-gradient(180deg,rgba(4,10,6,.5),transparent 22%,transparent 72%,rgba(4,10,6,.72))}
 .grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
@@ -544,8 +543,7 @@ section{position:relative}
 <!-- ================= Hero (scroll-driven 3D plantation) ================= -->
 <section class="hero3d" id="top" aria-label="Introduction">
   <div class="stage" id="stage">
-    <div class="fallback" aria-hidden="true"></div>
-    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="walk" aria-hidden="true"><video id="walkVid" muted playsinline preload="auto" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@bdde40edc0e2ab0cb50bfb53ef6752db966da0bd/assets/video/"></video></div>
     <div class="tilt" aria-hidden="true"></div>
     <div class="vig" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
@@ -1014,434 +1012,6 @@ section{position:relative}
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-/* Rubber plantation, morning light.
-   Rows of tapped Hevea trees: leaning grey trunks forking into limbs, trifoliate
-   leaf clusters, half-spiral tapping panels with spout, wire hanger and latex cup,
-   leaf-litter floor, mist, dappled shadows and light shafts. The camera walks the
-   avenue between two rows as the hero is scrolled. */
-function plantation(getP, reduce) {
-  const canvas = document.getElementById('gl'), stage = document.getElementById('stage');
-  const fail = () => document.body.classList.add('no-gl');
-  if (!window.THREE) return fail();
-  let renderer;
-  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' }); }
-  catch (e) { return fail(); }
-
-  const T = THREE, small = innerWidth < 760;
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.5 : 1.75));
-  renderer.outputEncoding = T.sRGBEncoding;
-  renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = T.PCFSoftShadowMap;
-  const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-
-  const C = h => new T.Color(h).convertSRGBToLinear();
-  let seed = 23;
-  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-  const R = (a, b) => a + rnd() * (b - a);
-  const pick = a => a[Math.floor(rnd() * a.length)];
-  const ground = (x, z) => Math.sin(z * .045) * .3 + Math.sin(x * .21 + z * .03) * .15;
-
-  /* ---------- Textures painted on canvas ---------- */
-  const tex = (w, h, draw, srgb = true) => {
-    const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
-    draw(cv.getContext('2d'), w, h);
-    const t = new T.CanvasTexture(cv);
-    if (srgb) t.encoding = T.sRGBEncoding;
-    t.anisotropy = aniso;
-    return t;
-  };
-  const blob = (g, x, y, rx, ry, col, a) => {
-    const gr = g.createRadialGradient(x, y, 0, x, y, Math.max(rx, ry));
-    gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)');
-    g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(1, ry / rx); g.translate(-x, -y);
-    g.fillStyle = gr; g.beginPath(); g.arc(x, y, rx, 0, 7); g.fill(); g.restore();
-  };
-
-  // Bark: smooth grey Hevea bark with lichen, lenticels and a tapping panel.
-  // u wraps the trunk, v = 0.15 per metre of a 4 m trunk (panel heights scale with trunk).
-  const barkTex = tex(256, 1024, (g, w, h) => {
-    g.fillStyle = '#86837a'; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 260; i++) blob(g, R(0, w), R(0, h), R(8, 40), R(14, 90), pick(['#a3a095', '#6f6d64', '#9a9c8a', '#77806b', '#b9b8ac']), R(.25, .6));
-    for (let i = 0; i < 90; i++) blob(g, R(0, w), R(0, h), R(3, 12), R(3, 10), pick(['#d4d3c6', '#c2c6b0', '#5f6a4c']), R(.4, .8));
-    for (let i = 0; i < 2600; i++) { g.fillStyle = pick(['rgba(40,38,32,.35)', 'rgba(220,218,205,.25)']); g.fillRect(R(0, w), R(0, h), R(2, 7), 1); }
-    const Y = m => h * (1 - .15 * m), X = u => u * w;
-    // renewed (previously tapped) bark band above the current cut
-    g.beginPath(); g.moveTo(X(0), Y(1.25)); g.lineTo(X(.5), Y(1.0)); g.lineTo(X(.5), Y(1.24)); g.lineTo(X(0), Y(1.49)); g.closePath();
-    g.fillStyle = '#7a6550'; g.fill();
-    g.save(); g.clip();
-    for (let k = 0; k < 26; k++) { const o = k * .009; g.strokeStyle = k % 2 ? 'rgba(30,20,12,.5)' : 'rgba(140,110,80,.35)'; g.lineWidth = 1; g.beginPath(); g.moveTo(X(0), Y(1.25 + o)); g.lineTo(X(.5), Y(1.0 + o)); g.stroke(); }
-    g.restore();
-    // fresh cut with a line of latex, the vertical channel and a latex trickle
-    g.strokeStyle = '#efe9d6'; g.lineWidth = 3; g.beginPath(); g.moveTo(X(0), Y(1.25)); g.lineTo(X(.5), Y(1.0)); g.stroke();
-    g.strokeStyle = '#3a2c1f'; g.lineWidth = 3; g.beginPath(); g.moveTo(X(.5), Y(1.0)); g.lineTo(X(.5), Y(.8)); g.stroke();
-    g.strokeStyle = '#f2eee0'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(X(.5) + 1, Y(1.0)); g.lineTo(X(.5) + 1, Y(.81)); g.stroke();
-  });
-  const barkBump = barkTex.clone(); barkBump.encoding = T.LinearEncoding; barkBump.needsUpdate = true;
-
-  // Trifoliate leaf clusters (alpha cut-out)
-  const leafTex = tex(512, 512, (g, w, h) => {
-    const leaflet = (x, y, ang, len, wid, col) => {
-      g.save(); g.translate(x, y); g.rotate(ang);
-      const gr = g.createLinearGradient(0, -wid, 0, wid);
-      gr.addColorStop(0, col[0]); gr.addColorStop(1, col[1]);
-      g.fillStyle = gr; g.beginPath(); g.moveTo(0, 0);
-      g.bezierCurveTo(len * .3, -wid, len * .8, -wid * .8, len, 0);
-      g.bezierCurveTo(len * .8, wid * .8, len * .3, wid, 0, 0); g.fill();
-      g.strokeStyle = 'rgba(210,225,160,.45)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(0, 0); g.lineTo(len * .95, 0); g.stroke();
-      g.restore();
-    };
-    const cols = [['#4f7d34', '#2c5220'], ['#5d8a3a', '#355f25'], ['#3d6a2a', '#22421a'], ['#6a9440', '#3f6a28'], ['#4a7430', '#26491c']];
-    for (let i = 0; i < 46; i++) {
-      const a = R(0, 6.283), d = Math.pow(rnd(), .7) * 190, x = w / 2 + Math.cos(a) * d, y = h / 2 + Math.sin(a) * d * .85;
-      const col = rnd() < .06 ? ['#b59a3a', '#8a6a24'] : pick(cols), base = R(0, 6.283), len = R(48, 78), wid = R(14, 22);
-      g.strokeStyle = '#3b4a24'; g.lineWidth = 2; g.beginPath(); g.moveTo(w / 2, h / 2); g.lineTo(x, y); g.stroke();
-      leaflet(x, y, base, len, wid, col);
-      leaflet(x, y, base - .75, len * .85, wid * .9, col);
-      leaflet(x, y, base + .75, len * .85, wid * .9, col);
-    }
-  });
-
-  // Dry leaf litter
-  const litterTex = tex(1024, 1024, (g, w, h) => {
-    g.fillStyle = '#4b3b29'; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 3200; i++) {
-      g.save(); g.translate(R(0, w), R(0, h)); g.rotate(R(0, 6.28));
-      const l = R(14, 42), wd = l * R(.25, .4);
-      g.fillStyle = pick(['#7a5934', '#8e6a3c', '#5c4229', '#a07a45', '#6b5a3a', '#836b45', '#4f4a33', '#9a8355', '#5d6236']);
-      g.beginPath(); g.ellipse(0, 0, l, wd, 0, 0, 7); g.fill();
-      g.strokeStyle = 'rgba(30,20,10,.45)'; g.lineWidth = 1; g.beginPath(); g.moveTo(-l, 0); g.lineTo(l, 0); g.stroke();
-      g.restore();
-    }
-    for (let i = 0; i < 160; i++) { g.strokeStyle = 'rgba(40,28,16,.8)'; g.lineWidth = R(1, 3); g.beginPath(); const x = R(0, w), y = R(0, h), a = R(0, 6.28), l = R(20, 70); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
-  });
-  litterTex.wrapS = litterTex.wrapT = T.RepeatWrapping; litterTex.repeat.set(55, 95);
-
-  // Ground cover: grass blades and small fern fronds
-  const grassTex = tex(256, 256, (g, w, h) => {
-    for (let i = 0; i < 70; i++) {
-      const x = R(30, w - 30), bend = R(-40, 40), top = R(40, 150);
-      g.strokeStyle = pick(['#5c7f34', '#476b28', '#6f8f3e', '#3b5a22', '#8a9a4a']); g.lineWidth = R(2, 4);
-      g.beginPath(); g.moveTo(x, h); g.quadraticCurveTo(x + bend * .3, (h + top) / 2, x + bend, top); g.stroke();
-    }
-    for (let f = 0; f < 3; f++) {
-      const x0 = R(60, w - 60), a0 = R(-.6, .6);
-      for (let k = 0; k < 14; k++) {
-        const t = k / 14, x = x0 + Math.sin(a0) * t * 170, y = h - t * 170;
-        g.fillStyle = '#4e7a2e';
-        for (const s of [-1, 1]) { g.beginPath(); g.ellipse(x + s * 14 * (1 - t), y, 14 * (1 - t) + 3, 4, s * .5, 0, 7); g.fill(); }
-      }
-    }
-  });
-
-  /* ---------- Scene, light, atmosphere ---------- */
-  const scene = new T.Scene();
-  const fogA = C('#7d8b86'), fogB = C('#b4ab8a');
-  scene.fog = new T.FogExp2(fogA.clone(), .034);
-  const camera = new T.PerspectiveCamera(50, 1, .1, 400);
-  const sky = new T.Mesh(new T.SphereGeometry(300, 24, 12), new T.MeshBasicMaterial({ color: fogA.clone(), side: T.BackSide, fog: false }));
-  scene.add(sky);
-
-  const sunDir = new T.Vector3(-.38, .62, -.69).normalize();
-  const hemi = new T.HemisphereLight(C('#c4d4dc'), C('#4a4230'), .8); scene.add(hemi);
-  const sun = new T.DirectionalLight(C('#ffd9a8'), 1.2);
-  sun.castShadow = true;
-  sun.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
-  Object.assign(sun.shadow.camera, { left: -30, right: 30, top: 40, bottom: -40, near: 1, far: 180 });
-  sun.shadow.bias = -.0006; sun.shadow.normalBias = .03;
-  scene.add(sun, sun.target);
-
-  const sunGlow = new T.Sprite(new T.SpriteMaterial({
-    map: tex(128, 128, (g, w) => blob(g, w / 2, w / 2, w / 2, w / 2, 'rgba(255,236,200,1)', 1)),
-    color: 0xffffff, transparent: true, depthWrite: false, fog: false, blending: T.AdditiveBlending, opacity: .55
-  }));
-  sunGlow.scale.set(160, 160, 1); scene.add(sunGlow);
-
-  /* ---------- Ground ---------- */
-  const gGeo = new T.PlaneGeometry(160, 280, 160, 220); gGeo.rotateX(-Math.PI / 2); gGeo.translate(0, 0, -90);
-  const gp = gGeo.attributes.position, gc = [];
-  const soil = C('#a08a6c'), cover = C('#7f8a5a'), base = C('#ffffff'), cc = new T.Color();
-  for (let i = 0; i < gp.count; i++) {
-    const x = gp.getX(i), z = gp.getZ(i);
-    gp.setY(i, ground(x, z));
-    const avenue = 1 - T.MathUtils.smoothstep(Math.abs(x), .6, 1.8);
-    const patch = .5 + .5 * Math.sin(x * .31 + Math.sin(z * .07) * 2) * Math.sin(z * .13 + x * .05);
-    cc.copy(base).lerp(cover, patch * .55 * (1 - avenue)).lerp(soil, avenue * .5);
-    gc.push(cc.r, cc.g, cc.b);
-  }
-  gGeo.setAttribute('color', new T.Float32BufferAttribute(gc, 3));
-  gGeo.computeVertexNormals();
-  const floor = new T.Mesh(gGeo, new T.MeshStandardMaterial({ map: litterTex, bumpMap: litterTex, bumpScale: .03, vertexColors: true, roughness: 1 }));
-  floor.receiveShadow = true; scene.add(floor);
-
-  /* ---------- Geometry helpers ---------- */
-  class Geo {
-    constructor() { this.p = []; this.n = []; this.u = []; this.c = []; this.i = []; }
-    add(g, m, col) {
-      const P = g.attributes.position, N = g.attributes.normal, U = g.attributes.uv, b = this.p.length / 3;
-      const v = new T.Vector3(), nm = new T.Matrix3().getNormalMatrix(m);
-      for (let k = 0; k < P.count; k++) {
-        v.fromBufferAttribute(P, k).applyMatrix4(m); this.p.push(v.x, v.y, v.z);
-        v.fromBufferAttribute(N, k).applyMatrix3(nm).normalize(); this.n.push(v.x, v.y, v.z);
-        this.u.push(U ? U.getX(k) : 0, U ? U.getY(k) : 0);
-        if (col) this.c.push(col.r, col.g, col.b);
-      }
-      if (g.index) for (let k = 0; k < g.index.count; k++) this.i.push(b + g.index.getX(k));
-      else for (let k = 0; k < P.count; k++) this.i.push(b + k);
-    }
-    build() {
-      const g = new T.BufferGeometry();
-      g.setAttribute('position', new T.Float32BufferAttribute(this.p, 3));
-      g.setAttribute('normal', new T.Float32BufferAttribute(this.n, 3));
-      g.setAttribute('uv', new T.Float32BufferAttribute(this.u, 2));
-      if (this.c.length) g.setAttribute('color', new T.Float32BufferAttribute(this.c, 3));
-      g.setIndex(this.i); g.computeBoundingSphere();
-      return g;
-    }
-  }
-  // Tapered tube along a curve. upright=true keeps rings horizontal so u=0.25 faces local +z.
-  const tube = (geo, curve, segs, rad, radius, v0, v1, upright) => {
-    const fr = upright ? null : curve.computeFrenetFrames(segs, false), b = geo.p.length / 3;
-    const X = new T.Vector3(1, 0, 0), Z = new T.Vector3(0, 0, 1), d = new T.Vector3();
-    for (let s = 0; s <= segs; s++) {
-      const t = s / segs, P = curve.getPoint(t), r = radius(t);
-      const A = upright ? X : fr.normals[s], B = upright ? Z : fr.binormals[s];
-      for (let j = 0; j <= rad; j++) {
-        const a = j / rad * Math.PI * 2;
-        d.copy(A).multiplyScalar(Math.cos(a)).addScaledVector(B, Math.sin(a));
-        geo.p.push(P.x + d.x * r, P.y + d.y * r, P.z + d.z * r);
-        geo.n.push(d.x, d.y, d.z);
-        geo.u.push(j / rad, v0 + (v1 - v0) * t);
-      }
-    }
-    for (let s = 0; s < segs; s++) for (let j = 0; j < rad; j++) {
-      const a = b + s * (rad + 1) + j, c = a + rad + 1;
-      geo.i.push(a, c, a + 1, c, c + 1, a + 1);
-    }
-  };
-
-  /* ---------- Tree variants ---------- */
-  const cupGeo = new T.LatheGeometry([0, .05, .075, .085, .088].map((r, k) => new T.Vector2(r || .001, [0, .006, .03, .07, .1][k])), 14);
-  const latexGeo = new T.CircleGeometry(.079, 14); latexGeo.rotateX(-Math.PI / 2);
-  const wireGeo = new T.TorusGeometry(1, .035, 4, 20); wireGeo.rotateX(Math.PI / 2);
-  const spoutGeo = new T.BoxGeometry(.012, .012, .09);
-  const M = new T.Matrix4(), Q = new T.Quaternion(), E = new T.Euler(), V = new T.Vector3(), S = new T.Vector3();
-  const variants = [];
-  const NV = 5;
-  for (let vi = 0; vi < NV; vi++) {
-    const wood = new Geo(), kit = new Geo(), leaves = [];
-    const H0 = R(3.4, 4.8), r0 = R(.15, .2), k = H0 / 4;
-    const lean = new T.Vector2(R(-.45, .45), R(-.45, .45));
-    const pts = [0, .25, .5, .75, 1].map((t, i) => new T.Vector3(lean.x * t * t + (i ? R(-.04, .04) : 0), H0 * t, lean.y * t * t + (i ? R(-.04, .04) : 0)));
-    const trunk = new T.CatmullRomCurve3(pts);
-    const trunkR = t => r0 * (1 - .28 * t) * (1 + .45 * Math.exp(-t * 16));
-    tube(wood, trunk, 16, 12, trunkR, 0, .15 * H0 / k, true);
-    const top = trunk.getPoint(1), rTop = trunkR(1);
-
-    const cluster = (c, n, spread) => {
-      for (let j = 0; j < n; j++) {
-        E.set(R(-1.2, 1.2), R(0, 6.28), R(-1.2, 1.2)); Q.setFromEuler(E);
-        const s = R(1.8, 2.8);
-        leaves.push(new T.Matrix4().compose(V.set(c.x + R(-spread, spread), c.y + R(-spread * .6, spread * .8), c.z + R(-spread, spread)).clone(), Q.clone(), S.set(s, s, s).clone()));
-      }
-    };
-    const limbs = rnd() < .5 ? 2 : 3, a0 = R(0, 6.28);
-    for (let l = 0; l < limbs; l++) {
-      const a = a0 + l * 6.283 / limbs + R(-.4, .4), spread = R(.25, .55);
-      const D = new T.Vector3(Math.cos(a) * spread, 1, Math.sin(a) * spread).normalize(), L = R(3, 4.6);
-      const end = top.clone().addScaledVector(D, L), ctrl = top.clone().addScaledVector(D, L * .5).add(new T.Vector3(0, R(.3, .9), 0));
-      const r1 = rTop * R(.62, .75);
-      tube(wood, new T.QuadraticBezierCurve3(top, ctrl, end), 8, 7, t => r1 * (1 - .45 * t), .6, .8, false);
-      cluster(end, 6, 1.3);
-      cluster(top.clone().lerp(end, .6), 3, 1);
-      for (let sb = 0; sb < 3; sb++) {
-        const D2 = D.clone().add(new T.Vector3(R(-.7, .7), R(0, .5), R(-.7, .7))).normalize(), L2 = R(1.8, 3.2);
-        const e2 = end.clone().addScaledVector(D2, L2), c2 = end.clone().addScaledVector(D2, L2 * .5).add(new T.Vector3(0, R(.1, .5), 0));
-        tube(wood, new T.QuadraticBezierCurve3(end, c2, e2), 5, 5, t => r1 * .5 * (1 - .6 * t), .8, 1, false);
-        cluster(e2, 6, 1.5);
-        cluster(c2, 2, 1);
-      }
-    }
-
-    // Tapping kit on the low end of the panel (u = 0.5 → local -x)
-    const rr = h => trunkR(h / H0);
-    const lo = new T.Vector3(-1, 0, 0), cupH = .68 * k, spH = .8 * k, wireH = .74 * k;
-    const cupCol = pick([C('#3a2a1c'), C('#1e1e1c'), C('#d9d5c8')]);
-    kit.add(cupGeo, M.makeTranslation(lo.x * (rr(cupH) + .085), cupH - .1, 0), cupCol);
-    kit.add(latexGeo, M.makeTranslation(lo.x * (rr(cupH) + .085), cupH - .025, 0), C('#f4f1e6'));
-    kit.add(spoutGeo, M.compose(V.set(lo.x * (rr(spH) + .035), spH, 0), Q.setFromEuler(E.set(.35, Math.PI / 2, 0)), S.set(1, 1, 1)), C('#9a9a94'));
-    const wr = rr(wireH) + .004;
-    kit.add(wireGeo, M.compose(V.set(0, wireH, 0), Q.identity(), S.set(wr, .12, wr)), C('#5a5a55'));
-    variants.push({ wood: wood.build(), kit: kit.build(), leaves });
-  }
-
-  /* ---------- Materials ---------- */
-  const U = { uTime: { value: 0 } };
-  const barkMat = new T.MeshStandardMaterial({ map: barkTex, bumpMap: barkBump, bumpScale: .015, roughness: .92 });
-  const kitMat = new T.MeshStandardMaterial({ vertexColors: true, roughness: .45, side: T.DoubleSide });
-  const leafMat = new T.MeshStandardMaterial({
-    map: leafTex, alphaTest: .45, side: T.DoubleSide, roughness: .75,
-    emissive: C('#3b4d1c'), emissiveMap: leafTex, emissiveIntensity: .35
-  });
-  leafMat.onBeforeCompile = sh => {
-    sh.uniforms.uTime = U.uTime;
-    sh.vertexShader = 'uniform float uTime;\n' + sh.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>
-      #ifdef USE_INSTANCING
-        vec3 wpos = instanceMatrix[3].xyz;
-        float sway = sin(uTime * 1.2 + wpos.x * .4 + wpos.z * .25) + .5 * sin(uTime * 2.3 + wpos.z * .6);
-        transformed.x += sway * .045 * (position.y + .5);
-        transformed.z += cos(uTime * 1.05 + wpos.x * .3) * .035 * (position.y + .5);
-      #endif`);
-  };
-  const leafDepth = new T.MeshDepthMaterial({ depthPacking: T.RGBADepthPacking, map: leafTex, alphaTest: .45 });
-  const grassMat = new T.MeshStandardMaterial({ map: grassTex, alphaTest: .4, side: T.DoubleSide, roughness: .9 });
-  const leafCard = new T.PlaneGeometry(1, 1);
-  const grassG = (() => { const g = new Geo(), p = new T.PlaneGeometry(1, 1); p.translate(0, .5, 0); g.add(p, M.identity()); g.add(p, M.makeRotationY(Math.PI / 2)); return g.build(); })();
-
-  /* ---------- Plantation, built in chunks along the avenue ---------- */
-  const SIDE = small ? 5 : 7, ROWX = 4.6, DZ = 3.4, Z0 = 20, Z1 = -180, CH = 25, WALK = 92;
-  const chunks = [], tm = new T.Matrix4();
-  for (let zTop = Z0; zTop > Z1; zTop -= CH) {
-    const group = new T.Group(), trees = variants.map(() => []), leafM = [], grassM = [];
-    for (let z = zTop; z > zTop - CH; z -= DZ) for (let c = 0; c < SIDE; c++) for (const s of [-1, 1]) {
-      const x = s * (ROWX / 2 + c * ROWX) + R(-.15, .15), zz = z + R(-.2, .2);
-      if (rnd() < .03) continue; // the odd missing tree
-      const vi = Math.floor(rnd() * NV);
-      const yaw = c < 2 ? -s * Math.PI / 2 + R(-.5, .5) : R(0, 6.28), sc = R(.9, 1.12);
-      tm.compose(V.set(x, ground(x, zz) - .04, zz), Q.setFromEuler(E.set(0, yaw, 0)), S.set(sc, sc, sc));
-      trees[vi].push(tm.clone());
-      variants[vi].leaves.forEach(l => leafM.push(tm.clone().multiply(l)));
-    }
-    const gn = small ? 110 : 220;
-    for (let i = 0; i < gn; i++) {
-      const x = R(-ROWX * SIDE, ROWX * SIDE), z = R(zTop - CH, zTop);
-      if (Math.abs(x) < 1.3) continue;
-      const s = R(.3, .7);
-      grassM.push(new T.Matrix4().compose(V.set(x, ground(x, z) - .02, z), Q.setFromEuler(E.set(0, R(0, 6.28), 0)), S.set(s * R(.8, 1.4), s, s)));
-    }
-    const inst = (geo, mat, list, shadow, colors) => {
-      if (!list.length) return;
-      const im = new T.InstancedMesh(geo, mat, list.length);
-      list.forEach((m, i) => { im.setMatrixAt(i, m); if (colors) im.setColorAt(i, colors()); });
-      im.frustumCulled = false; im.castShadow = shadow; im.receiveShadow = true;
-      group.add(im); return im;
-    };
-    variants.forEach((v, i) => { inst(v.wood, barkMat, trees[i], true, () => cc.setHSL(.1, .05, R(.78, 1))); inst(v.kit, kitMat, trees[i], false); });
-    const lm = inst(leafCard, leafMat, leafM, true, () => cc.setHSL(R(.2, .26), R(.15, .4), R(.55, .85)));
-    if (lm) lm.customDepthMaterial = leafDepth;
-    inst(grassG, grassMat, grassM, false, () => cc.setHSL(R(.18, .25), R(.2, .4), R(.5, .8)));
-    scene.add(group);
-    chunks.push({ group, zTop, zBot: zTop - CH });
-  }
-
-  /* ---------- Light shafts and dust ---------- */
-  const shaftMat = new T.ShaderMaterial({
-    uniforms: { uOp: { value: .08 }, uCol: { value: new T.Color('#fff1d2') } },
-    transparent: true, depthWrite: false, blending: T.AdditiveBlending, side: T.DoubleSide,
-    vertexShader: 'varying vec2 vUv; varying float vD; void main(){ vUv=uv; vec4 mv=modelViewMatrix*vec4(position,1.); vD=-mv.z; gl_Position=projectionMatrix*mv; }',
-    fragmentShader: `uniform float uOp; uniform vec3 uCol; varying vec2 vUv; varying float vD;
-      void main(){ float a=pow(sin(vUv.x*3.1416),2.)*smoothstep(0.,.3,vUv.y)*smoothstep(1.,.55,vUv.y);
-        a*=uOp*smoothstep(2.,9.,vD)*(1.-smoothstep(40.,85.,vD)); gl_FragColor=vec4(uCol*a,a); }`
-  });
-  const shaftQ = new T.Quaternion().setFromUnitVectors(new T.Vector3(0, 1, 0), sunDir);
-  for (let i = 0; i < (small ? 16 : 30); i++) {
-    const m = new T.Mesh(new T.PlaneGeometry(R(.8, 2.6), 30), shaftMat);
-    m.quaternion.copy(new T.Quaternion().setFromAxisAngle(sunDir, R(0, 3.14))).multiply(shaftQ);
-    m.position.set(R(-9, 9), R(3, 6), R(Z1 + 60, Z0 - 10));
-    m.frustumCulled = false; scene.add(m);
-  }
-  const DN = small ? 600 : 1400, dPos = new Float32Array(DN * 3), dSeed = new Float32Array(DN);
-  for (let i = 0; i < DN; i++) { dPos.set([R(-6, 6), R(.3, 6), R(Z1 + 60, Z0)], i * 3); dSeed[i] = rnd(); }
-  const dg = new T.BufferGeometry();
-  dg.setAttribute('position', new T.BufferAttribute(dPos, 3)); dg.setAttribute('aSeed', new T.BufferAttribute(dSeed, 1));
-  const dustU = { uTime: U.uTime, uScale: { value: 500 }, uOp: { value: .4 } };
-  scene.add(new T.Points(dg, new T.ShaderMaterial({
-    uniforms: dustU, transparent: true, depthWrite: false, blending: T.AdditiveBlending,
-    vertexShader: `uniform float uTime,uScale; attribute float aSeed; varying float vA;
-      void main(){ float s=aSeed*6.283; vec3 p=position+vec3(sin(uTime*.2+s)*.6,sin(uTime*.15+s*2.)*.4,cos(uTime*.17+s)*.6);
-        vec4 mv=modelViewMatrix*vec4(p,1.); float d=-mv.z; vA=smoothstep(1.,4.,d)*exp(-d*.06)*(.5+.5*sin(uTime+s*9.));
-        gl_PointSize=min(.035*uScale/max(d,.1),6.); gl_Position=projectionMatrix*mv; }`,
-    fragmentShader: `uniform float uOp; varying float vA; void main(){ float r=length(gl_PointCoord-.5); float a=smoothstep(.5,0.,r)*vA*uOp; gl_FragColor=vec4(vec3(1.,.95,.82)*a,a); }`
-  })));
-
-  /* ---------- Interaction & loop ---------- */
-  const ndc = new T.Vector2(), mouseS = new T.Vector2(), zero = new T.Vector2();
-  let pointerOn = false;
-  stage.addEventListener('pointermove', ev => {
-    const r = canvas.getBoundingClientRect();
-    ndc.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1);
-    pointerOn = ev.pointerType === 'mouse';
-  });
-  stage.addEventListener('pointerleave', () => { pointerOn = false; });
-
-  const resize = () => {
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    if (!w || !h) return;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h; camera.fov = w < h ? 64 : 50; camera.updateProjectionMatrix();
-    dustU.uScale.value = h * renderer.getPixelRatio() / (2 * Math.tan(T.MathUtils.degToRad(camera.fov) / 2));
-  };
-  addEventListener('resize', resize); resize();
-
-  let slowN = 0, last = 0, downgraded = false;
-  const adapt = now => {
-    if (downgraded || !last) return void (last = now);
-    const dt = now - last; last = now;
-    slowN = dt > 34 ? slowN + 1 : Math.max(0, slowN - 1);
-    if (slowN > 45) {
-      downgraded = true;
-      renderer.setPixelRatio(1); resize();
-      sun.castShadow = false;
-      document.querySelector('.tilt').style.display = 'none';
-    }
-  };
-
-  const clock = new T.Clock(), look = new T.Vector3(), sunA = C('#ffd2a0'), sunB = C('#ffd08a');
-  let cp = getP(), running = true;
-  const frame = () => {
-    if (!running) return;
-    requestAnimationFrame(frame);
-    const t = reduce ? 0 : clock.getElapsedTime();
-    cp += (getP() - cp) * (reduce ? 1 : .06);
-    mouseS.lerp(pointerOn ? ndc : zero, .05);
-
-    const cz = Z0 - 8 - cp * WALK, sway = Math.sin(cp * Math.PI * 1.3) * .35;
-    camera.position.set(sway + mouseS.x * .3, 1.65 + Math.sin(t * .9) * .025 + mouseS.y * .12, cz);
-    look.set(sway * .3 + mouseS.x * 1.8, 2.7 + mouseS.y * 1.2, cz - 14);
-    camera.lookAt(look);
-
-    chunks.forEach(c => { c.group.visible = c.zBot < cz + 12 && c.zTop > cz - 100; });
-
-    // early blue mist → warm golden morning as you walk on
-    const d = T.MathUtils.smoothstep(cp, .05, 1);
-    scene.fog.color.copy(fogA).lerp(fogB, d); scene.fog.density = .034 - d * .008;
-    sky.material.color.copy(scene.fog.color);
-    sun.color.copy(sunA).lerp(sunB, d); sun.intensity = 1.3 + d * 1.6;
-    hemi.intensity = .8 + d * .2;
-    renderer.toneMappingExposure = .95 + d * .15;
-    shaftMat.uniforms.uOp.value = .05 + d * .11;
-    dustU.uOp.value = .3 + d * .4;
-
-    const focus = V.set(0, 0, cz - 22);
-    sun.target.position.copy(focus); sun.position.copy(focus).addScaledVector(sunDir, 90);
-    sun.target.updateMatrixWorld();
-    sky.position.copy(camera.position);
-    sunGlow.position.copy(camera.position).addScaledVector(sunDir, 200);
-    U.uTime.value = t;
-
-    renderer.render(scene, camera);
-    adapt(performance.now());
-  };
-  new IntersectionObserver(([en]) => {
-    const vis = en.isIntersecting;
-    if (vis && !running) { running = true; frame(); }
-    running = vis;
-  }).observe(stage.parentElement);
-  frame();
-}
-</script>
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1490,7 +1060,7 @@ function plantation(getP, reduce) {
   });
 
   /* Hero: headlines driven by scroll through the pinned plantation */
-  const hero = $('.hero3d'), hls = $$('.hl'), segs = $$('.segs i'), hlNum = $('#hlNum'), heroEnd = $('#heroEnd');
+  const hero = $('.hero3d'), stage = $('#stage'), hls = $$('.hl'), segs = $$('.segs i'), hlNum = $('#hlNum'), heroEnd = $('#heroEnd');
   $$('.hl .t').forEach(t => {
     let i = 0;
     const wrap = node => [...node.childNodes].forEach(n => {
@@ -1523,7 +1093,44 @@ function plantation(getP, reduce) {
   addEventListener('scroll', heroScroll, { passive: true });
   setTimeout(heroScroll, 250);
 
-  plantation(() => heroP, reduce);
+  /* Hero: walking down a real rubber plantation, scrubbed by scroll */
+  const walkVid = $('#walkVid'), walk = walkVid.parentElement;
+  [...new Set([new URL('assets/video/', location.href).href, new URL('assets/video/', document.baseURI).href, walkVid.dataset.cdn])]
+    .forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
+      const src = document.createElement('source');
+      src.src = base + 'hero-walk.' + ext; src.type = type; walkVid.append(src);
+    }));
+  let walkT = 0, walkReady = false, walkSeeking = false;
+  walkVid.addEventListener('loadedmetadata', () => { walkReady = true; });
+  walkVid.addEventListener('seeked', () => { walkSeeking = false; });
+  // iOS only paints frames after a play() call
+  walkVid.play().then(() => walkVid.pause()).catch(() => {});
+  let hmx = 0, hmy = 0, hx = 0, hy = 0, idleT = 0;
+  stage.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    hmx = e.clientX / innerWidth - .5; hmy = e.clientY / innerHeight - .5;
+  });
+  stage.addEventListener('pointerleave', () => { hmx = hmy = 0; });
+  const walkLoop = () => {
+    requestAnimationFrame(walkLoop);
+    if (hero.getBoundingClientRect().bottom < 0) return;
+    // ease the playhead toward the scroll position so the walk glides
+    if (walkReady && walkVid.duration) {
+      const target = Math.min(walkVid.duration - .05, heroP * walkVid.duration);
+      walkT += (target - walkT) * (reduce ? 1 : .12);
+      if (!walkSeeking && Math.abs(walkVid.currentTime - walkT) > 1 / 30) { walkSeeking = true; walkVid.currentTime = walkT; }
+    }
+    // gentle head-bob while idle plus mouse look-around
+    idleT += .016;
+    hx += (hmx * -26 - hx) * .06; hy += (hmy * -16 + Math.sin(idleT * 1.6) * 2.5 - hy) * .06;
+    walk.style.setProperty('--hx', hx.toFixed(2) + 'px');
+    walk.style.setProperty('--hy', hy.toFixed(2) + 'px');
+    // early, dim light warms up as you walk deeper in
+    walk.style.setProperty('--hb', (.56 + heroP * .26).toFixed(3));
+    walk.style.setProperty('--hsat', (.8 + heroP * .2).toFixed(3));
+    walk.style.setProperty('--hs', (1.06 + heroP * .05).toFixed(3));
+  };
+  walkLoop();
 
   /* Ticker: duplicate content for a seamless loop, plus live banner text */
   const move = $('#tickerMove');
