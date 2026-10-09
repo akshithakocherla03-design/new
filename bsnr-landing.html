@@ -283,19 +283,24 @@ section{position:relative}
 .statement .w{opacity:.14;transition:opacity .3s}
 .statement .w.lit{opacity:1}
 
-/* Critical aspects: real tapping footage with glass cards */
+/* Critical aspects: real tapping footage that wakes up on hover, glass cards over it */
 .aspects{padding-top:0}
-.asp-panel{position:relative;overflow:hidden;overflow:clip;isolation:isolate;border-radius:var(--radius);color:#fff;background:radial-gradient(70% 50% at 50% 100%,rgba(75,175,71,.18),transparent 70%),linear-gradient(180deg,#0e2a22,#081a15);url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@16194a8b466fd09054b5b13ff6f29a317f9254e2/assets/video/latex.jpg") center 30%/cover,#0b221d;display:flex;flex-direction:column;padding:clamp(28px,4.5vw,64px)}
-.asp-media{position:absolute;left:0;right:0;top:0;height:var(--mh,70%);z-index:-3;overflow:hidden;background:url("assets/video/latex.jpg") 50% 100%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@16194a8b466fd09054b5b13ff6f29a317f9254e2/assets/video/latex.jpg") 50% 100%/cover;-webkit-mask-image:linear-gradient(180deg,#000 95%,transparent);mask-image:linear-gradient(180deg,#000 95%,transparent)}
-.asp-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:46% 100%;transform-origin:var(--ox,50%) var(--oy,72%);transform:scale(1.04) translate(var(--mx,0px),var(--my,0px));transition:transform 1.8s var(--ease),filter 1.2s var(--ease);filter:brightness(.92)}
-.asp-panel.hot .asp-video{transform:scale(1.14) translate(var(--mx,0px),var(--my,0px));filter:brightness(1.05)}
-.asp-shade{position:absolute;left:0;right:0;top:0;height:var(--mh,70%);z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgba(6,24,20,.8),rgba(6,24,20,.3) 40%,transparent 62%),linear-gradient(180deg,rgba(6,24,20,.5),transparent 30%),linear-gradient(0deg,rgba(8,26,21,.3),transparent 10%);transition:opacity 1s}
-.asp-panel.hot .asp-shade{opacity:.8}
-.asp-head{max-width:640px}
+.asp-panel{position:relative;overflow:hidden;overflow:clip;isolation:isolate;border-radius:var(--radius);color:#fff;background:#0b221d;height:clamp(600px,50vw,740px);display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:clamp(28px,4vw,56px);perspective:1200px}
+.asp-media{position:absolute;inset:-30px;z-index:-3;overflow:hidden;background:url("assets/video/latex.jpg") 46% 38%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@16194a8b466fd09054b5b13ff6f29a317f9254e2/assets/video/latex.jpg") 46% 38%/cover;transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform 1s var(--ease)}
+.asp-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:46% 38%;transform-origin:56% 34%;transform:translate(var(--mx,0px),var(--my,0px)) scale(var(--sc,1.02));filter:brightness(.62) saturate(.75) contrast(1.05);transition:transform 1.4s var(--ease),filter 1.2s var(--ease)}
+.asp-panel.live .asp-video{--sc:1.12;filter:brightness(1) saturate(1) contrast(1.05)}
+.asp-panel.focus .asp-video{--sc:1.2}
+.asp-light{position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:0;background:radial-gradient(380px circle at var(--lx,60%) var(--ly,40%),rgba(255,236,190,.22),rgba(255,236,190,.06) 40%,transparent 70%);mix-blend-mode:screen;transition:opacity .8s}
+.asp-panel.live .asp-light{opacity:1}
+.asp-shade{position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgba(6,24,20,.82),rgba(6,24,20,.3) 42%,transparent 65%),linear-gradient(0deg,rgba(6,24,20,.85) 6%,rgba(6,24,20,.25) 46%,transparent 62%),linear-gradient(180deg,rgba(6,24,20,.4),transparent 26%)}
+.asp-hint{position:absolute;top:clamp(28px,4vw,56px);right:clamp(28px,4vw,56px);display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:999px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);transition:opacity .5s,transform .6s var(--ease)}
+.asp-hint i{width:8px;height:8px;border-radius:50%;background:#f4efe0;box-shadow:0 0 0 0 rgba(244,239,224,.6);animation:pulse 2s infinite}
+.asp-panel.live .asp-hint{opacity:0;transform:translateY(-8px)}
+.asp-head{max-width:620px}
 .asp-head .eyebrow{color:var(--lime)}
-.asp-head h2{margin-top:18px;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
-.asp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--gm,clamp(200px,30vw,380px))}
-.asp{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;gap:36px;min-height:clamp(280px,23vw,320px);padding:22px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 30px 60px -30px rgba(0,0,0,.5);transition:transform .7s var(--ease),background .5s,box-shadow .5s}
+.asp-head h2{margin-top:14px;color:#fff;font-size:clamp(32px,4.2vw,58px);text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.asp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.asp{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;gap:22px;min-height:clamp(220px,19vw,260px);padding:20px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 30px 60px -30px rgba(0,0,0,.5);transition:transform .7s var(--ease),background .5s,box-shadow .5s}
 .asp:hover,.asp:focus-visible{transform:translateY(-10px);background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.07));box-shadow:inset 0 0 0 1px rgba(200,241,105,.45),0 40px 70px -30px rgba(0,0,0,.6)}
 .asp::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(260px circle at var(--hx,50%) var(--hy,0%),rgba(200,241,105,.16),transparent 60%);opacity:0;transition:opacity .4s}
 .asp:hover::before{opacity:1}
@@ -303,22 +308,30 @@ section{position:relative}
 .asp:hover .asp-shine{animation:shine 1.1s var(--ease)}
 @keyframes shine{0%{left:-60%;opacity:0}20%{opacity:1}100%{left:130%;opacity:0}}
 .asp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.asp-ic{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--lime);background:rgba(200,241,105,.12);box-shadow:inset 0 0 0 1px rgba(200,241,105,.25);transition:all .5s var(--ease)}
+.asp-ic{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:var(--lime);background:rgba(200,241,105,.12);box-shadow:inset 0 0 0 1px rgba(200,241,105,.25);transition:all .5s var(--ease)}
 .asp:hover .asp-ic{background:var(--lime);color:var(--ink);box-shadow:0 0 30px rgba(200,241,105,.45);transform:rotate(-8deg) scale(1.06)}
 .asp-chips{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}
-.asp-chips span{padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.78);background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:all .4s var(--ease);transition-delay:calc(var(--c) * 60ms)}
+.asp-chips span{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;color:rgba(255,255,255,.78);background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:all .4s var(--ease);transition-delay:calc(var(--c) * 60ms)}
 .asp:hover .asp-chips span{color:var(--ink);background:rgba(200,241,105,.9);box-shadow:none;transform:translateY(-2px)}
-.asp-k{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--lime)}
-.asp-body h3{margin:6px 0 10px;font-size:clamp(21px,1.8vw,26px)}
-.asp-body p{font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.72)}
-.asp-more{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;font-weight:700;color:var(--lime);max-height:0;opacity:0;overflow:hidden;transition:max-height .5s var(--ease),opacity .4s,margin .5s}
+.asp-k{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--lime)}
+.asp-body h3{margin:4px 0 8px;font-size:clamp(20px,1.7vw,24px)}
+.asp-body p{font-size:14px;line-height:1.5;color:rgba(255,255,255,.72)}
+.asp-more{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;font-weight:700;color:var(--lime);max-height:0;opacity:0;overflow:hidden;transition:max-height .5s var(--ease),opacity .4s}
 .asp:hover .asp-more,.asp:focus-visible .asp-more{max-height:30px;opacity:1}
-.asp-panel .vid-credit{bottom:10px}
-@media (hover:none){.asp-more{max-height:30px;opacity:1}}
+.asp-panel .vid-credit{bottom:8px}
+@media (hover:none){.asp-more{max-height:30px;opacity:1}.asp-hint{display:none}}
+@media (max-width:1080px){.asp-chips span:nth-child(n+3){display:none}}
 @media (max-width:860px){
-  .asp-grid{grid-template-columns:1fr}
-  .asp{min-height:0;gap:28px}
-  .asp-video{object-position:44% 100%}
+  .asp-panel{height:auto;min-height:0}
+  .asp-media{bottom:auto;height:340px}
+  .asp-shade{background:linear-gradient(0deg,#0b221d 0%,rgba(6,24,20,.6) calc(100% - 340px + 120px),transparent calc(100% - 340px + 220px)),linear-gradient(180deg,rgba(6,24,20,.55),transparent 40%)}
+  .asp-head{margin-bottom:150px}
+  .asp-grid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * clamp(28px,4vw,56px));padding:0 clamp(28px,4vw,56px) 8px;scrollbar-width:none}
+  .asp-grid::-webkit-scrollbar{display:none}
+  .asp{flex:0 0 84%;min-height:0;scroll-snap-align:center}
+  .asp:hover,.asp:focus-visible{transform:none}
+  .asp-chips span:nth-child(n+3){display:inline}
+  .asp-hint{display:none}
 }
 
 /* Plan */
@@ -727,6 +740,8 @@ section{position:relative}
         <video class="asp-video" id="aspVideo" muted loop playsinline preload="none" data-name="latex" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@16194a8b466fd09054b5b13ff6f29a317f9254e2/assets/video/"></video>
       </div>
       <div class="asp-shade" aria-hidden="true"></div>
+      <div class="asp-light" aria-hidden="true"></div>
+      <span class="asp-hint" aria-hidden="true"><i></i>Hover to watch the latex flow</span>
       <div class="asp-head">
         <span class="eyebrow rv">Compliance</span>
         <h2 class="split"><span class="ln"><span>Critical aspects of</span></span><span class="ln"><span style="--d:.08s" class="serif">EUDR compliance</span></span></h2>
@@ -1559,7 +1574,7 @@ function plantation(getP, reduce) {
   film.addEventListener('click', e => { if (e.target === film) closeFilm(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && film.classList.contains('open')) closeFilm(); });
 
-  /* Critical aspects: tapping footage reacts to the cards */
+  /* Critical aspects: the footage holds still until you hover, then the latex flows */
   const aspPanel = $('#aspPanel'), aspVideo = $('#aspVideo');
   [...new Set([new URL('assets/video/', location.href).href, new URL('assets/video/', document.baseURI).href, aspVideo.dataset.cdn])]
     .forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
@@ -1567,38 +1582,49 @@ function plantation(getP, reduce) {
       src.src = base + aspVideo.dataset.name + '.' + ext; src.type = type;
       aspVideo.append(src);
     }));
-  const aspRate = r => { try { aspVideo.playbackRate = r; } catch (e) {} };
-  const aspGrid = $('.asp-grid', aspPanel), aspHead = $('.asp-head', aspPanel);
-  const aspSize = () => {
-    const w = aspPanel.clientWidth, pad = parseFloat(getComputedStyle(aspPanel).paddingTop);
-    const media = Math.max(w * (innerWidth < 860 ? .9 : .5625), aspHead.offsetHeight + pad + 180);
-    aspPanel.style.setProperty('--gm', Math.max(24, media - aspHead.offsetHeight - pad + 8) + 'px');
-    aspPanel.style.setProperty('--mh', media + 'px');
+  const canHover = matchMedia('(hover:hover)').matches;
+  let aspSeen = false, aspStop;
+  const aspPlay = () => { clearTimeout(aspStop); aspVideo.playbackRate = 1; aspVideo.play().catch(() => {}); };
+  const aspHold = () => {
+    // ease to a stop rather than freezing mid-drop
+    aspVideo.playbackRate = .4;
+    clearTimeout(aspStop);
+    aspStop = setTimeout(() => aspVideo.pause(), 700);
   };
-  addEventListener('resize', aspSize);
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(aspSize);
-  aspSize();
   new IntersectionObserver(([en]) => {
-    if (en.isIntersecting && !reduce) { aspVideo.play().then(() => aspRate(.6)).catch(() => {}); }
-    else aspVideo.pause();
-  }, { threshold: .15 }).observe(aspPanel);
-  $$('.asp').forEach((card, i) => {
-    card.addEventListener('mouseenter', () => {
-      aspPanel.classList.add('hot'); aspRate(1);
-      // lean the frame toward the hovered card; the zoom stays centred on the spout and cup
-      aspPanel.style.setProperty('--mx', (1 - i) * 14 + 'px');
-    });
-    card.addEventListener('mouseleave', () => { aspPanel.classList.remove('hot'); aspRate(.6); aspPanel.style.removeProperty('--mx'); });
+    if (en.isIntersecting && !aspSeen) {
+      aspSeen = true; aspVideo.preload = 'auto'; aspVideo.load();
+      aspVideo.addEventListener('loadeddata', () => { aspVideo.currentTime = 3.2; }, { once: true });
+    }
+    if (en.isIntersecting && !canHover && !reduce) { aspPanel.classList.add('live'); aspPlay(); }
+    if (!en.isIntersecting) { aspVideo.pause(); aspPanel.classList.remove('live', 'focus'); }
+  }, { threshold: .2 }).observe(aspPanel);
+  const set = (k, v) => aspPanel.style.setProperty(k, v);
+  aspPanel.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'mouse' || reduce) return;
+    aspPanel.classList.add('live'); aspPlay();
+  });
+  aspPanel.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse' || reduce) return;
+    const r = aspPanel.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+    set('--mx', nx * -36 + 'px'); set('--my', ny * -24 + 'px');
+    set('--ty', nx * 4 + 'deg'); set('--tx', ny * -3 + 'deg');
+    set('--lx', e.clientX - r.left + 'px'); set('--ly', e.clientY - r.top + 'px');
+  });
+  aspPanel.addEventListener('pointerleave', () => {
+    aspPanel.classList.remove('live', 'focus');
+    ['--mx', '--my', '--tx', '--ty'].forEach(k => aspPanel.style.removeProperty(k));
+    aspHold();
+  });
+  $$('.asp').forEach(card => {
+    card.addEventListener('mouseenter', () => aspPanel.classList.add('focus'));
+    card.addEventListener('mouseleave', () => aspPanel.classList.remove('focus'));
     card.addEventListener('pointermove', e => {
       const r = card.getBoundingClientRect();
       card.style.setProperty('--hx', e.clientX - r.left + 'px');
       card.style.setProperty('--hy', e.clientY - r.top + 'px');
     });
-  });
-  aspPanel.addEventListener('pointermove', e => {
-    if (e.pointerType !== 'mouse' || reduce || aspPanel.classList.contains('hot')) return;
-    const r = aspPanel.getBoundingClientRect();
-    aspPanel.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5) * -10 + 'px');
   });
 
   /* Implementation plan segmented control */
