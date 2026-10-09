@@ -529,7 +529,7 @@ function App() {
             />
             <p>
               A Public-Private Partnership between the DRC Government and
-              M&amp;M Greentech, enabling transparent carbon credit trading
+              Lumiere DRC, enabling transparent carbon credit trading
               through blockchain technology.
             </p>
           </div>
