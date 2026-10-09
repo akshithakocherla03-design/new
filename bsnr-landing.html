@@ -172,32 +172,8 @@ section{position:relative}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:clamp(36px,5vw,64px);flex-wrap:wrap}
 .sec-head .lead{max-width:44ch}
 
-/* Pillars (bento) */
-.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-.tile{position:relative;border-radius:var(--radius);padding:30px;background:var(--paper);box-shadow:var(--shadow);overflow:hidden;min-height:240px;display:flex;flex-direction:column;justify-content:space-between;gap:28px;transition:transform .6s var(--ease)}
-.tile:hover{transform:translateY(-4px)}
-.tile::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(75,175,71,.12),transparent 40%);opacity:0;transition:opacity .4s;pointer-events:none}
-.tile:hover::before{opacity:1}
-.tile h3{font-size:clamp(22px,2.2vw,30px)}
-.tile p{color:var(--muted);margin-top:10px}
-.tile .num{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--leaf)}
-.t-a{grid-column:span 7;background:var(--forest);color:#fff}
-.t-a p{color:rgba(255,255,255,.72)}
-.t-a .num{color:var(--lime)}
-.t-b{grid-column:span 5}
-.t-c{grid-column:span 5}
-.t-d{grid-column:span 7;background:var(--lime)}
-.t-d p{color:#2c4a34}
-.t-d .num{color:var(--forest)}
-.steps{display:flex;gap:6px;margin-top:4px}
-.steps span{flex:1;height:44px;border-radius:12px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-weight:800;font-size:15px;color:rgba(255,255,255,.5);transition:all .6s var(--ease)}
-.tile.in .steps span{background:rgba(200,241,105,.16);color:var(--lime)}
-.tile.in .steps span:nth-child(5){background:var(--lime);color:var(--ink)}
-.steps span:nth-child(2){transition-delay:.1s}.steps span:nth-child(3){transition-delay:.2s}.steps span:nth-child(4){transition-delay:.3s}.steps span:nth-child(5){transition-delay:.4s}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{padding:7px 12px;border-radius:999px;background:var(--cream);font-size:13px;font-weight:600}
-.t-d .chips span{background:rgba(255,255,255,.55)}
-.bigicon{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:var(--cream);color:var(--forest)}
 
 /* Initiative */
 .initiative{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,6vw,90px);align-items:center}
@@ -353,7 +329,6 @@ section{position:relative}
   .m-label{display:block;font-size:12px;color:rgba(255,255,255,.5);font-weight:600}
 }
 @media (max-width:860px){
-  .bento>*{grid-column:1/-1}
   .cards,.phase-grid{grid-template-columns:1fr}
   .stats-top{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
@@ -506,56 +481,8 @@ section{position:relative}
   </div>
 </section>
 
-<!-- ================= Pillars ================= -->
-<section class="sec" id="why">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="eyebrow rv">Why BSNR</span>
-        <h2 class="split" style="margin-top:18px"><span class="ln"><span>One platform for</span></span><span class="ln"><span style="--d:.08s">a <span class="serif">traceable</span> industry</span></span></h2>
-      </div>
-      <p class="lead rv" style="--d:.15s">From the farm gate to the export port — registration, training and certification in one connected system built for India's rubber growers and traders.</p>
-    </div>
-    <div class="bento">
-      <article class="tile t-a rv">
-        <div><span class="num">01</span></div>
-        <div>
-          <h3>5 Steps to EUDR Compliance</h3>
-          <p>Seamless registration to obtaining an EUDR Compliance certificate involving just 5 steps.</p>
-        </div>
-        <div class="steps" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
-      </article>
-      <article class="tile t-b rv" style="--d:.1s">
-        <div class="bigicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
-        <div>
-          <span class="num">02</span>
-          <h3>End-to-end visibility</h3>
-          <p>Achieve end-to-end visibility, ensure product integrity, and comply with EUDR effortlessly.</p>
-        </div>
-      </article>
-      <article class="tile t-c rv">
-        <div class="bigicon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></div>
-        <div>
-          <span class="num">03</span>
-          <h3>Register to train your supply chain</h3>
-          <p>Register your Dealers, Processors, Farmers group to get trained on the compliance process.</p>
-        </div>
-        <div class="chips"><span>Dealers</span><span>Processors</span><span>Farmer groups</span></div>
-      </article>
-      <article class="tile t-d rv" style="--d:.1s">
-        <div><span class="num">04</span></div>
-        <div>
-          <h3>Economic advantage to the farmers</h3>
-          <p>Work with farmers to enhance their sustainable farming practises and enhance the economic value of sustainable rubber.</p>
-        </div>
-        <div class="chips"><span>Sustainable practices</span><span>Higher value rubber</span><span>Market access</span></div>
-      </article>
-    </div>
-  </div>
-</section>
-
 <!-- ================= Initiative ================= -->
-<section class="sec" style="padding-top:0" id="about">
+<section class="sec" id="about">
   <div class="wrap initiative">
     <div>
       <span class="eyebrow rv">The initiative</span>
@@ -1412,14 +1339,7 @@ function plantation(getP, reduce) {
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), { threshold: .15, rootMargin: '0px 0px -40px 0px' });
-  $$('.rv, .split, .tile').forEach(el => io.observe(el));
-
-  /* Cursor spotlight on tiles */
-  $$('.tile').forEach(t => t.addEventListener('pointermove', e => {
-    const r = t.getBoundingClientRect();
-    t.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-    t.style.setProperty('--my', (e.clientY - r.top) + 'px');
-  }));
+  $$('.rv, .split').forEach(el => io.observe(el));
 
   /* Statement: words light up as you scroll */
   const st = $('#statement');
