@@ -109,11 +109,14 @@ body.menu-open .sheet{clip-path:circle(150% at calc(100% - 44px) 44px);visibilit
 /* Hero: scroll-driven 3D rubber plantation */
 .hero3d{position:relative;height:460vh;background:#2a3329;color:#fff}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
-.walk{position:absolute;inset:-3%;z-index:-3;background:url("assets/video/hero-walk.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@bdde40edc0e2ab0cb50bfb53ef6752db966da0bd/assets/video/hero-walk.jpg") center/cover,#0b1a10;transform:translate(var(--hx,0px),var(--hy,0px)) scale(var(--hs,1.06))}
-.walk video{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(var(--hb,.55)) saturate(var(--hsat,.85)) contrast(1.05)}
-.tilt{position:absolute;inset:0;z-index:-2;pointer-events:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 30%,transparent 58%,#000 100%);mask-image:linear-gradient(180deg,#000 0%,transparent 30%,transparent 58%,#000 100%)}
-.vig{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 42% 34% at 50% 50%,rgba(6,14,9,.42),transparent 100%),radial-gradient(ellipse 80% 75% at 50% 46%,transparent 40%,rgba(4,10,6,.7) 100%),linear-gradient(180deg,rgba(4,10,6,.5),transparent 22%,transparent 72%,rgba(4,10,6,.72))}
-.grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+.stage{perspective:1400px}
+.walk{position:absolute;inset:-7%;z-index:-3;background:url("assets/video/hero-walk.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@bdde40edc0e2ab0cb50bfb53ef6752db966da0bd/assets/video/hero-walk.jpg") center/cover,#0b1a10;transform:translate3d(var(--hx,0px),var(--hy,0px),0) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(var(--hs,1.04));will-change:transform}
+.walk video{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(var(--hb,.7)) saturate(var(--hsat,.95)) contrast(1.04)}
+.walk-light{position:absolute;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(520px circle at var(--lx,50%) var(--ly,45%),rgba(255,240,205,.16),rgba(255,240,205,.04) 45%,transparent 70%);mix-blend-mode:screen;opacity:var(--lo,0);transition:opacity .8s}
+.hl-wrap{transform:translate3d(var(--tx,0px),var(--ty,0px),0);will-change:transform}
+.tilt{position:absolute;inset:0;z-index:-2;pointer-events:none;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 14%,transparent 82%,#000 100%);mask-image:linear-gradient(180deg,#000 0%,transparent 14%,transparent 82%,#000 100%)}
+.vig{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 40% 30% at 50% 50%,rgba(4,10,6,.5),rgba(4,10,6,.18) 60%,transparent 100%),radial-gradient(ellipse 42% 34% at 50% 50%,rgba(6,14,9,.42),transparent 100%),radial-gradient(ellipse 80% 75% at 50% 46%,transparent 40%,rgba(4,10,6,.7) 100%),linear-gradient(180deg,rgba(4,10,6,.5),transparent 22%,transparent 72%,rgba(4,10,6,.72))}
+.grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-6%,-2%)}80%{transform:translate(5%,4%)}100%{transform:translate(0,0)}}
 .hero-kicker{position:absolute;top:clamp(96px,15vh,140px);left:0;right:0;display:flex;justify-content:center;padding:0 16px}
 .pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px var(--line-light);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:13px;font-weight:600}
@@ -544,6 +547,7 @@ section{position:relative}
 <section class="hero3d" id="top" aria-label="Introduction">
   <div class="stage" id="stage">
     <div class="walk" aria-hidden="true"><video id="walkVid" muted playsinline preload="auto" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@bdde40edc0e2ab0cb50bfb53ef6752db966da0bd/assets/video/"></video></div>
+    <div class="walk-light" aria-hidden="true"></div>
     <div class="tilt" aria-hidden="true"></div>
     <div class="vig" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
@@ -1093,44 +1097,59 @@ section{position:relative}
   addEventListener('scroll', heroScroll, { passive: true });
   setTimeout(heroScroll, 250);
 
-  /* Hero: walking down a real rubber plantation, scrubbed by scroll */
-  const walkVid = $('#walkVid'), walk = walkVid.parentElement;
+  /* Hero: walking down a real rubber plantation. Scrolling drives native playback
+     (smooth, unlike seeking frame by frame); the scene tilts toward the cursor. */
+  const walkVid = $('#walkVid'), walk = walkVid.parentElement, hlWrap = $('.hl-wrap', stage);
   [...new Set([new URL('assets/video/', location.href).href, new URL('assets/video/', document.baseURI).href, walkVid.dataset.cdn])]
     .forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
       const src = document.createElement('source');
       src.src = base + 'hero-walk.' + ext; src.type = type; walkVid.append(src);
     }));
-  let walkT = 0, walkReady = false, walkSeeking = false;
+  let walkReady = false;
   walkVid.addEventListener('loadedmetadata', () => { walkReady = true; });
-  walkVid.addEventListener('seeked', () => { walkSeeking = false; });
-  // iOS only paints frames after a play() call
   walkVid.play().then(() => walkVid.pause()).catch(() => {});
-  let hmx = 0, hmy = 0, hx = 0, hy = 0, idleT = 0;
+  const lerp = (a, b, k) => a + (b - a) * k;
+  let mx = 0, my = 0, cx = 0, cy = 0, lx = .5, ly = .45, over = false, t0 = performance.now();
   stage.addEventListener('pointermove', e => {
     if (e.pointerType !== 'mouse') return;
-    hmx = e.clientX / innerWidth - .5; hmy = e.clientY / innerHeight - .5;
+    const r = stage.getBoundingClientRect();
+    mx = (e.clientX - r.left) / r.width - .5; my = (e.clientY - r.top) / r.height - .5;
+    over = true;
   });
-  stage.addEventListener('pointerleave', () => { hmx = hmy = 0; });
-  const walkLoop = () => {
+  stage.addEventListener('pointerleave', () => { mx = my = 0; over = false; });
+  const hset = (el, k, v) => el.style.setProperty(k, v);
+  const walkLoop = now => {
     requestAnimationFrame(walkLoop);
-    if (hero.getBoundingClientRect().bottom < 0) return;
-    // ease the playhead toward the scroll position so the walk glides
-    if (walkReady && walkVid.duration) {
-      const target = Math.min(walkVid.duration - .05, heroP * walkVid.duration);
-      walkT += (target - walkT) * (reduce ? 1 : .12);
-      if (!walkSeeking && Math.abs(walkVid.currentTime - walkT) > 1 / 30) { walkSeeking = true; walkVid.currentTime = walkT; }
+    if (hero.getBoundingClientRect().bottom < 0) { if (!walkVid.paused) walkVid.pause(); return; }
+    if (walkReady && walkVid.duration && !reduce) {
+      const target = Math.min(walkVid.duration - .1, heroP * walkVid.duration), ahead = target - walkVid.currentTime;
+      if (ahead > .04) {
+        // catch up by playing faster, never jumping
+        walkVid.playbackRate = Math.min(3, Math.max(.35, ahead * 1.6));
+        if (walkVid.paused) walkVid.play().catch(() => {});
+      } else if (ahead < -.25) {
+        walkVid.pause();
+        walkVid.currentTime = Math.max(target, walkVid.currentTime - .12);  // walking back: small steps
+      } else if (!walkVid.paused) walkVid.pause();
     }
-    // gentle head-bob while idle plus mouse look-around
-    idleT += .016;
-    hx += (hmx * -26 - hx) * .06; hy += (hmy * -16 + Math.sin(idleT * 1.6) * 2.5 - hy) * .06;
-    walk.style.setProperty('--hx', hx.toFixed(2) + 'px');
-    walk.style.setProperty('--hy', hy.toFixed(2) + 'px');
-    // early, dim light warms up as you walk deeper in
-    walk.style.setProperty('--hb', (.56 + heroP * .26).toFixed(3));
-    walk.style.setProperty('--hsat', (.8 + heroP * .2).toFixed(3));
-    walk.style.setProperty('--hs', (1.06 + heroP * .05).toFixed(3));
+    // smoothed pointer: look-around with depth
+    const tt = (now - t0) / 1000;
+    cx = lerp(cx, mx, .065); cy = lerp(cy, my, .065);
+    const bob = reduce ? 0 : Math.sin(tt * 1.4) * .012;
+    hset(walk, '--hx', (cx * -70).toFixed(2) + 'px');
+    hset(walk, '--hy', ((cy + bob) * -44).toFixed(2) + 'px');
+    hset(walk, '--ry', (cx * 7).toFixed(3) + 'deg');
+    hset(walk, '--rx', (cy * -5).toFixed(3) + 'deg');
+    hset(walk, '--hs', (1.06 + Math.hypot(cx, cy) * .06 + heroP * .04).toFixed(4));
+    hset(hlWrap, '--tx', (cx * 22).toFixed(2) + 'px');
+    hset(hlWrap, '--ty', (cy * 14).toFixed(2) + 'px');
+    lx = lerp(lx, mx + .5, .09); ly = lerp(ly, my + .5, .09);
+    hset(stage, '--lx', (lx * 100).toFixed(2) + '%'); hset(stage, '--ly', (ly * 100).toFixed(2) + '%');
+    hset(stage, '--lo', over ? 1 : 0);
+    // light lifts as you walk deeper in
+    hset(walk, '--hb', (.68 + heroP * .18).toFixed(3));
   };
-  walkLoop();
+  requestAnimationFrame(walkLoop);
 
   /* Ticker: duplicate content for a seamless loop, plus live banner text */
   const move = $('#tickerMove');
