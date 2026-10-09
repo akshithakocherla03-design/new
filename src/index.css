@@ -103,7 +103,8 @@ img {
   min-height: 66px;
   margin-inline: auto;
   padding-left: 34px;
-  background: transparent;
+  background: rgba(226, 236, 201, 0.16);
+  backdrop-filter: blur(10px);
   color: #ffffff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
   animation: nav-in 0.8s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -163,32 +164,23 @@ img {
   align-self: stretch;
   gap: 9px;
   padding-inline: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(6px);
+  color: #0f3345;
+  text-shadow: none;
+  background: #8cb032;
   font-family: "Manrope:SemiBold";
   font-size: 12px;
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
+  transition: background 180ms ease;
 }
 
 .nav__contact:hover {
   color: #07130c;
-  text-shadow: none;
-  border-color: #a8cf42;
   background: #a8cf42;
+  box-shadow: inset 0 0 0 2px rgba(15, 51, 69, 0.24);
 }
 
 .nav__contact i {
   width: 6px;
   height: 6px;
-  background: #a8cf42;
-  transition: background 180ms ease;
-}
-
-.nav__contact:hover i {
   background: #477c48;
 }
 
