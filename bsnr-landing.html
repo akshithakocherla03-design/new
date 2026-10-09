@@ -106,42 +106,54 @@ body.menu-open .sheet{clip-path:circle(150% at calc(100% - 44px) 44px);visibilit
 .sheet details[open] summary .chev{transform:rotate(180deg)}
 .sheet .btn{margin-top:28px;width:100%;justify-content:center}
 
-/* Hero */
-.hero{padding:96px 0 0}
-.hero-panel{position:relative;min-height:min(860px,calc(100svh - 112px));border-radius:var(--radius);overflow:hidden;background:var(--forest);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate}
-.hero-bg{position:absolute;inset:0;z-index:-2}
-.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.12);transition:opacity 1.4s var(--ease),transform 7s linear}
-.hero-bg img.on{opacity:1;transform:scale(1)}
-.hero-panel::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(9,30,20,.92) 0%,rgba(9,30,20,.7) 42%,rgba(9,30,20,.15) 75%),linear-gradient(0deg,rgba(9,30,20,.75),transparent 45%)}
-.hero-inner{display:grid;grid-template-columns:1.35fr .9fr;gap:40px;align-items:end;padding:clamp(28px,5vw,64px)}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px var(--line-light);backdrop-filter:blur(10px);font-size:13px;font-weight:600}
+/* Hero: scroll-driven 3D rubber plantation */
+.hero3d{position:relative;height:460vh;background:#07100b;color:#fff}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-3}
+.fallback{position:absolute;inset:-20px;z-index:-4;background:#07100b url("assets/img/agriculture/hero_bg_1.png") center/cover;filter:brightness(.4) saturate(.85) blur(2px);display:none}
+.no-gl .fallback{display:block}
+.tilt{position:absolute;inset:0;z-index:-2;pointer-events:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 30%,transparent 58%,#000 100%);mask-image:linear-gradient(180deg,#000 0%,transparent 30%,transparent 58%,#000 100%)}
+.vig{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 75% 70% at 50% 46%,transparent 35%,rgba(3,8,5,.78) 100%),linear-gradient(180deg,rgba(3,8,5,.55),transparent 22%,transparent 75%,rgba(3,8,5,.7))}
+.grain{position:absolute;inset:-50%;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-6%,-2%)}80%{transform:translate(5%,4%)}100%{transform:translate(0,0)}}
+.hero-kicker{position:absolute;top:clamp(96px,15vh,140px);left:0;right:0;display:flex;justify-content:center;padding:0 16px}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px var(--line-light);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:13px;font-weight:600}
 .pill b{padding:3px 9px;border-radius:999px;background:var(--lime);color:var(--ink);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
-.hero h1{font-size:clamp(42px,6.6vw,96px);margin:22px 0 20px;max-width:13ch}
-.hero h1 .serif{color:var(--lime)}
-.hero p.sub{font-size:clamp(16px,1.5vw,20px);color:rgba(255,255,255,.78);max-width:46ch}
-.swap{transition:opacity .5s var(--ease),transform .7s var(--ease),filter .5s}
-.swap.out{opacity:0;transform:translateY(18px);filter:blur(6px)}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.hero-actions .btn--ghost{color:#fff}
-.glass{background:rgba(255,255,255,.09);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);box-shadow:inset 0 0 0 1px var(--line-light);border-radius:22px}
-.live-card{padding:22px;justify-self:end;width:100%;max-width:380px}
-.live-head{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:14px}
-.dot{display:inline-flex;align-items:center;gap:8px;color:var(--lime);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.dot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 0 rgba(200,241,105,.7);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(200,241,105,0)}100%{box-shadow:0 0 0 0 rgba(200,241,105,0)}}
-.live-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.live-grid div{padding:14px;border-radius:14px;background:rgba(255,255,255,.07)}
-.live-grid strong{display:block;font-size:26px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.live-grid span{font-size:12.5px;color:rgba(255,255,255,.7)}
-.hero-tabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-light)}
-.hero-tab{position:relative;text-align:left;padding:18px clamp(16px,2.4vw,28px) 22px;font-size:14px;font-weight:600;color:rgba(255,255,255,.55);transition:color .3s}
-.hero-tab+.hero-tab{border-left:1px solid var(--line-light)}
-.hero-tab small{display:block;font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.4);margin-bottom:4px}
-.hero-tab.on,.hero-tab:hover{color:#fff}
-.hero-tab i{position:absolute;left:0;top:-1px;height:2px;width:100%;background:var(--lime);transform:scaleX(0);transform-origin:0 50%}
-.hero-tab.on i{animation:fill var(--dur,7s) linear forwards}
-.hero-tab.done i{transform:scaleX(1);opacity:.35}
-@keyframes fill{to{transform:scaleX(1)}}
+.hl-wrap{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 16px;pointer-events:none}
+.hl{grid-area:1/1;display:flex;flex-direction:column;align-items:center;gap:22px}
+.hl .t{font-family:var(--serif);font-weight:400;font-size:clamp(42px,6.4vw,98px);line-height:.98;letter-spacing:-.025em;max-width:15ch;text-shadow:0 2px 30px rgba(0,0,0,.45)}
+.hl .t em{font-style:italic;color:var(--lime)}
+.hl .w{display:inline-block;opacity:0;transform:translateY(55%) rotate(2deg);filter:blur(14px);transition:opacity .9s var(--ease),transform 1.2s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i)*55ms)}
+.hl.on .w{opacity:1;transform:none;filter:blur(0)}
+.hl.past .w{opacity:0;transform:translateY(-55%) rotate(-2deg);filter:blur(14px);transition-delay:calc(var(--i)*25ms)}
+.hl .s{max-width:44ch;font-size:clamp(15px,1.3vw,18px);color:rgba(255,255,255,.75);opacity:0;transform:translateY(14px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.hl.on .s{opacity:1;transform:none;transition-delay:.35s}
+.hero-bottom{position:absolute;left:0;right:0;bottom:clamp(20px,4.5vh,44px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:0 clamp(16px,3vw,40px)}
+.count{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+.count .cur{color:#fff}
+.segs{display:flex;gap:5px}
+.segs i{position:relative;width:34px;height:2px;border-radius:2px;background:rgba(255,255,255,.2);overflow:hidden}
+.segs i::after{content:"";position:absolute;inset:0;background:var(--lime);transform:scaleX(var(--f,0));transform-origin:0 50%}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.hero-cta .btn--ghost{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45);backdrop-filter:blur(8px)}
+.btn--white{--bg:#fff;--fg:var(--ink)}
+.btn--white .arr{background:rgba(11,31,22,.08)}
+.scroll-hint{justify-self:end;display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;color:rgba(255,255,255,.65)}
+.mouse{width:22px;height:34px;border-radius:12px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55);position:relative}
+.mouse::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--lime);animation:wheel 1.8s var(--ease) infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
+.hero-end{position:absolute;inset:0;background:var(--cream);opacity:0;pointer-events:none;z-index:2}
+.ticker-sec{padding-top:0}
+@media (max-width:860px){
+  .hero-bottom{grid-template-columns:1fr;justify-items:center;gap:18px}
+  .scroll-hint{display:none}
+  .count{order:-1}
+}
+@media (max-width:560px){
+  .hero-cta{width:100%}
+  .hero-cta .btn{flex:1 1 100%;justify-content:center}
+  .hero-kicker .pill span.long{display:none}
+}
 
 /* Ticker */
 .ticker{margin-top:16px;display:flex;align-items:center;gap:0;background:var(--ink);color:#fff;border-radius:999px;overflow:hidden}
@@ -333,8 +345,6 @@ section{position:relative}
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
   .burger{display:grid}
-  .hero-inner{grid-template-columns:1fr}
-  .live-card{justify-self:start}
   .initiative,.reg{grid-template-columns:1fr}
   .row{grid-template-columns:1fr 1fr 1fr;row-gap:14px}
   .row--head{display:none}
@@ -347,18 +357,12 @@ section{position:relative}
   .cards,.phase-grid{grid-template-columns:1fr}
   .stats-top{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
-  .hero-tabs{grid-template-columns:repeat(4,1fr)}
-  .hero-tab{font-size:0;padding:16px 10px}
-  .hero-tab small{font-size:11px;margin:0}
   .reg-pane{grid-template-columns:1fr}
   .reg-art{min-height:260px}
   .stats,.plan{margin-inline:0;border-radius:0}
 }
 @media (max-width:560px){
   .nav-cta .btn--lime{display:none}
-  .hero h1{max-width:none}
-  .hero-actions .btn{flex:1 1 100%;justify-content:center}
-  .live-grid strong{font-size:22px}
   .ticker-label{padding:12px 14px}
   .ticker-label span{display:none}
   .foot-grid{grid-template-columns:1fr}
@@ -455,44 +459,38 @@ section{position:relative}
 </div>
 
 <main>
-<!-- ================= Hero ================= -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-panel">
-      <div class="hero-bg" aria-hidden="true">
-        <img class="on" src="assets/img/agriculture/hero_bg_1.png" alt="">
-        <img src="assets/img/agriculture/hero_bg_2.png" alt="" loading="lazy">
-        <img src="assets/img/agriculture/hero_bg_3.png" alt="" loading="lazy">
-        <img src="assets/img/agriculture/hero_bg_4.png" alt="" loading="lazy">
-      </div>
-      <div class="hero-inner">
-        <div>
-          <span class="pill rv"><b>EUDR</b> By Rubber Board of India</span>
-          <h1 class="swap" id="heroTitle">Your path to <span class="serif">sustainable</span> rubber supply chains</h1>
-          <p class="sub swap" id="heroSub">Achieve end-to-end visibility, ensure product integrity, and comply with EUDR effortlessly.</p>
-          <div class="hero-actions rv" style="--d:.2s">
-            <a class="btn btn--lime" href="register-yourself.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-            <a class="btn btn--ghost" href="New%20Stakeholders%20page.html?tab=Dealers">EUDR Compliant Stakeholders</a>
-          </div>
-        </div>
-        <div class="live-card glass rv" style="--d:.35s">
-          <div class="live-head"><span>BSNR network today</span><span class="dot">Live</span></div>
-          <div class="live-grid">
-            <div><strong data-stat="TotalRegisteredPlotArea">—</strong><span>Hectares covered</span></div>
-            <div><strong data-stat="TotalRegisteredGrower">—</strong><span>Growers onboarded</span></div>
-            <div><strong data-stat="PlotArea">—</strong><span>Hectares EUDR approved</span></div>
-            <div><strong data-stat="TotalRegisteredExporter">—</strong><span>Exporters onboarded</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-tabs" role="tablist" aria-label="Highlights">
-        <button class="hero-tab on" role="tab"><i></i><small>01</small>Sustainable supply chains</button>
-        <button class="hero-tab" role="tab"><i></i><small>02</small>5 steps to compliance</button>
-        <button class="hero-tab" role="tab"><i></i><small>03</small>Train your supply chain</button>
-        <button class="hero-tab" role="tab"><i></i><small>04</small>Value for farmers</button>
-      </div>
+<!-- ================= Hero (scroll-driven 3D plantation) ================= -->
+<section class="hero3d" id="top" aria-label="Introduction">
+  <div class="stage" id="stage">
+    <div class="fallback" aria-hidden="true"></div>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="tilt" aria-hidden="true"></div>
+    <div class="vig" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="hero-kicker"><span class="pill"><b>EUDR</b><span class="long">Bharat Sustainable Natural Rubber ·&nbsp;</span>By Rubber Board of India</span></div>
+
+    <div class="hl-wrap">
+      <div class="hl"><h1 class="t">Your path to <em>sustainable</em> rubber supply chains</h1><p class="s">Achieve end-to-end visibility, ensure product integrity, and comply with EUDR effortlessly.</p></div>
+      <div class="hl"><h2 class="t">5 steps to <em>EUDR</em> compliance</h2><p class="s">Seamless registration to obtaining an EUDR Compliance certificate involving just 5 steps.</p></div>
+      <div class="hl"><h2 class="t">Register to <em>train</em> your supply chain</h2><p class="s">Register your Dealers, Processors, Farmers group to get trained on the compliance process.</p></div>
+      <div class="hl"><h2 class="t">Economic <em>advantage</em> to the farmers</h2><p class="s">Work with farmers to enhance their sustainable farming practises and enhance the economic value of sustainable rubber.</p></div>
     </div>
 
+    <div class="hero-bottom">
+      <div class="count"><span class="cur" id="hlNum">01</span><span class="segs"><i></i><i></i><i></i><i></i></span><span>04</span></div>
+      <div class="hero-cta">
+        <a class="btn btn--white" href="register-yourself.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--ghost" href="New%20Stakeholders%20page.html?tab=Dealers">EUDR Compliant Stakeholders</a>
+      </div>
+      <div class="scroll-hint"><span class="mouse"></span>Scroll to walk the plantation</div>
+    </div>
+    <div class="hero-end" id="heroEnd"></div>
+  </div>
+</section>
+
+<section class="ticker-sec">
+  <div class="wrap">
     <div class="ticker" aria-label="Latest updates">
       <div class="ticker-label">● <span>Latest updates</span></div>
       <div class="ticker-track">
@@ -883,6 +881,260 @@ section{position:relative}
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* Procedural rubber plantation: straight rows of tapped trees with latex cups,
+   a soil avenue, bokeh undergrowth, fireflies and a cursor-following lantern glow.
+   The camera walks the avenue as the hero is scrolled. */
+function plantation(getP, reduce) {
+  const canvas = document.getElementById('gl'), stage = document.getElementById('stage');
+  const fail = () => document.body.classList.add('no-gl');
+  if (!window.THREE) return fail();
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' }); }
+  catch (e) { return fail(); }
+
+  const small = innerWidth < 760;
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.5 : 1.75));
+
+  const NIGHT = new THREE.Color('#07100b'), DAWN = new THREE.Color('#1c2b20');
+  const scene = new THREE.Scene();
+  scene.background = NIGHT.clone();
+  scene.fog = new THREE.FogExp2(NIGHT.clone(), 0.036);
+  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 220);
+
+  const hemi = new THREE.HemisphereLight(0x89a8b8, 0x1b2615, 0.65); scene.add(hemi);
+  const moon = new THREE.DirectionalLight(0xc8ddff, 0.8); moon.position.set(-12, 30, -30); scene.add(moon);
+  const lantern = new THREE.PointLight(0xffcf7a, 0, 15, 1.6); scene.add(lantern);
+
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const R = (a, b) => a + rnd() * (b - a);
+  const H = (x, z) => 0.0055 * x * x + Math.sin(z * 0.07) * 0.18 + Math.sin(x * 0.35 + z * 0.05) * 0.1;
+  const Z0 = 18, Z1 = -170, WALK = 92;
+
+  /* Ground with a soil avenue down the middle */
+  const g = new THREE.PlaneGeometry(150, 260, 150, 200);
+  g.rotateX(-Math.PI / 2); g.translate(0, 0, -85);
+  const gp = g.attributes.position, gcol = [];
+  const soil = new THREE.Color('#2e2619'), moss = new THREE.Color('#111d0e'), moss2 = new THREE.Color('#1d2b13'), c = new THREE.Color();
+  for (let i = 0; i < gp.count; i++) {
+    const x = gp.getX(i), z = gp.getZ(i);
+    gp.setY(i, H(x, z));
+    const path = 1 - THREE.MathUtils.smoothstep(Math.abs(x), 0.8, 2.6);
+    c.copy(moss).lerp(moss2, rnd()).lerp(soil, path * 0.85);
+    gcol.push(c.r, c.g, c.b);
+  }
+  g.setAttribute('color', new THREE.Float32BufferAttribute(gcol, 3));
+  g.computeVertexNormals();
+  scene.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 })));
+
+  /* Plantation grid */
+  const SIDE = small ? 6 : 9, spots = [];
+  for (let z = Z0; z > Z1; z -= 3.3)
+    for (let col = 0; col < SIDE; col++)
+      for (const s of [-1, 1]) spots.push({ x: s * (3.1 + col * 3.4) + R(-.2, .2), z: z + R(-.25, .25), s, col });
+  const N = spots.length, tapped = spots.filter(t => t.col < 2).length;
+
+  const trunkG = new THREE.CylinderGeometry(0.12, 0.2, 1, 8, 3); trunkG.translate(0, 0.5, 0);
+  const trunks = new THREE.InstancedMesh(trunkG, new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: .85 }), N);
+  const canopy = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 1), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: .9, flatShading: true }), N * 3);
+  const cuts = new THREE.InstancedMesh(new THREE.BoxGeometry(0.03, 0.05, 0.3), new THREE.MeshStandardMaterial({ color: 0xd9c79c, emissive: 0x2a2416, roughness: .6 }), tapped);
+  const cups = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.075, 0.055, 0.13, 10), new THREE.MeshStandardMaterial({ color: 0xf3eee2, emissive: 0x2e2c25, roughness: .35 }), tapped);
+
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), v = new THREE.Vector3(), sc = new THREE.Vector3(), one = new THREE.Vector3(1, 1, 1);
+  const bark = ['#958f82', '#7f796c', '#a39d91', '#706b60'].map(h => new THREE.Color(h));
+  const leaf = ['#1c3a1e', '#24461f', '#2d5226', '#375f2b', '#193220'].map(h => new THREE.Color(h));
+  const copper = ['#7a3f1a', '#8f5a22'].map(h => new THREE.Color(h));
+  let k = 0, ti = 0;
+  spots.forEach((t, i) => {
+    const y = H(t.x, t.z), h = R(6.5, 9);
+    e.set(R(-.035, .035), R(0, 6.28), R(-.035, .035)); q.setFromEuler(e);
+    m.compose(v.set(t.x, y - .05, t.z), q, sc.set(R(.85, 1.15), h, R(.85, 1.15)));
+    trunks.setMatrixAt(i, m); trunks.setColorAt(i, bark[i % 4]);
+    for (let j = 0; j < 3; j++) {
+      const r = R(1.3, 2.3);
+      e.set(0, R(0, 6.28), 0); q.setFromEuler(e);
+      m.compose(v.set(t.x + R(-1.4, 1.4), y + h + R(-.8, 1.3), t.z + R(-1.4, 1.4)), q, sc.set(r, r * R(.6, .85), r));
+      canopy.setMatrixAt(k, m); canopy.setColorAt(k, rnd() < .07 ? copper[k % 2] : leaf[(k * 7) % 5]); k++;
+    }
+    if (t.col < 2) {
+      const f = -t.s; // the tapped face looks onto the avenue
+      e.set(t.s * .5, 0, 0); q.setFromEuler(e);
+      m.compose(v.set(t.x + f * .175, y + 1.3, t.z), q, one); cuts.setMatrixAt(ti, m);
+      q.identity();
+      m.compose(v.set(t.x + f * .27, y + .95, t.z), q, one); cups.setMatrixAt(ti, m); ti++;
+    }
+  });
+  scene.add(trunks, canopy, cuts, cups);
+
+  /* Bokeh undergrowth: greens, fallen copper leaves, latex-white glints */
+  const PN = small ? 11000 : 24000;
+  const pPos = new Float32Array(PN * 3), pCol = new Float32Array(PN * 3), pSize = new Float32Array(PN), pSeed = new Float32Array(PN);
+  const pal = [['#2f5a2a', .25], ['#3f6e2c', .22], ['#557d35', .17], ['#7da046', .1], ['#c3dc6c', .08], ['#cf7a3a', .08], ['#e0a24c', .04], ['#efe6c8', .06]]
+    .map(([h, w]) => [new THREE.Color(h), w]);
+  for (let i = 0; i < PN; i++) {
+    let x = R(-36, 36);
+    if (Math.abs(x) < 1.4 && rnd() < .85) x = (rnd() < .5 ? -1 : 1) * R(1.4, 36);
+    const z = R(Z1, Z0), up = rnd() < .14 ? R(.4, 1.7) : R(0, .35);
+    pPos.set([x, H(x, z) + up + .04, z], i * 3);
+    let w = rnd(), col = pal[0][0];
+    for (const [cc, pw] of pal) { if ((w -= pw) <= 0) { col = cc; break; } }
+    pCol.set([col.r, col.g, col.b], i * 3);
+    pSize[i] = R(.07, .26); pSeed[i] = rnd();
+  }
+  const pg = new THREE.BufferGeometry();
+  pg.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  pg.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
+  pg.setAttribute('aSize', new THREE.BufferAttribute(pSize, 1));
+  pg.setAttribute('aSeed', new THREE.BufferAttribute(pSeed, 1));
+  const U = {
+    uTime: { value: 0 }, uScale: { value: 500 }, uMax: { value: 120 },
+    uMouse: { value: new THREE.Vector3(0, 0, -6) }, uGlow: { value: 0 },
+    uFog: { value: scene.background.clone() }, uFogD: { value: .036 }
+  };
+  const bokeh = new THREE.Points(pg, new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false,
+    vertexShader: `
+      uniform float uTime,uScale,uMax,uGlow,uFogD; uniform vec3 uMouse,uFog;
+      attribute vec3 color; attribute float aSize,aSeed;
+      varying vec3 vCol; varying float vA,vSoft;
+      void main(){
+        vec3 p=position;
+        p.x+=sin(uTime*.8+aSeed*6.283+p.z*.3)*.05;
+        vec4 mv=modelViewMatrix*vec4(p,1.);
+        float depth=-mv.z;
+        float g=smoothstep(3.6,0.,distance(p.xz,uMouse.xz))*uGlow;
+        vec3 col=mix(color,color*2.4+vec3(.28,.22,.06),g);
+        float fog=1.-exp(-uFogD*uFogD*depth*depth);
+        vCol=mix(col,uFog,fog);
+        vA=(1.-fog*.9)*(.7+.3*sin(uTime*1.4+aSeed*40.));
+        float sz=min(aSize*uScale/max(depth,.1)*(1.+g*.9),uMax);
+        vSoft=clamp(sz/70.,.12,.5);
+        gl_PointSize=sz;
+        gl_Position=projectionMatrix*mv;
+      }`,
+    fragmentShader: `
+      varying vec3 vCol; varying float vA,vSoft;
+      void main(){
+        float r=length(gl_PointCoord-.5);
+        float a=smoothstep(.5,.5-vSoft,r);
+        if(a<.01) discard;
+        gl_FragColor=vec4(vCol,a*vA);
+      }`
+  }));
+  scene.add(bokeh);
+
+  /* Fireflies */
+  const FN = small ? 140 : 260, fPos = new Float32Array(FN * 3), fSeed = new Float32Array(FN);
+  for (let i = 0; i < FN; i++) { fPos.set([R(-14, 14), R(.5, 4.2), R(Z1 + 40, Z0)], i * 3); fSeed[i] = rnd(); }
+  const fg = new THREE.BufferGeometry();
+  fg.setAttribute('position', new THREE.BufferAttribute(fPos, 3));
+  fg.setAttribute('aSeed', new THREE.BufferAttribute(fSeed, 1));
+  const flies = new THREE.Points(fg, new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    vertexShader: `
+      uniform float uTime,uScale; attribute float aSeed; varying float vA;
+      void main(){
+        float s=aSeed*6.283; vec3 p=position;
+        p+=vec3(sin(uTime*.3+s)*1.3,sin(uTime*.5+s*1.7)*.5,cos(uTime*.25+s*1.3)*1.3);
+        vec4 mv=modelViewMatrix*vec4(p,1.); float depth=-mv.z;
+        vA=(.25+.75*pow(.5+.5*sin(uTime*2.+s*3.),3.))*exp(-depth*.035);
+        gl_PointSize=min(.3*uScale/max(depth,.1),46.);
+        gl_Position=projectionMatrix*mv;
+      }`,
+    fragmentShader: `
+      varying float vA;
+      void main(){
+        float r=length(gl_PointCoord-.5);
+        float a=(exp(-r*r*60.)+exp(-r*r*10.)*.4)*vA;
+        gl_FragColor=vec4(vec3(.85,1.,.45)*a,a);
+      }`
+  }));
+  scene.add(flies);
+
+  /* Pointer → lantern glow on the ground */
+  const ndc = new THREE.Vector2(), mouseS = new THREE.Vector2(), zero = new THREE.Vector2();
+  const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -.25), hit = new THREE.Vector3(), wander = new THREE.Vector3();
+  let pointerOn = false;
+  stage.addEventListener('pointermove', ev => {
+    const r = canvas.getBoundingClientRect();
+    ndc.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1);
+    pointerOn = ev.pointerType === 'mouse';
+  });
+  stage.addEventListener('pointerleave', () => { pointerOn = false; });
+
+  const resize = () => {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.fov = w < h ? 66 : 52;
+    camera.updateProjectionMatrix();
+    U.uScale.value = h * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2));
+    U.uMax.value = 130 * renderer.getPixelRatio();
+  };
+  addEventListener('resize', resize); resize();
+
+  /* Drop resolution and the CSS blur on devices that can't keep up */
+  let slowN = 0, last = 0, downgraded = false;
+  const adapt = now => {
+    if (downgraded || !last) return void (last = now);
+    const dt = now - last; last = now;
+    slowN = dt > 34 ? slowN + 1 : Math.max(0, slowN - 1);
+    if (slowN > 45) {
+      downgraded = true;
+      renderer.setPixelRatio(1); resize();
+      document.querySelector('.tilt').style.display = 'none';
+    }
+  };
+
+  const clock = new THREE.Clock(), look = new THREE.Vector3(), glowPos = new THREE.Vector3(0, .25, 5);
+  let cp = getP(), running = true;
+  const frame = () => {
+    if (!running) return;
+    requestAnimationFrame(frame);
+    const t = reduce ? 0 : clock.getElapsedTime();
+    cp += (getP() - cp) * (reduce ? 1 : .07);
+    mouseS.lerp(pointerOn ? ndc : zero, .05);
+
+    const cz = Z0 - 6 - cp * WALK, cx = Math.sin(cp * Math.PI * 1.5) * .6 + mouseS.x * .35;
+    camera.position.set(cx, 1.6 + Math.sin(t * .7) * .05 + mouseS.y * .15, cz);
+    look.set(cx * .4 + mouseS.x * 1.6, 1.95 + mouseS.y * .9, cz - 12);
+    camera.lookAt(look);
+
+    let target = null;
+    if (pointerOn) {
+      ray.setFromCamera(ndc, camera);
+      if (ray.ray.intersectPlane(plane, hit) && hit.distanceTo(camera.position) < 40) target = hit;
+    }
+    if (!target) target = wander.set(Math.sin(t * .35) * 2.6, .25, cz - 8 + Math.sin(t * .23) * 3);
+    glowPos.lerp(target, .08);
+    lantern.position.set(glowPos.x, glowPos.y + 1.3, glowPos.z);
+    lantern.intensity += ((pointerOn ? 2.6 : 1.6) - lantern.intensity) * .05;
+    U.uGlow.value += ((pointerOn ? 1 : .55) - U.uGlow.value) * .05;
+    U.uMouse.value.copy(glowPos);
+    U.uTime.value = t;
+
+    /* Night slowly gives way to dawn as you walk on */
+    const d = THREE.MathUtils.smoothstep(cp, .15, 1);
+    scene.background.copy(NIGHT).lerp(DAWN, d);
+    scene.fog.color.copy(scene.background);
+    scene.fog.density = .036 - d * .009;
+    U.uFog.value.copy(scene.background); U.uFogD.value = scene.fog.density;
+    hemi.intensity = .65 + d * .4;
+
+    renderer.render(scene, camera);
+    adapt(performance.now());
+  };
+  new IntersectionObserver(([en]) => {
+    const vis = en.isIntersecting;
+    if (vis && !running) { running = true; frame(); }
+    running = vis;
+  }).observe(stage.parentElement);
+  frame();
+}
+</script>
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -930,36 +1182,41 @@ section{position:relative}
     document.body.style.overflow = on ? 'hidden' : '';
   });
 
-  /* Hero slider */
-  const slides = [
-    ['Your path to <span class="serif">sustainable</span> rubber supply chains', 'Achieve end-to-end visibility, ensure product integrity, and comply with EUDR effortlessly.'],
-    ['5 steps to <span class="serif">EUDR</span> compliance', 'Seamless registration to obtaining an EUDR Compliance certificate involving just 5 steps.'],
-    ['Register to <span class="serif">train</span> your supply chain', 'Register your Dealers, Processors, Farmers group to get trained on the compliance process.'],
-    ['Economic <span class="serif">advantage</span> to the farmers', 'Work with farmers to enhance their sustainable farming practises and enhance the economic value of sustainable rubber.']
-  ];
-  const DUR = 7000;
-  const imgs = $$('.hero-bg img'), tabs = $$('.hero-tab'), title = $('#heroTitle'), sub = $('#heroSub');
-  let cur = 0, timer;
-  const go = i => {
-    if (i === cur && timer) { return; }
-    imgs.forEach((im, k) => im.classList.toggle('on', k === i));
-    tabs.forEach((t, k) => { t.classList.remove('on', 'done'); if (k < i) t.classList.add('done'); });
-    void tabs[i].offsetWidth;
-    tabs[i].classList.add('on');
-    tabs[i].style.setProperty('--dur', DUR + 'ms');
-    if (i !== cur) {
-      title.classList.add('out'); sub.classList.add('out');
-      setTimeout(() => {
-        title.innerHTML = slides[i][0]; sub.textContent = slides[i][1];
-        title.classList.remove('out'); sub.classList.remove('out');
-      }, 450);
+  /* Hero: headlines driven by scroll through the pinned plantation */
+  const hero = $('.hero3d'), hls = $$('.hl'), segs = $$('.segs i'), hlNum = $('#hlNum'), heroEnd = $('#heroEnd');
+  $$('.hl .t').forEach(t => {
+    let i = 0;
+    const wrap = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType !== 3) return wrap(n);
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) return frag.append(' ');
+        const s = document.createElement('span');
+        s.className = 'w'; s.style.setProperty('--i', i++); s.textContent = part;
+        frag.append(s);
+      });
+      n.replaceWith(frag);
+    });
+    wrap(t);
+  });
+  let heroP = 0, activeHl = -1;
+  const heroScroll = () => {
+    const r = hero.getBoundingClientRect(), span = r.height - innerHeight;
+    heroP = Math.min(1, Math.max(0, -r.top / span));
+    const idx = Math.min(3, Math.floor(heroP * 4));
+    if (idx !== activeHl) {
+      hls.forEach((h, k) => { h.classList.toggle('on', k === idx); h.classList.toggle('past', k < idx); });
+      hlNum.textContent = '0' + (idx + 1);
+      activeHl = idx;
     }
-    cur = i;
-    clearTimeout(timer);
-    if (!reduce) timer = setTimeout(() => go((cur + 1) % slides.length), DUR);
+    segs.forEach((s, k) => s.style.setProperty('--f', Math.min(1, Math.max(0, heroP * 4 - k))));
+    heroEnd.style.opacity = Math.max(0, (heroP - .94) / .06);
   };
-  tabs.forEach((t, k) => t.addEventListener('click', () => { timer = null; go(k); }));
-  go(0);
+  addEventListener('scroll', heroScroll, { passive: true });
+  setTimeout(heroScroll, 250);
+
+  plantation(() => heroP, reduce);
 
   /* Ticker: duplicate content for a seamless loop, plus live banner text */
   const move = $('#tickerMove');
