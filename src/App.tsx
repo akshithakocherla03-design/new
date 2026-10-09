@@ -439,7 +439,12 @@ function App() {
             infrastructure begins with protecting one of Earth&apos;s greatest
             carbon sinks.
           </p>
-          <a className="button film__button" href="#home">
+          <a
+            className="button film__button"
+            href="https://youtu.be/A8SdkuL9a0k"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={asset("e1353.svg")} alt="" /> Watch film
           </a>
         </div>
