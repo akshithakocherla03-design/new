@@ -175,23 +175,66 @@ section{position:relative}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{padding:7px 12px;border-radius:999px;background:var(--cream);font-size:13px;font-weight:600}
 
-/* Initiative */
-.initiative{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,6vw,90px);align-items:center}
-.initiative h2{margin:18px 0 24px}
-.initiative .lead+.lead{margin-top:16px}
-.media{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3.2;background:var(--forest);box-shadow:var(--shadow)}
-.media img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
-.media:hover img{transform:scale(1.05)}
-.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(0deg,rgba(9,30,20,.55),transparent 60%)}
-.play span{position:relative;width:96px;height:96px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:var(--ink);transition:transform .5s var(--ease)}
-.play span::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:1.5px solid rgba(200,241,105,.6);animation:ring 2.4s var(--ease) infinite}
-@keyframes ring{from{transform:scale(.85);opacity:1}to{transform:scale(1.35);opacity:0}}
-.play:hover span{transform:scale(1.08)}
-.media-cap{position:absolute;left:18px;bottom:18px;right:18px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-size:14px;font-weight:600;pointer-events:none}
-.ticks{list-style:none;padding:0;margin:28px 0 32px;display:grid;gap:12px}
-.ticks li{display:flex;gap:12px;align-items:flex-start;font-weight:600}
-.ticks li::before{content:"";flex:none;margin-top:3px;width:20px;height:20px;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M6 10.5l2.5 2.5L14 7.5' fill='none' stroke='%230b1f16' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+/* Initiative: tapped rubber tree with latex flowing into the cup */
+.init{padding:clamp(16px,2vw,24px) 0 0}
+.init-panel{position:relative;overflow:hidden;isolation:isolate;border-radius:var(--radius);color:#fff;background:radial-gradient(60% 70% at 28% 60%,rgba(75,175,71,.22),transparent 70%),radial-gradient(40% 50% at 85% 10%,rgba(200,241,105,.08),transparent 70%),linear-gradient(160deg,#10301f 0%,var(--ink) 65%);padding:clamp(28px,5vw,72px)}
+.init-grid{display:grid;grid-template-columns:.7fr 1.1fr 1.2fr;gap:clamp(20px,3vw,48px);align-items:center;min-height:min(720px,86vh)}
+.init-copy{position:relative;z-index:2}
+.init-copy h2{color:#fff;margin:18px 0 22px;font-size:clamp(32px,3.2vw,50px)}
+.init-copy h2 .serif{color:var(--lime)}
+.init-copy .eyebrow{color:var(--lime)}
+.init-copy .lead{color:rgba(255,255,255,.68);max-width:46ch}
+.init-copy .btn{margin-top:34px}
+.btn .play-ic{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--lime);transition:transform .5s var(--ease)}
+.btn:hover .play-ic{transform:scale(1.12)}
+
+.init-points{align-self:end;list-style:none;margin:0;padding:0 0 8px;display:grid;gap:4px;counter-reset:pt}
+.init-points li{counter-increment:pt}
+.init-points button{position:relative;display:grid;grid-template-columns:14px 1fr;gap:14px;align-items:start;text-align:left;width:100%;padding:12px 0 12px 2px;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;line-height:1.5;color:rgba(255,255,255,.38);transition:color .5s var(--ease)}
+.init-points button::before{content:"";margin-top:6px;width:7px;height:7px;border-radius:50%;background:currentColor;transition:transform .5s var(--ease),background .5s}
+.init-points button:hover{color:rgba(255,255,255,.7)}
+.init-points li.on button{color:var(--lime)}
+.init-points li.on button::before{transform:scale(1.4);box-shadow:0 0 0 5px rgba(200,241,105,.15)}
+.init-points .bar{position:absolute;left:24px;right:0;bottom:2px;height:1px;background:rgba(255,255,255,.1);overflow:hidden}
+.init-points .bar i{position:absolute;inset:0;background:var(--lime);transform:scaleX(0);transform-origin:0 50%}
+.init-points li.on .bar i{animation:ptfill var(--pt,5s) linear forwards}
+@keyframes ptfill{to{transform:scaleX(1)}}
+
+.tree-art{position:relative;align-self:stretch;display:grid;place-items:center}
+.tree-art svg{width:100%;height:auto;max-height:min(700px,84vh);overflow:visible}
+.tree-art .sway{transform-box:view-box;animation:sway 6s ease-in-out infinite alternate}
+.tree-art .sway.b{animation-duration:7.5s;animation-delay:-2s}
+.tree-art .sway.c{animation-duration:5.2s;animation-delay:-4s}
+@keyframes sway{from{transform:rotate(-2.5deg)}to{transform:rotate(3deg)}}
+/* latex: drawn along the cut and channel, then keeps flowing */
+.latex-run{stroke-dasharray:160;stroke-dashoffset:160}
+.latex-flow{stroke-dasharray:5 22;opacity:0}
+.drop{opacity:0}
+.cup-fill{transform-box:view-box;transform:translateY(16px)}
+.ripple{transform-box:fill-box;transform-origin:center;opacity:0}
+.init.in .latex-run{animation:draw 2.6s var(--ease) .3s forwards}
+.init.in .latex-flow{animation:flow 1.4s linear 2.6s infinite,show .6s 2.6s forwards}
+.init.in .drop{animation:drip 1.25s cubic-bezier(.55,0,.9,.5) 3s infinite}
+.init.in .cup-fill{animation:fill-cup 14s ease-out 3.2s forwards}
+.init.in .ripple{animation:ripple 1.25s ease-out 3.9s infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes flow{to{stroke-dashoffset:-27}}
+@keyframes show{to{opacity:.9}}
+@keyframes drip{0%{opacity:0;transform:translateY(0) scale(.4,.6)}12%{opacity:1;transform:translateY(0) scale(1,1)}22%{transform:translateY(2px) scale(.9,1.25)}55%{opacity:1;transform:translateY(46px) scale(.85,1.35)}56%,100%{opacity:0;transform:translateY(48px) scale(.6,.6)}}
+@keyframes fill-cup{to{transform:translateY(0)}}
+@keyframes ripple{0%{opacity:.8;transform:scale(.2)}100%{opacity:0;transform:scale(1.3)}}
+
+.float-leaf{position:absolute;z-index:-1;pointer-events:none;width:var(--s,36px);opacity:.9;animation:drift var(--d,16s) ease-in-out infinite;animation-delay:var(--dl,0s)}
+.float-leaf.blur{filter:blur(3px);opacity:.55}
+@keyframes drift{0%{transform:translate(0,0) rotate(var(--r,0deg))}33%{transform:translate(var(--x1,30px),var(--y1,40px)) rotate(calc(var(--r,0deg) + 40deg))}66%{transform:translate(var(--x2,-20px),var(--y2,90px)) rotate(calc(var(--r,0deg) - 25deg))}100%{transform:translate(0,0) rotate(var(--r,0deg))}}
+
+/* Film lightbox */
+.film{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;background:rgba(5,14,9,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s}
+.film.open{opacity:1;visibility:visible}
+.film-box{position:relative;width:min(1100px,100%);aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;transform:scale(.94);transition:transform .6s var(--ease)}
+.film.open .film-box{transform:none}
+.film-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.film-x{position:absolute;top:16px;right:16px;z-index:2;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:22px;line-height:1}
 
 /* Stats */
 .stats{background:var(--ink);color:#fff;border-radius:var(--radius);margin-inline:16px;overflow:hidden;isolation:isolate}
@@ -321,7 +364,10 @@ section{position:relative}
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
   .burger{display:grid}
-  .initiative,.reg{grid-template-columns:1fr}
+  .reg{grid-template-columns:1fr}
+  .init-grid{grid-template-columns:1fr 1fr;min-height:0}
+  .init-copy{grid-column:1/-1;order:-1}
+  .init-points{align-self:center}
   .row{grid-template-columns:1fr 1fr 1fr;row-gap:14px}
   .row--head{display:none}
   .row h4{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
@@ -337,6 +383,10 @@ section{position:relative}
   .stats,.plan{margin-inline:0;border-radius:0}
 }
 @media (max-width:560px){
+  .init-grid{grid-template-columns:1fr}
+  .init-points{order:2}
+  .tree-art svg{max-height:460px}
+  .init-copy .btn{width:100%;justify-content:center}
   .nav-cta .btn--lime{display:none}
   .ticker-label{padding:12px 14px}
   .ticker-label span{display:none}
@@ -482,26 +532,132 @@ section{position:relative}
 </section>
 
 <!-- ================= Initiative ================= -->
-<section class="sec" id="about">
-  <div class="wrap initiative">
-    <div>
-      <span class="eyebrow rv">The initiative</span>
-      <h2 class="split"><span class="ln"><span>A groundbreaking</span></span><span class="ln"><span style="--d:.08s">initiative from</span></span><span class="ln"><span style="--d:.16s" class="serif">Rubber Board</span></span></h2>
-      <p class="lead rv">The Bharat Rubber Board has launched a groundbreaking initiative to revolutionise rubber supply chains in India. Through the use of new technology, training, and systems, this solution aims to establish a transparent and traceable rubber supply chain across India, ensuring that rubber and rubber products can be traced back to their origin.</p>
-      <ul class="ticks rv">
-        <li>Complies with EUDR regulations</li>
-        <li>Paves the way for any similar future regulations worldwide</li>
-        <li>Aligned with the Government of India's commitment to sustainability across the Bharat Rubber Industry</li>
-      </ul>
-      <a class="btn rv" href="bsnr-about-page.html">About BSNR <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-    </div>
-    <div class="media rv" style="--d:.15s" id="video">
-      <img src="assets/img/agriculture/hero_bg_2.png" alt="Rubber plantation" loading="lazy">
-      <button class="play" id="playBtn" aria-label="Play the BSNR film"><span><svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
-      <div class="media-cap"><span>Watch: BSNR in action</span><span class="tag tag--soft">Film</span></div>
+<section class="init" id="about">
+  <div class="wrap">
+    <div class="init-panel">
+      <svg class="float-leaf" style="--s:46px;top:8%;left:46%;--d:18s;--r:20deg" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12C12 0 40-2 60 12 40 26 12 24 0 12z" fill="#b6e45a"/><path d="M2 12h54" stroke="#6f9a2c" stroke-width="1.2"/></svg>
+      <svg class="float-leaf blur" style="--s:70px;top:-2%;left:62%;--d:22s;--r:-30deg;--dl:-6s" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12C12 0 40-2 60 12 40 26 12 24 0 12z" fill="#8cc63f"/></svg>
+      <svg class="float-leaf" style="--s:28px;top:22%;left:4%;--d:15s;--r:60deg;--dl:-3s" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12C12 0 40-2 60 12 40 26 12 24 0 12z" fill="#5f9e35"/><path d="M2 12h54" stroke="#3d6b22" stroke-width="1.2"/></svg>
+      <svg class="float-leaf" style="--s:34px;top:62%;left:52%;--d:20s;--r:-50deg;--dl:-9s" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12C12 0 40-2 60 12 40 26 12 24 0 12z" fill="#c8f169"/><path d="M2 12h54" stroke="#86b33a" stroke-width="1.2"/></svg>
+      <svg class="float-leaf blur" style="--s:54px;top:78%;left:90%;--d:24s;--r:10deg;--dl:-12s" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12C12 0 40-2 60 12 40 26 12 24 0 12z" fill="#4baf47"/></svg>
+      <svg class="float-leaf" style="--s:24px;top:12%;left:93%;--d:17s;--r:-80deg;--dl:-4s" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12C12 0 40-2 60 12 40 26 12 24 0 12z" fill="#7fb54a"/></svg>
+
+      <div class="init-grid">
+        <ol class="init-points" id="initPoints" aria-label="Key commitments">
+          <li class="on"><button type="button">Complies with EUDR regulations</button><span class="bar"><i></i></span></li>
+          <li><button type="button">Paves the way for any similar future regulations worldwide</button><span class="bar"><i></i></span></li>
+          <li><button type="button">Aligned with the Government of India's commitment to sustainability across the Bharat Rubber Industry</button><span class="bar"><i></i></span></li>
+        </ol>
+
+        <div class="tree-art" aria-hidden="true">
+          <svg viewBox="50 -60 330 640">
+            <defs>
+              <linearGradient id="bark" gradientUnits="userSpaceOnUse" x1="140" y1="0" x2="280" y2="0">
+                <stop offset="0" stop-color="#4a4842"/><stop offset=".2" stop-color="#8e8a7f"/><stop offset=".4" stop-color="#b4b0a4"/>
+                <stop offset=".62" stop-color="#928e83"/><stop offset=".86" stop-color="#66635a"/><stop offset="1" stop-color="#3c3a35"/>
+              </linearGradient>
+              <linearGradient id="shade" x1="0" x2="1">
+                <stop offset="0" stop-color="#000" stop-opacity=".5"/><stop offset=".28" stop-color="#000" stop-opacity="0"/>
+                <stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/>
+              </linearGradient>
+              <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset=".72" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="barkTex" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".75 .05" numOctaves="3" seed="7" result="n"/><feColorMatrix in="n" type="saturate" values="0" result="g"/><feComponentTransfer in="g" result="t"><feFuncR type="linear" slope=".5" intercept=".72"/><feFuncG type="linear" slope=".5" intercept=".72"/><feFuncB type="linear" slope=".5" intercept=".72"/></feComponentTransfer><feBlend in="SourceGraphic" in2="t" mode="multiply" result="b"/><feComposite in="b" in2="SourceGraphic" operator="in"/></filter>
+              <mask id="trunkFade"><rect width="420" height="620" fill="url(#fade)"/></mask>
+              <pattern id="tapLines" width="6" height="3.4" patternUnits="userSpaceOnUse" patternTransform="rotate(31)">
+                <rect width="6" height="3.4" fill="#7c6650"/><rect width="6" height="1" fill="#5b4733"/>
+              </pattern>
+              <linearGradient id="leafA" x1="0" x2="1"><stop offset="0" stop-color="#3f7a2c"/><stop offset="1" stop-color="#8cc63f"/></linearGradient>
+              <linearGradient id="leafB" x1="0" x2="1"><stop offset="0" stop-color="#2b5a22"/><stop offset="1" stop-color="#5f9e35"/></linearGradient>
+              <linearGradient id="shell" x1="0" x2="1">
+                <stop offset="0" stop-color="#2b1d12"/><stop offset=".35" stop-color="#6b4a2f"/><stop offset=".6" stop-color="#4f3521"/><stop offset="1" stop-color="#22170e"/>
+              </linearGradient>
+              <linearGradient id="milk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#e6dfca"/></linearGradient>
+              <radialGradient id="halo"><stop offset="0" stop-color="#c8f169" stop-opacity=".22"/><stop offset="1" stop-color="#c8f169" stop-opacity="0"/></radialGradient>
+              <clipPath id="trunkClip"><path id="trunkPath" d="M150 620C148 500 140 400 146 290 150 220 154 180 158 146L262 146C264 186 266 220 268 290 272 400 270 500 276 620Z"/></clipPath>
+              <clipPath id="rimClip"><ellipse cx="242" cy="452" rx="31" ry="7.5"/></clipPath>
+              <symbol id="leaflet" viewBox="0 0 64 26" overflow="visible"><path d="M0 13C14-1 44-3 64 13 44 29 14 27 0 13z"/><path d="M3 13H60" stroke="rgba(220,240,170,.45)" stroke-width="1.3" fill="none"/></symbol>
+            </defs>
+
+            <circle cx="215" cy="330" r="230" fill="url(#halo)"/>
+
+            <!-- limbs and canopy -->
+            <g class="sway c" style="transform-origin:220px 60px" opacity=".55"><g transform="translate(30 -40) rotate(160)"><use href="#leaflet" width="67.2" height="27.3" fill="url(#leafB)" transform="rotate(-40) translate(0 -13.7)"/><use href="#leaflet" width="77.7" height="30.5" fill="url(#leafB)" transform="translate(0 -15.2)"/><use href="#leaflet" width="67.2" height="27.3" fill="url(#leafB)" transform="rotate(40) translate(0 -13.7)"/></g><g transform="translate(120 -75) rotate(205)"><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(-40) translate(0 -13)"/><use href="#leaflet" width="74" height="29" fill="url(#leafB)" transform="translate(0 -14.5)"/><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(40) translate(0 -13)"/></g><g transform="translate(286 -72) rotate(-35)"><use href="#leaflet" width="70.4" height="28.6" fill="url(#leafB)" transform="rotate(-40) translate(0 -14.3)"/><use href="#leaflet" width="81.4" height="31.9" fill="url(#leafB)" transform="translate(0 -16.0)"/><use href="#leaflet" width="70.4" height="28.6" fill="url(#leafB)" transform="rotate(40) translate(0 -14.3)"/></g><g transform="translate(372 -36) rotate(15)"><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(-40) translate(0 -13)"/><use href="#leaflet" width="74" height="29" fill="url(#leafB)" transform="translate(0 -14.5)"/><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(40) translate(0 -13)"/></g><g transform="translate(215 -95) rotate(-85)"><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(-40) translate(0 -13)"/><use href="#leaflet" width="74" height="29" fill="url(#leafB)" transform="translate(0 -14.5)"/><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(40) translate(0 -13)"/></g><g transform="translate(-5 10) rotate(175)"><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafB)" transform="rotate(-40) translate(0 -11.7)"/><use href="#leaflet" width="66.6" height="26.1" fill="url(#leafB)" transform="translate(0 -13.1)"/><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafB)" transform="rotate(40) translate(0 -11.7)"/></g><g transform="translate(394 12) rotate(20)"><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafB)" transform="rotate(-40) translate(0 -11.7)"/><use href="#leaflet" width="66.6" height="26.1" fill="url(#leafB)" transform="translate(0 -13.1)"/><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafB)" transform="rotate(40) translate(0 -11.7)"/></g><g transform="translate(170 -40) rotate(230)"><use href="#leaflet" width="54.4" height="22.1" fill="url(#leafB)" transform="rotate(-40) translate(0 -11.0)"/><use href="#leaflet" width="62.9" height="24.6" fill="url(#leafB)" transform="translate(0 -12.3)"/><use href="#leaflet" width="54.4" height="22.1" fill="url(#leafB)" transform="rotate(40) translate(0 -11.0)"/></g></g>
+            <g mask="url(#trunkFade)">
+              <g stroke="#6d6a61" stroke-linecap="round" fill="none"><path d="M118 46Q104 30 96 4" stroke-width="4"/><path d="M308 46Q326 24 330 0" stroke-width="4"/><path d="M220 20Q206 0 200-50" stroke-width="3"/><path d="M90 16Q66 10 52 24" stroke-width="2.5"/><path d="M340 6Q366 0 380 18" stroke-width="2.5"/></g>
+            </g>
+            <g class="sway" style="transform-origin:90px 40px"><g transform="translate(78 4) rotate(200)"><use href="#leaflet" width="64" height="26" fill="url(#leafA)" transform="rotate(-40) translate(0 -13)"/><use href="#leaflet" width="74" height="29" fill="url(#leafB)" transform="translate(0 -14.5)"/><use href="#leaflet" width="64" height="26" fill="url(#leafA)" transform="rotate(40) translate(0 -13)"/></g><g transform="translate(55 34) rotate(140)"><use href="#leaflet" width="58.9" height="23.9" fill="url(#leafB)" transform="rotate(-40) translate(0 -12.0)"/><use href="#leaflet" width="68.1" height="26.7" fill="url(#leafA)" transform="translate(0 -13.3)"/><use href="#leaflet" width="58.9" height="23.9" fill="url(#leafA)" transform="rotate(40) translate(0 -12.0)"/></g><g transform="translate(108 -28) rotate(232)"><use href="#leaflet" width="60.8" height="24.7" fill="url(#leafA)" transform="rotate(-40) translate(0 -12.3)"/><use href="#leaflet" width="70.3" height="27.5" fill="url(#leafB)" transform="translate(0 -13.8)"/><use href="#leaflet" width="60.8" height="24.7" fill="url(#leafA)" transform="rotate(40) translate(0 -12.3)"/></g><g transform="translate(150 -8) rotate(250)"><use href="#leaflet" width="51.2" height="20.8" fill="url(#leafB)" transform="rotate(-40) translate(0 -10.4)"/><use href="#leaflet" width="59.2" height="23.2" fill="url(#leafA)" transform="translate(0 -11.6)"/><use href="#leaflet" width="51.2" height="20.8" fill="url(#leafA)" transform="rotate(40) translate(0 -10.4)"/></g></g><g class="sway b" style="transform-origin:350px 40px"><g transform="translate(334 14) rotate(-22)"><use href="#leaflet" width="64" height="26" fill="url(#leafA)" transform="rotate(-40) translate(0 -13)"/><use href="#leaflet" width="74" height="29" fill="url(#leafB)" transform="translate(0 -14.5)"/><use href="#leaflet" width="64" height="26" fill="url(#leafA)" transform="rotate(40) translate(0 -13)"/></g><g transform="translate(350 44) rotate(38)"><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafA)" transform="rotate(-40) translate(0 -11.7)"/><use href="#leaflet" width="66.6" height="26.1" fill="url(#leafB)" transform="translate(0 -13.1)"/><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafA)" transform="rotate(40) translate(0 -11.7)"/></g><g transform="translate(300 -30) rotate(-52)"><use href="#leaflet" width="60.8" height="24.7" fill="url(#leafA)" transform="rotate(-40) translate(0 -12.3)"/><use href="#leaflet" width="70.3" height="27.5" fill="url(#leafB)" transform="translate(0 -13.8)"/><use href="#leaflet" width="60.8" height="24.7" fill="url(#leafA)" transform="rotate(40) translate(0 -12.3)"/></g><g transform="translate(280 -8) rotate(-75)"><use href="#leaflet" width="51.2" height="20.8" fill="url(#leafA)" transform="rotate(-40) translate(0 -10.4)"/><use href="#leaflet" width="59.2" height="23.2" fill="url(#leafB)" transform="translate(0 -11.6)"/><use href="#leaflet" width="51.2" height="20.8" fill="url(#leafA)" transform="rotate(40) translate(0 -10.4)"/></g></g><g class="sway c" style="transform-origin:230px 0px"><g transform="translate(236 -46) rotate(-72)"><use href="#leaflet" width="64" height="26" fill="url(#leafA)" transform="rotate(-40) translate(0 -13)"/><use href="#leaflet" width="74" height="29" fill="url(#leafA)" transform="translate(0 -14.5)"/><use href="#leaflet" width="64" height="26" fill="url(#leafB)" transform="rotate(40) translate(0 -13)"/></g><g transform="translate(198 -66) rotate(-112)"><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafB)" transform="rotate(-40) translate(0 -11.7)"/><use href="#leaflet" width="66.6" height="26.1" fill="url(#leafA)" transform="translate(0 -13.1)"/><use href="#leaflet" width="57.6" height="23.4" fill="url(#leafA)" transform="rotate(40) translate(0 -11.7)"/></g><g transform="translate(262 -70) rotate(-60)"><use href="#leaflet" width="54.4" height="22.1" fill="url(#leafA)" transform="rotate(-40) translate(0 -11.0)"/><use href="#leaflet" width="62.9" height="24.6" fill="url(#leafA)" transform="translate(0 -12.3)"/><use href="#leaflet" width="54.4" height="22.1" fill="url(#leafB)" transform="rotate(40) translate(0 -11.0)"/></g></g>
+            <!-- trunk -->
+            <g mask="url(#trunkFade)">
+              <use href="#trunkPath" fill="url(#bark)" filter="url(#barkTex)"/>
+              <g clip-path="url(#trunkClip)">
+                <g fill="#d2d0c3" opacity=".32"><ellipse cx="196" cy="160" rx="14" ry="22"/><ellipse cx="172" cy="420" rx="10" ry="16"/><ellipse cx="226" cy="520" rx="16" ry="12"/><ellipse cx="240" cy="200" rx="7" ry="9"/></g>
+                <g fill="#8f9b76" opacity=".3"><ellipse cx="218" cy="140" rx="9" ry="14"/><ellipse cx="160" cy="330" rx="8" ry="20"/><ellipse cx="250" cy="470" rx="10" ry="18"/></g>
+                <g fill="#2f2d29" opacity=".22"><ellipse cx="184" cy="380" rx="5" ry="3"/><ellipse cx="236" cy="560" rx="6" ry="4"/><ellipse cx="208" cy="120" rx="4" ry="3"/></g>
+                <g stroke="#34322d" stroke-width="1.3" opacity=".35" stroke-linecap="round">
+                  <path d="M178 140h7M224 176h6M170 196h5M244 230h7M188 300h6M232 340h5M164 470h7M206 500h6M246 540h5M184 580h7M212 150h4M196 410h5"/>
+                </g>
+                <!-- tapping panel: renewed bark above the cut -->
+                <path d="M146 210L268 278V236L146 168Z" fill="url(#tapLines)"/>
+                <path d="M146 214L268 282" stroke="#4a3826" stroke-width="3"/>
+                <rect x="140" y="100" width="140" height="520" fill="url(#shade)"/>
+              </g>
+              <!-- channel down to the spout -->
+              <path d="M236 264V378" stroke="#3a2c1f" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- fresh cut -->
+              <path d="M150 214L236 262" stroke="#efe7cf" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+
+            <g mask="url(#trunkFade)">
+              <path d="M158 156L206 156C182 112 142 62 86-6L70 0C112 50 148 104 158 156Z" fill="url(#bark)" filter="url(#barkTex)"/>
+              <path d="M214 156L262 156C262 112 298 52 362 2L350-6C298 38 250 92 214 156Z" fill="url(#bark)" filter="url(#barkTex)"/>
+              <path d="M196 156L228 156C230 92 236 22 242-38L230-40C220 20 202 92 196 156Z" fill="url(#bark)" filter="url(#barkTex)"/>
+            </g>
+
+            <!-- latex flowing along the cut and down the channel -->
+            <path class="latex-run" d="M150 214L236 262V378" fill="none" stroke="url(#milk)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="latex-flow" d="M150 214L236 262V378" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- wire around the trunk holding the cup -->
+            <path d="M147 416Q206 436 270 414" fill="none" stroke="#77776f" stroke-width="2"/>
+            <path d="M214 427L212 452M270 414L272 452" fill="none" stroke="#77776f" stroke-width="1.6"/>
+
+            <!-- spout -->
+            <path d="M232 376h7l12 15-4 3z" fill="#c3c3bb" stroke="#77776f" stroke-width="1"/>
+
+            <!-- latex drop -->
+            <g transform="translate(249 397)"><path class="drop" d="M0-5C3-1 4 2 0 5-4 2-3-1 0-5z" fill="url(#milk)"/></g>
+
+            <!-- coconut-shell cup -->
+            <path d="M208 452C208 492 226 508 242 508 258 508 276 492 276 452Z" fill="url(#shell)"/>
+            <g stroke="#2a1c11" stroke-width="1" opacity=".5" fill="none"><path d="M214 470Q226 480 236 500M268 470Q258 482 250 500M224 458Q230 486 242 506"/></g>
+            <ellipse cx="242" cy="452" rx="34" ry="8.5" fill="#2a1b10"/>
+            <g clip-path="url(#rimClip)">
+              <g class="cup-fill"><ellipse cx="242" cy="453" rx="31" ry="7.5" fill="url(#milk)"/><ellipse cx="236" cy="451" rx="12" ry="2" fill="#fff" opacity=".8"/></g>
+            </g>
+            <ellipse class="ripple" cx="249" cy="452" rx="10" ry="2.6" fill="none" stroke="#fff" stroke-width="1"/>
+            <ellipse cx="242" cy="452" rx="34" ry="8.5" fill="none" stroke="#77776f" stroke-width="1.6"/>
+          </svg>
+        </div>
+
+        <div class="init-copy">
+          <span class="eyebrow rv">The initiative</span>
+          <h2 class="split"><span class="ln"><span>A groundbreaking</span></span><span class="ln"><span style="--d:.08s">initiative from</span></span><span class="ln"><span style="--d:.16s" class="serif">Rubber Board</span></span></h2>
+          <p class="lead rv">The Bharat Rubber Board has launched a groundbreaking initiative to revolutionise rubber supply chains in India. Through the use of new technology, training, and systems, this solution aims to establish a transparent and traceable rubber supply chain across India, ensuring that rubber and rubber products can be traced back to their origin.</p>
+          <button class="btn btn--lime rv" type="button" id="watchFilm">Watch Film <span class="play-ic"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg></span></button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<div class="film" id="film" role="dialog" aria-modal="true" aria-label="BSNR film">
+  <div class="film-box">
+    <button class="film-x" type="button" id="filmClose" aria-label="Close film">×</button>
+    <div id="filmFrame"></div>
+  </div>
+</div>
 
 <!-- ================= Live stats ================= -->
 <section class="sec stats" id="stats">
@@ -1353,10 +1509,32 @@ function plantation(getP, reduce) {
   };
   if (!reduce) { addEventListener('scroll', lightWords, { passive: true }); lightWords(); }
 
-  /* Video: load Vimeo only when asked */
-  $('#playBtn').addEventListener('click', () => {
-    $('#video').innerHTML = '<iframe src="https://player.vimeo.com/video/1104446880?autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="BSNR film"></iframe>';
+  /* Initiative: start the latex animation when seen, cycle the three points */
+  const init = $('.init');
+  new IntersectionObserver(([en], o) => { if (en.isIntersecting) { init.classList.add('in'); o.disconnect(); } }, { threshold: .3 }).observe(init);
+  const pts = $$('#initPoints li'), PT = 5000;
+  let ptI = 0, ptTimer;
+  const showPt = i => {
+    pts.forEach((li, k) => { li.classList.remove('on'); if (k === i) { void li.offsetWidth; li.classList.add('on'); } });
+    ptI = i;
+    clearTimeout(ptTimer);
+    if (!reduce) ptTimer = setTimeout(() => showPt((ptI + 1) % pts.length), PT);
+  };
+  document.documentElement.style.setProperty('--pt', PT + 'ms');
+  pts.forEach((li, k) => li.querySelector('button').addEventListener('click', () => showPt(k)));
+  new IntersectionObserver(([en]) => { if (en.isIntersecting) showPt(ptI); else clearTimeout(ptTimer); }, { threshold: .3 }).observe($('#initPoints'));
+
+  /* Film lightbox */
+  const film = $('#film'), filmFrame = $('#filmFrame');
+  const closeFilm = () => { film.classList.remove('open'); filmFrame.innerHTML = ''; document.body.style.overflow = ''; };
+  $('#watchFilm').addEventListener('click', () => {
+    filmFrame.innerHTML = '<iframe src="https://player.vimeo.com/video/1104446880?autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="BSNR film"></iframe>';
+    film.classList.add('open'); document.body.style.overflow = 'hidden';
+    $('#filmClose').focus();
   });
+  $('#filmClose').addEventListener('click', closeFilm);
+  film.addEventListener('click', e => { if (e.target === film) closeFilm(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && film.classList.contains('open')) closeFilm(); });
 
   /* Implementation plan segmented control */
   const seg = $('#seg'), thumb = $('.thumb', seg), segBtns = $$('button', seg);
