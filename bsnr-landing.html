@@ -1183,6 +1183,78 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 }
 @media (prefers-reduced-motion:reduce){.rs-cap,.rs-chip{transition:none}.rs-th{--o:1;--sc:1}}
 
+/* ===== Blog page: centred hero, featured post, then a scroll-driven horizontal row of the article's chapters ===== */
+.bl-hero::before{background:url("assets/img/blog/featured.jpg") center 40%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b5ac4c44d5af2c1c4d4d7336e0f5190f9eb8be86/assets/img/blog/featured.jpg") center 40%/cover;filter:saturate(.9) brightness(.5)}
+.bl-hero .df-head{font-size:clamp(64px,11vw,170px)}
+.bl-hero>.wrap{text-align:center}
+.bl-hero .eyebrow.df-later{justify-content:center}
+/* featured post */
+.bl-feat{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,64px);align-items:center;padding:clamp(12px,1.2vw,16px);border-radius:var(--radius);background:var(--paper);box-shadow:0 0 0 1px var(--line),0 40px 80px -50px rgba(11,31,22,.45);transition:box-shadow .5s,transform .6s var(--ease),opacity 1s var(--ease)}
+.bl-feat:hover{box-shadow:0 0 0 1px rgba(75,175,71,.45),0 50px 90px -50px rgba(11,31,22,.55)}
+.bl-feat-img{position:relative;margin:0;aspect-ratio:16/11;overflow:hidden;border-radius:calc(var(--radius) - 8px)}
+.bl-feat-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.4s var(--ease)}
+.bl-feat:hover .bl-feat-img img{transform:scale(1.1)}
+.bl-tag{position:absolute;left:16px;top:16px;padding:7px 14px;border-radius:999px;background:var(--lime);color:var(--ink);font-size:12px;font-weight:700;letter-spacing:.04em}
+.bl-feat-copy{padding:clamp(8px,2vw,28px) clamp(8px,2vw,32px) clamp(8px,2vw,28px) 0}
+.bl-k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+.bl-feat h2{margin:14px 0 16px;font-size:clamp(26px,2.6vw,40px);line-height:1.1;letter-spacing:-.03em}
+.bl-feat p{color:var(--muted);line-height:1.65}
+.bl-more{display:inline-flex;align-items:center;gap:10px;margin-top:22px;font-weight:700}
+.bl-more i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;transition:transform .5s var(--ease),background .3s,color .3s}
+.bl-feat:hover .bl-more i{transform:rotate(-45deg);background:var(--lime);color:var(--ink)}
+/* chapters row */
+.bl-row{position:relative;height:calc(var(--n) * 50vh + 100vh)}
+.bl-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,44px);padding-top:clamp(60px,8vh,90px)}
+.bl-head{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.bl-head h2{max-width:24ch;margin-top:12px;font-size:clamp(24px,2.6vw,40px);line-height:1.12;letter-spacing:-.03em}
+.bl-btn{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-width:210px;padding:12px 14px 12px 18px;border-radius:10px;background:var(--ink);color:#fff;font-size:14px;font-weight:700;transition:background .3s,color .3s}
+.bl-btn i{display:grid;place-items:center;transition:transform .5s var(--ease)}
+.bl-btn:hover{background:var(--lime);color:var(--ink)}
+.bl-btn:hover i{transform:rotate(-45deg)}
+.bl-viewport{--cw:clamp(190px,17vw,250px);position:relative;z-index:1;padding:44px 0 calc(var(--cw) * .62)}
+.bl-track{display:flex;align-items:flex-start;gap:18px;transform:translateX(var(--tx,0px));will-change:transform}
+.bl-card{position:relative;flex:none;width:var(--cw)}
+.bl-face{display:block;width:100%;padding:8px 8px 10px;border-radius:14px;background:var(--paper);box-shadow:0 0 0 1px var(--line);text-align:left;font:inherit;cursor:pointer;transition:box-shadow .5s,transform .7s var(--ease)}
+.bl-pic{display:block;aspect-ratio:1/1.02;overflow:hidden;border-radius:8px;background:#dfe5da}
+.bl-pic img{width:100%;height:100%;object-fit:cover;filter:grayscale(.9) contrast(.85) brightness(1.08);opacity:.5;transform:scale(1.04);transition:filter .7s var(--ease),opacity .7s var(--ease),transform 1s var(--ease)}
+.bl-name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.6em;margin-top:9px;font-size:12.5px;font-weight:600;line-height:1.3;color:#9aa69f;transition:color .5s}
+.bl-card:not(.on) .bl-face:hover .bl-pic img{filter:grayscale(.3);opacity:.85}
+.bl-card.on .bl-face{transform:translateY(-4px);box-shadow:0 0 0 1px var(--line),0 30px 50px -30px rgba(11,31,22,.5)}
+.bl-card.on .bl-pic img{filter:none;opacity:1;transform:scale(1)}
+.bl-card.on .bl-name{color:var(--ink)}
+.bl-tab{position:absolute;left:0;right:0;bottom:calc(100% + 6px);display:flex;justify-content:space-between;gap:8px;white-space:nowrap;padding:8px 12px;border-radius:10px;background:var(--paper);box-shadow:0 0 0 1px var(--line);font-size:11.5px;font-weight:700;color:var(--muted);opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease),transform .6s var(--ease)}
+.bl-tab span:first-child{color:var(--leaf)}
+.bl-card.on .bl-tab{opacity:1;transform:none;transition-delay:.15s}
+.bl-panel{position:absolute;z-index:2;left:50%;top:calc(100% + 8px);width:min(calc(var(--cw) * 1.85),92vw);transform:translateX(-50%);display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease)}
+.bl-card.on .bl-panel{grid-template-rows:1fr}
+.bl-panel-in{min-height:0;overflow:hidden;padding:0 16px;border-radius:12px;background:var(--paper);box-shadow:0 0 0 1px var(--line);opacity:0;transition:opacity .4s,padding .6s var(--ease)}
+.bl-card.on .bl-panel-in{padding:14px 16px 16px;opacity:1;transition-delay:.12s}
+.bl-pk{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a6b2ab}
+.bl-panel p{margin:8px 0 10px;font-size:13px;line-height:1.55;color:var(--muted)}
+.bl-panel a{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink)}
+.bl-panel a i{display:grid;place-items:center;transition:transform .4s var(--ease)}
+.bl-panel a:hover{color:var(--leaf)}
+.bl-panel a:hover i{transform:translateX(4px)}
+.bl-foot{display:flex;align-items:center;gap:18px}
+.bl-progress{flex:1;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.bl-progress i{display:block;height:100%;background:var(--leaf);transform:scaleX(var(--bp,0));transform-origin:0 50%}
+.bl-count{font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.bl-count b{color:var(--ink)}
+@media (max-height:760px) and (min-width:861px){.bl-stage{gap:12px;padding-top:64px}.bl-head{flex-direction:row;align-items:flex-end;justify-content:space-between}.bl-head h2{max-width:30ch;font-size:clamp(20px,2vw,28px)}.bl-viewport{--cw:clamp(124px,min(15vw,24vh),190px);padding:40px 0 calc(var(--cw) * .5)}.bl-stage{justify-content:flex-start}.bl-panel{width:calc(var(--cw) * 2.7)}.bl-pk{display:none}.bl-panel p{font-size:12.5px;margin:6px 0 8px}.bl-card.on .bl-panel-in{padding:10px 14px 12px}}
+@media (max-height:600px) and (min-width:861px){.bl-stage{padding-top:58px}.bl-viewport{--cw:clamp(110px,min(13vw,21vh),160px);padding-top:36px}.bl-head h2{font-size:clamp(18px,1.8vw,24px)}}
+@media (max-width:860px){
+  .bl-feat{grid-template-columns:1fr}
+  .bl-feat-copy{padding:4px 8px 12px}
+  .bl-row{height:auto;padding:clamp(40px,8vw,64px) 0}
+  .bl-stage{position:static;height:auto;overflow:visible;padding-top:0}
+  .bl-viewport{--cw:68vw;overflow-x:auto;scroll-snap-type:x mandatory;padding:44px 0 8px;scrollbar-width:none}
+  .bl-viewport::-webkit-scrollbar{display:none}
+  .bl-track{transform:none;padding:0 16vw;width:max-content}
+  .bl-card{scroll-snap-align:center}
+  .bl-panel{position:static;width:auto;transform:none;margin-top:8px}
+}
+@media (prefers-reduced-motion:reduce){.bl-track{transition:none}}
+
 /* Responsive */
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
@@ -1236,7 +1308,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
           <button aria-expanded="false">Resources <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="drop">
             <a href="#resources" data-route="res">Resources &amp; Guides</a>
-            <a href="All%20Blogs%20Page.html">Blog</a>
+            <a href="#blog" data-route="blog">Blog</a>
             <a href="pricing.html">Pricing</a>
           </div>
         </li>
@@ -1275,7 +1347,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
   </details>
   <details><summary>Resources <svg class="chev" width="14" height="14" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></summary>
     <a href="#resources" data-route="res">Resources &amp; Guides</a>
-    <a href="All%20Blogs%20Page.html">Blog</a>
+    <a href="#blog" data-route="blog">Blog</a>
     <a href="pricing.html">Pricing</a>
   </details>
   <details><summary>Register <svg class="chev" width="14" height="14" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></summary>
@@ -2303,6 +2375,52 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 </section>
 </main>
 
+<main class="page" data-page="blog" hidden>
+<section class="df-hero bl-hero" data-centre>
+  <div class="wrap">
+    <span class="eyebrow df-later">BSNR Blog</span>
+    <h1 class="df-head">
+      <span class="df-l"><span class="df-w">All</span></span>
+      <span class="df-l"><span class="df-w df-brand">Blogs</span></span>
+    </h1>
+  </div>
+  <a class="df-cue df-later" href="#blFeat"><i></i>Scroll to explore</a>
+</section>
+
+<section class="sec bl-feat-sec" id="blFeat">
+  <div class="wrap">
+    <a class="bl-feat rv" href="New%20Blog%20Page%20isnr.html">
+      <figure class="bl-feat-img"><img src="assets/img/blog/featured.jpg" alt="Woman tapping a rubber tree for latex" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b5ac4c44d5af2c1c4d4d7336e0f5190f9eb8be86/assets/img/blog/featured.jpg'"><span class="bl-tag">Featured article</span></figure>
+      <div class="bl-feat-copy">
+        <span class="bl-k">Rubber Board of India × TRST01</span>
+        <h2>How India is Building the World’s Largest Rubber Traceability System for EUDR Compliance</h2>
+        <p>The clock is ticking for exporters around the world. With the European Union Deforestation Regulation (EUDR) now in effect, only those who can prove their commodities are deforestation-free will retain access to EU markets.</p>
+        <span class="bl-more">Read More <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="bl-row" id="blRow" style="--n:7">
+  <div class="bl-stage">
+    <div class="wrap bl-head">
+      <div><span class="eyebrow">Inside the article</span><h2>A national-level transformation led by the Rubber Board of India and powered by TRST01</h2></div>
+      <a class="bl-btn" href="New%20Blog%20Page%20isnr.html"><span>Read the full article</span><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a>
+    </div>
+    <div class="bl-viewport"><div class="bl-track">
+      <article class="bl-card on" data-k="0"><div class="bl-tab"><span>Chapter 01</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 1: A New Era for India’s Natural Rubber Exports"><span class="bl-pic"><img src="assets/img/defo/eudr.jpg" alt="Aerial view of rubber plantation blocks" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/eudr.jpg'"></span><span class="bl-name">A New Era for India’s Natural Rubber Exports</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>In 2025, the Rubber Board of India launched the Bharat Sustainable Natural Rubber (BSNR) initiative: a bold, government-led response to the EUDR.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+      <article class="bl-card" data-k="1"><div class="bl-tab"><span>Chapter 02</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 2: Why EUDR Changed the Game"><span class="bl-pic"><img src="assets/img/trace/certificate.jpg" alt="Container ship in Kochi harbour" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@7d7154451de05e539fbb648f36fb933b41403c01/assets/img/trace/certificate.jpg'"></span><span class="bl-name">Why EUDR Changed the Game</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>The EUDR isn’t just another trade regulation. It requires geo-coordinates of origin plots, evidence of legal land ownership, deforestation risk assessments, and a formal Due Diligence Statement (DDS) before rubber can enter any EU country.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+      <article class="bl-card" data-k="2"><div class="bl-tab"><span>Chapter 03</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 3: The BSNR Platform: India’s Compliance Engine"><span class="bl-pic"><img src="assets/img/blog/farm.jpg" alt="Tapped rubber trees with collection cups" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b5ac4c44d5af2c1c4d4d7336e0f5190f9eb8be86/assets/img/blog/farm.jpg'"></span><span class="bl-name">The BSNR Platform: India’s Compliance Engine</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>The BSNR platform, developed by TRST01 under the direct supervision of the Rubber Board, solves this challenge by offering a centralized, digital-first compliance infrastructure for the entire natural rubber ecosystem.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+      <article class="bl-card" data-k="3"><div class="bl-tab"><span>Chapter 04</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 4: Designed for Every Link in the Value Chain"><span class="bl-pic"><img src="assets/img/blog/tapper.jpg" alt="Farmer tapping a rubber tree" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b5ac4c44d5af2c1c4d4d7336e0f5190f9eb8be86/assets/img/blog/tapper.jpg'"></span><span class="bl-name">Designed for Every Link in the Value Chain</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>A key strength of the BSNR initiative is its inclusivity. Each actor is assigned a unique BSNR ID, ensuring traceability without compromising individual privacy.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+      <article class="bl-card" data-k="4"><div class="bl-tab"><span>Chapter 05</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 5: Trust Through Validation: Building Confidence in Every Certificate"><span class="bl-pic"><img src="assets/img/blog/vessel.jpg" alt="Collection cup on a tapped rubber tree" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b5ac4c44d5af2c1c4d4d7336e0f5190f9eb8be86/assets/img/blog/vessel.jpg'"></span><span class="bl-name">Trust Through Validation: Building Confidence in Every Certificate</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>What makes the BSNR platform reliable isn’t just technology—it’s the robust verification structure behind it. Every data point, from land mapping to ownership details, goes through a rigorous multi-level validation process overseen by the Rubber Board of India.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+      <article class="bl-card" data-k="5"><div class="bl-tab"><span>Chapter 06</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 6: Data Protection Anchored in Accountability"><span class="bl-pic"><img src="assets/img/trace/register.jpg" alt="Person filling in registration documents" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@7d7154451de05e539fbb648f36fb933b41403c01/assets/img/trace/register.jpg'"></span><span class="bl-name">Data Protection Anchored in Accountability</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>At the heart of the BSNR system lies a secure, centralized database managed under the strict oversight of the Rubber Board. All data collected from stakeholders is anonymized through unique codes, safeguarding personal identities while allowing traceability.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+      <article class="bl-card" data-k="6"><div class="bl-tab"><span>Chapter 07</span><span>of 07</span></div><button type="button" class="bl-face" aria-label="Open chapter 7: What This Means for India’s Rubber Future"><span class="bl-pic"><img src="assets/img/about/hero.jpg" alt="Tapped rubber tree" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@58d0aec5c30848dfb5a93a83329329f2e54ae50c/assets/img/about/hero.jpg'"></span><span class="bl-name">What This Means for India’s Rubber Future</span></button><div class="bl-panel"><div class="bl-panel-in"><span class="bl-pk">Chapter overview</span><p>By launching the BSNR initiative, India hasn’t just responded to a regulation—it has seized a leadership position in the global conversation on sustainable trade.</p><a href="New%20Blog%20Page%20isnr.html">Read chapter <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a></div></div></article>
+    </div></div>
+    <div class="wrap bl-foot"><div class="bl-progress" aria-hidden="true"><i></i></div><span class="bl-count"><b>01</b> / 07</span></div>
+  </div>
+</section>
+</main>
+
 <!-- ================= Footer ================= -->
 <footer class="footer">
   <div class="wrap">
@@ -2367,7 +2485,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 
 
   /* Pages: each hash in ROUTES shows its page, anything else shows home */
-  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#risk-legality': 'risk', '#traceability-due-diligence': 'trace', '#eudr-faq': 'faq', '#resources': 'res', '#home': 'home' };
+  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#risk-legality': 'risk', '#traceability-due-diligence': 'trace', '#eudr-faq': 'faq', '#resources': 'res', '#blog': 'blog', '#home': 'home' };
   const pages = $$('.page');
   let curPage = null;
   const showPage = (name, jump) => {
@@ -2377,7 +2495,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     $$('[data-route]').forEach(a => a.classList.toggle('active', a.dataset.route === name));
     // nothing on a hidden page should keep playing
     $$('.page[hidden] video').forEach(v => v.pause());
-    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR', risk: 'Risk & Legality Assessments · BSNR', trace: 'Traceability & Due Diligence · BSNR', faq: 'EUDR FAQs · BSNR', res: 'Resources & Guides · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
+    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR', risk: 'Risk & Legality Assessments · BSNR', trace: 'Traceability & Due Diligence · BSNR', faq: 'EUDR FAQs · BSNR', res: 'Resources & Guides · BSNR', blog: 'Blog · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
     document.body.classList.remove('menu-open'); document.body.style.overflow = '';
     if (jump) scrollTo({ top: 0, behavior: 'instant' });
     $$('.has-drop.open').forEach(li => li.classList.remove('open'));
@@ -2927,6 +3045,54 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
   questionPage('trace', '#traceability-due-diligence');
   questionPage('faq', '#eudr-faq');
   questionPage('res', '#resources');
+  questionPage('blog', '#blog');
+
+  /* Blog: the chapter row slides sideways as you scroll down; the card in the middle opens with its tab and overview */
+  {
+    const page = $('.page[data-page="blog"]'), row = $('#blRow'), vp = $('.bl-viewport', row), track = $('.bl-track', row);
+    const cards = $$('.bl-card', row), N = cards.length, count = $('.bl-count b', row), prog = $('.bl-progress', row);
+    const desk = () => innerWidth > 860;
+    let lead = -1;
+    const setLead = k => {
+      if (k === lead) return;
+      lead = k;
+      cards.forEach((c, i) => c.classList.toggle('on', i === k));
+      count.textContent = String(k + 1).padStart(2, '0');
+    };
+    // scroll position along the row, in cards; a little hold at each end
+    const along = () => {
+      const r = row.getBoundingClientRect(), span = r.height - innerHeight;
+      return Math.min(1, Math.max(0, ((-r.top / span) - .06) / .88)) * (N - 1);
+    };
+    const place = () => {
+      if (page.hidden || !desk()) return;
+      const t = along(), cw = cards[0].offsetWidth, step = cw + parseFloat(getComputedStyle(track).columnGap || 18);
+      track.style.setProperty('--tx', (vp.clientWidth / 2 - (t * step + cw / 2)).toFixed(1) + 'px');
+      prog.style.setProperty('--bp', (t / (N - 1)).toFixed(4));
+      setLead(Math.round(t));
+    };
+    let busy = false;
+    addEventListener('scroll', () => { if (!busy) { busy = true; requestAnimationFrame(() => { busy = false; place(); }); } }, { passive: true });
+    addEventListener('resize', place);
+    addEventListener('pageshow:blog', () => { lead = -1; setTimeout(() => { place(); if (!desk()) swipe(); }, 30); });
+    // phones: the row is swiped; the card nearest the middle leads
+    const swipe = () => {
+      if (desk()) return;
+      const mid = vp.scrollLeft + vp.clientWidth / 2;
+      let best = 0, bd = Infinity;
+      cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
+      setLead(best);
+      prog.style.setProperty('--bp', (best / (N - 1)).toFixed(4));
+    };
+    vp.addEventListener('scroll', () => requestAnimationFrame(swipe), { passive: true });
+    // clicking a faded card brings it to the middle
+    cards.forEach((c, i) => $('.bl-face', c).addEventListener('click', () => {
+      if (!desk()) { vp.scrollTo({ left: c.offsetLeft - (vp.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' }); return; }
+      const span = row.offsetHeight - innerHeight;
+      scrollTo({ top: row.getBoundingClientRect().top + scrollY + span * (.06 + .88 * i / (N - 1)) + 1, behavior: reduce ? 'auto' : 'smooth' });
+    }));
+    place(); swipe();
+  }
 
   /* Resources: each card rises over the last as you scroll; its caption, clip and chip come alive while it leads */
   {

@@ -9,7 +9,7 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -103,6 +103,18 @@ The live content is kept: the headline "Your Step-by-Step Guide to EUDR Complian
 
 On phones the cards stack in a column; each card leads while it's in view and its caption sits below it.
 
+## Blog page (`#blog`)
+The live "All Blogs" page shows only one post, "How India is Building the World's Largest Rubber Traceability System for EUDR Compliance". Two more cards on the live page are commented out (hidden), so they are not shown here. The horizontal card layout follows the user's second screen recording.
+1. **Hero:** "All / **Blogs**", headline only, centred (`data-centre`), over the article's own photo (`assets/img/blog/featured.jpg`).
+2. **Featured post card:** the live listing card (title, excerpt, Read More), with the photo and a "Featured article" pill. It links to the live article page `New%20Blog%20Page%20isnr.html`.
+3. **"Inside the article"** (`#blRow`, sticky). The heading is the article's subtitle, with a dark "Read the full article" button. Below it is a horizontal row of the article's 7 chapters, which slides sideways as you scroll down.
+   - **Middle card:** full colour, with a "Chapter 0X · of 07" tab above and a panel below holding the chapter's opening lines (word for word) and "Read chapter".
+   - **Other cards:** greyed out; clicking one brings it to the middle.
+   - **Fit:** cards scale with screen height and fit down to 1000×555.
+   - **Phones:** the row is a swipeable strip that snaps to each card.
+
+Article photos (graded copies of the live article's images) are in `assets/img/blog/` (featured, farm, tapper, vessel); the other chapters reuse site images.
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
@@ -113,10 +125,11 @@ On phones the cards stack in a column; each card leads while it's in view and it
 - `assets/img/trace/`: hero, register, mapping, transactions, storage, certificate
 - `assets/img/faq/hero.jpg`
 - `assets/img/res/hero.jpg`
+- `assets/img/blog/`: featured, farm, tapper, vessel
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
