@@ -632,6 +632,53 @@ section{position:relative}
 }
 @media (prefers-reduced-motion:reduce){.nr-w,.nr-in{opacity:1;filter:none;transform:none}}
 
+/* Technology Partner: big left headline that writes itself in, body from the left, counting stats */
+.tp-top{display:block}
+.tp{overflow-x:clip}
+.tp-headwrap .eyebrow{color:var(--leaf)}
+.tp-head{position:relative;margin-top:18px;font-size:clamp(46px,6.4vw,96px);line-height:.98;letter-spacing:-.045em;font-weight:600}
+.tp-l{display:block}
+.tp-w{display:inline-block;color:rgba(11,31,22,.16);transform:translateY(38%);filter:blur(10px);opacity:0;transition:opacity .7s var(--ease),transform 1s var(--ease),filter .8s var(--ease),color .9s var(--ease);transition-delay:calc(var(--i) * 150ms)}
+.tp-head.on .tp-w{opacity:1;transform:none;filter:none;color:var(--ink);transition-delay:calc(var(--i) * 150ms),calc(var(--i) * 150ms),calc(var(--i) * 150ms),calc(var(--i) * 150ms + .45s)}
+.tp-head .serif{font-weight:400;letter-spacing:-.02em}
+.tp-head.on .tp-w.serif{color:var(--forest)}
+.tp-arc{position:absolute;left:-6%;top:-12%;width:112%;height:124%;pointer-events:none;overflow:visible}
+.tp-arc path{fill:none;stroke:var(--lime);stroke-width:14;stroke-linecap:round;opacity:.9;stroke-dasharray:1 1;stroke-dashoffset:1;filter:blur(1px)}
+.tp-head.on .tp-arc path{animation:tparc 1.6s cubic-bezier(.6,0,.3,1) .1s forwards}
+@keyframes tparc{0%{stroke-dasharray:0 1;stroke-dashoffset:0;opacity:.9}55%{stroke-dasharray:.45 1;stroke-dashoffset:-.25;opacity:.9}100%{stroke-dasharray:0 1;stroke-dashoffset:-1;opacity:0}}
+.tp-in{display:inline-flex;opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.tp-top.on .tp-in{opacity:1;transform:none}
+.tp-body{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);margin-top:clamp(32px,4vw,52px);max-width:1120px}
+.tp-p{font-size:clamp(15px,1.3vw,18px);line-height:1.65;color:var(--muted)}
+.tp-p+.tp-p{margin-top:0}
+.tp-p b{color:var(--ink)}
+.tp-p .w{display:inline-block;opacity:.12;transform:translateY(6px);transition:opacity .5s,transform .6s var(--ease)}
+.tp-p .w.on{opacity:1;transform:none}
+.tp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,40px);margin-top:clamp(56px,8vw,110px)}
+.tp-stat{padding-top:18px;border-top:1px solid var(--line);opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform 1s var(--ease);transition-delay:var(--d)}
+.tp-stats.on .tp-stat{opacity:1;transform:none}
+.tp-stat::before{content:"";display:block;height:1.5px;margin-top:-19px;margin-bottom:18px;background:var(--ink);transform:scaleX(0);transform-origin:0 50%;transition:transform 1.2s var(--ease);transition-delay:calc(var(--d) + .2s)}
+.tp-stats.on .tp-stat::before{transform:none}
+.tp-k{display:block;font-size:13px;font-weight:600;color:#93a29a}
+.tp-stat strong{display:flex;align-items:baseline;gap:4px;margin:14px 0 12px;font-size:clamp(46px,5.6vw,84px);font-weight:500;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+.tp-stat small{font-size:.42em;font-weight:600;letter-spacing:-.02em;color:var(--leaf)}
+.tp-stat p{max-width:22ch;font-size:13.5px;line-height:1.45;color:var(--muted)}
+.tp-rows{margin-top:clamp(48px,6vw,80px);border-top:1px solid var(--line)}
+.tp-row{display:grid;grid-template-columns:clamp(140px,18vw,240px) 1fr;gap:24px;padding:22px 0;border-bottom:1px solid var(--line);opacity:0;transform:translateX(-24px);transition:opacity .8s var(--ease),transform 1s var(--ease);transition-delay:var(--d)}
+.tp-rows.on .tp-row{opacity:1;transform:none}
+.tp-row .tp-k{padding-top:3px}
+.tp-row p{font-size:15.5px;font-weight:600}
+.tp-row ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tp-row li{font-size:14px;line-height:1.45;color:var(--muted)}
+.tp-row li b{display:block;margin-bottom:4px;font-size:15.5px;color:var(--ink)}
+@media (max-width:860px){
+  .tp-body{grid-template-columns:1fr;gap:16px}
+  .tp-stats{grid-template-columns:1fr 1fr;row-gap:36px}
+  .tp-row{grid-template-columns:1fr;gap:10px}
+  .tp-row ul{grid-template-columns:1fr;gap:12px}
+}
+@media (prefers-reduced-motion:reduce){.tp-w,.tp-in,.tp-stat,.tp-row,.tp-p .w{opacity:1!important;transform:none!important;filter:none!important;color:inherit}}
+
 /* Responsive */
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
@@ -1253,20 +1300,37 @@ section{position:relative}
 </section>
 
 <!-- ================= Technology Partner ================= -->
-<section class="sec" style="padding-top:0">
-  <div class="wrap ab-cards">
-    <article class="ab-card rv" id="partner" style="--d:.1s">
-      <span class="eyebrow">Technology Partner</span>
-      <h3>Built in Partnership with TRST01</h3>
-      <p>BSNR is developed and operated in partnership between the Rubber Board of India and <a href="https://trst01.com/" target="_blank" rel="noopener"><b>TRST01</b></a>, which serves as the platform's technology and implementation partner, from field data collection and satellite verification to the digital infrastructure that generates each Due Diligence Statement.</p>
-      <div class="ab-nums">
-        <div><strong>10+</strong><span>Countries</span></div>
-        <div><strong>1.4M ha</strong><span>Land under traceability</span></div>
-        <div><strong>779K+</strong><span>Farmers onboarded</span></div>
+<section class="sec tp" id="partner">
+  <div class="wrap">
+    <div class="tp-top">
+      <div class="tp-headwrap">
+        <span class="eyebrow tp-in">Technology Partner</span>
+        <h2 class="tp-head" id="tpHead">
+          <span class="tp-l"><span class="tp-w">Built</span> <span class="tp-w">in</span></span>
+          <span class="tp-l"><span class="tp-w">Partnership</span></span>
+          <span class="tp-l"><span class="tp-w">with</span> <span class="tp-w serif">TRST01</span></span>
+          <svg class="tp-arc" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-20 210C90 40 330 -10 470 70S650 230 560 250"/></svg>
+        </h2>
       </div>
-      <p>Founded in 2019 and headquartered in Hyderabad, India, with a global presence spanning Singapore, Australia and the United States, TRST01 is a sustainable technology company specialising in supply chain transparency, ESG management and regulatory compliance. Its guiding principle, "Trust through Technology", drives a mission to help businesses and governments adopt sustainable, ethical and climate-conscious practices across their supply chains.</p>
-      <p>The company's work has been recognised with honours including the Sustainability Impact Award 2024, a place in the Forbes India D-Globalist Select200, and the Aegis Graham Bell Award 2025. TRST01's EUDR products span the supply chain: TRST01Chain for plot mapping and Due Diligence Statement generation at the exporter and processor level, TRST01Chain MeeS for vendor compliance and internal traceability at the manufacturer level, and the TRST01Chain EUDR Hub for supplier onboarding and Due Diligence Statement filing on the EU importer side.</p>
-    </article>
+      <div class="tp-body">
+        <p class="tp-p">BSNR is developed and operated by the Rubber Board of India with <a href="https://trst01.com/" target="_blank" rel="noopener"><b>TRST01</b></a> as its technology and implementation partner, from field data collection and satellite verification to the digital infrastructure behind every Due Diligence Statement.</p>
+        <p class="tp-p">Founded in 2019 in Hyderabad, with a presence in Singapore, Australia and the United States, TRST01 builds supply chain transparency, ESG and compliance technology under one principle: <b>"Trust through Technology".</b></p>
+      </div>
+    </div>
+
+    <div class="tp-stats" id="tpStats">
+      <div class="tp-stat" style="--d:0s"><span class="tp-k">Reach</span><strong><span data-n="10">0</span><small>+</small></strong><p>Countries where TRST01 operates</p></div>
+      <div class="tp-stat" style="--d:.12s"><span class="tp-k">Adoption</span><strong><span data-n="200">0</span><small>+</small></strong><p>Corporate and government adoptions</p></div>
+      <div class="tp-stat" style="--d:.24s"><span class="tp-k">Traceability</span><strong><span data-n="1.4" data-dec="1">0</span><small>M ha</small></strong><p>Land brought under traceability</p></div>
+      <div class="tp-stat" style="--d:.36s"><span class="tp-k">Impact</span><strong><span data-n="779">0</span><small>K+</small></strong><p>Farmers onboarded worldwide, BSNR among them</p></div>
+    </div>
+
+    <div class="tp-rows">
+      <div class="tp-row" style="--d:0s"><span class="tp-k">Recognition</span><p>Sustainability Impact Award 2024 · Forbes India D-Globalist Select200 · Aegis Graham Bell Award 2025</p></div>
+      <div class="tp-row" style="--d:.12s"><span class="tp-k">EUDR products</span>
+        <ul><li><b>TRST01Chain</b>Plot mapping and DDS generation for exporters and processors</li><li><b>TRST01Chain MeeS</b>Vendor compliance and traceability for manufacturers</li><li><b>EUDR Hub</b>Supplier onboarding and DDS filing for EU importers</li></ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1941,6 +2005,28 @@ section{position:relative}
     };
     addEventListener('scroll', nrTick, { passive: true }); addEventListener('resize', nrTick);
     nrTick();
+  }
+
+  /* Technology Partner: headline words write in under a sweeping arc, body lights up, stats count */
+  {
+    const head = $('#tpHead'), top = $('.tp-top'), stats = $('#tpStats'), rows = $('.tp-rows');
+    $$('.tp-w', head).forEach((w, i) => w.style.setProperty('--i', i));
+    const words = $$('.tp-p').flatMap(p => { p.innerHTML = p.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g, (m, t, w) => t || `<span class="w">${w}</span>`); return $$('.w', p); });
+    const once = (el, fn, th = .3) => new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); fn(); } }, { threshold: th }).observe(el);
+    once(top, () => {
+      top.classList.add('on'); head.classList.add('on');
+      words.forEach((w, k) => setTimeout(() => w.classList.add('on'), reduce ? 0 : 900 + k * 18));
+    });
+    const count = (el, to, dec) => {
+      const d = 1900, t0 = performance.now();
+      const step = t => { const p = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - p, 4); el.textContent = (to * e).toFixed(dec); if (p < 1) requestAnimationFrame(step); };
+      reduce ? (el.textContent = to.toFixed(dec)) : requestAnimationFrame(step);
+    };
+    once(stats, () => {
+      stats.classList.add('on');
+      $$('[data-n]', stats).forEach((el, i) => setTimeout(() => count(el, +el.dataset.n, +(el.dataset.dec || 0)), i * 120 + 200));
+    });
+    once(rows, () => rows.classList.add('on'), .2);
   }
 
   /* Our Story: cards rise in, farmer's words light up, story text follows; cards tilt on hover */
