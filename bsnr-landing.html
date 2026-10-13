@@ -640,8 +640,13 @@ section{position:relative}
 .tp-l{display:block}
 .tp-w{display:inline-block;color:rgba(11,31,22,.16);transform:translateY(38%);filter:blur(10px);opacity:0;transition:opacity .7s var(--ease),transform 1s var(--ease),filter .8s var(--ease),color .9s var(--ease);transition-delay:calc(var(--i) * 150ms)}
 .tp-head.on .tp-w{opacity:1;transform:none;filter:none;color:var(--ink);transition-delay:calc(var(--i) * 150ms),calc(var(--i) * 150ms),calc(var(--i) * 150ms),calc(var(--i) * 150ms + .45s)}
-.tp-head .serif{font-weight:400;letter-spacing:-.02em}
-.tp-head.on .tp-w.serif{color:var(--forest)}
+.tp-head.on .tp-w.tp-brand{color:var(--forest)}
+.tp-l{width:fit-content;transform:translateX(var(--cx,0px));transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
+.tp-head.settle .tp-l{transform:none}
+.tp-head .tp-arc{transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
+.tp-body,.tp-headwrap .eyebrow{transition:opacity .9s var(--ease),transform 1s var(--ease)}
+.tp-top:not(.settled) .tp-body{opacity:0;transform:translateY(20px)}
+.tp-top:not(.settled) .tp-headwrap .eyebrow{opacity:0;transform:translateY(12px)}
 .tp-arc{position:absolute;left:-6%;top:-12%;width:112%;height:124%;pointer-events:none;overflow:visible}
 .tp-arc path{fill:none;stroke:var(--lime);stroke-width:14;stroke-linecap:round;opacity:.9;stroke-dasharray:1 1;stroke-dashoffset:1;filter:blur(1px)}
 .tp-head.on .tp-arc path{animation:tparc 1.6s cubic-bezier(.6,0,.3,1) .1s forwards}
@@ -1308,7 +1313,7 @@ section{position:relative}
         <h2 class="tp-head" id="tpHead">
           <span class="tp-l"><span class="tp-w">Built</span> <span class="tp-w">in</span></span>
           <span class="tp-l"><span class="tp-w">Partnership</span></span>
-          <span class="tp-l"><span class="tp-w">with</span> <span class="tp-w serif">TRST01</span></span>
+          <span class="tp-l"><span class="tp-w">with</span> <span class="tp-w tp-brand">TRST01</span></span>
           <svg class="tp-arc" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-20 210C90 40 330 -10 470 70S650 230 560 250"/></svg>
         </h2>
       </div>
@@ -2013,9 +2018,23 @@ section{position:relative}
     $$('.tp-w', head).forEach((w, i) => w.style.setProperty('--i', i));
     const words = $$('.tp-p').flatMap(p => { p.innerHTML = p.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g, (m, t, w) => t || `<span class="w">${w}</span>`); return $$('.w', p); });
     const once = (el, fn, th = .3) => new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); fn(); } }, { threshold: th }).observe(el);
+    // centre each line first; after the words write in, the lines glide to the left
+    const centre = () => {
+      if (head.classList.contains('settle')) return;
+      const W = head.clientWidth;
+      $$('.tp-l', head).forEach(l => l.style.setProperty('--cx', Math.max(0, (W - l.offsetWidth) / 2) + 'px'));
+    };
+    centre(); addEventListener('resize', centre);
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(centre);
     once(top, () => {
+      centre();
       top.classList.add('on'); head.classList.add('on');
-      words.forEach((w, k) => setTimeout(() => w.classList.add('on'), reduce ? 0 : 900 + k * 18));
+      const settleAt = reduce ? 0 : 2100;
+      setTimeout(() => { head.classList.add('settle'); }, settleAt);
+      setTimeout(() => {
+        top.classList.add('settled');
+        words.forEach((w, k) => setTimeout(() => w.classList.add('on'), reduce ? 0 : 300 + k * 18));
+      }, reduce ? 0 : settleAt + 900);
     });
     const count = (el, to, dec) => {
       const d = 1900, t0 = performance.now();
