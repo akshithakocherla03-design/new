@@ -684,6 +684,98 @@ section{position:relative}
 }
 @media (prefers-reduced-motion:reduce){.tp-w,.tp-in,.tp-stat,.tp-row,.tp-p .w{opacity:1!important;transform:none!important;filter:none!important;color:inherit}}
 
+/* ===== Deforestation Analysis page ===== */
+.df-hero{overflow-x:clip;padding:clamp(130px,18vh,190px) 0 clamp(40px,6vw,80px)}
+.df-hero .eyebrow{color:var(--leaf)}
+.df-head{position:relative;margin:18px 0 0;font-size:clamp(52px,8.4vw,128px);line-height:.95;letter-spacing:-.05em;font-weight:600}
+.df-l{display:block;width:fit-content;transform:translateX(var(--cx,0px));transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
+.df-head.settle .df-l{transform:none}
+.df-w{display:inline-block;color:rgba(11,31,22,.16);transform:translateY(38%);filter:blur(10px);opacity:0;transition:opacity .7s var(--ease),transform 1s var(--ease),filter .8s var(--ease),color .9s var(--ease);transition-delay:calc(var(--i) * 220ms)}
+.df-head.on .df-w{opacity:1;transform:none;filter:none;color:var(--ink);transition-delay:calc(var(--i) * 220ms),calc(var(--i) * 220ms),calc(var(--i) * 220ms),calc(var(--i) * 220ms + .45s)}
+.df-head.on .df-w.df-brand{color:var(--forest)}
+.df-arc{position:absolute;left:-6%;top:-14%;width:112%;height:128%;pointer-events:none;overflow:visible}
+.df-arc path{fill:none;stroke:var(--lime);stroke-width:14;stroke-linecap:round;stroke-dasharray:0 1;filter:blur(1px)}
+.df-head.on .df-arc path{animation:tparc 1.6s cubic-bezier(.6,0,.3,1) .1s forwards}
+.df-later{opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
+.df-hero.settled .df-later{opacity:1;transform:none}
+.df-hero .eyebrow.df-later{display:inline-flex}
+.df-intro{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,80px);margin-top:clamp(28px,4vw,52px);align-items:start;transition-delay:.15s}
+.df-lead{font-size:clamp(16px,1.35vw,19px);line-height:1.6;color:var(--muted)}
+.df-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.df-index li{border-bottom:1px solid var(--line);opacity:0;transform:translateX(-20px);transition:opacity .7s var(--ease),transform .8s var(--ease);transition-delay:calc(.35s + var(--k) * 90ms)}
+.df-hero.settled .df-index li{opacity:1;transform:none}
+.df-index a{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;padding:15px 4px;font-weight:600;transition:padding .4s var(--ease),color .3s}
+.df-index a b{font-size:13px;color:var(--leaf)}
+.df-index a svg{opacity:.4;transition:transform .4s var(--ease),opacity .3s}
+.df-index a:hover{padding-left:12px;color:var(--forest)}
+.df-index a:hover svg{opacity:1;transform:translateX(4px)}
+
+.df-scroll{position:relative;height:calc(var(--n) * 100vh)}
+.df-anchor{position:absolute;left:0;width:1px;height:1px}
+.df-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;padding-top:clamp(70px,10vh,96px)}
+.df-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,80px);align-items:center}
+.df-left{position:relative;display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,2.5vw,36px)}
+.df-rail{display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.df-rail i{width:3px;height:34px;border-radius:3px;background:rgba(11,31,22,.12);position:relative;overflow:hidden}
+.df-rail i::after{content:"";position:absolute;inset:0;background:var(--leaf);transform:scaleY(var(--f,0));transform-origin:50% 0}
+.df-texts{position:relative;display:grid}
+.df-step{grid-area:1/1;align-self:center;visibility:hidden}
+.df-step.on{visibility:visible}
+.df-step>*{opacity:0;transform:translateY(26px);filter:blur(8px);transition:opacity .6s var(--ease),transform .8s var(--ease),filter .6s var(--ease)}
+.df-step.on>*{opacity:1;transform:none;filter:none}
+.df-step.on>:nth-child(2){transition-delay:.08s}.df-step.on>:nth-child(3){transition-delay:.18s}.df-step.on>:nth-child(4){transition-delay:.28s}
+.df-step.out>*{opacity:0;transform:translateY(-26px);filter:blur(8px);transition-delay:0s}
+.df-step.out{visibility:visible}
+.df-num{display:block;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--leaf)}
+.df-num em{font-style:normal;color:#a6b2ab}
+.df-q{margin:12px 0 14px;font-size:clamp(28px,3vw,46px);line-height:1.05;letter-spacing:-.035em}
+.df-a{font-size:clamp(15px,1.2vw,17px);line-height:1.6;color:var(--muted);max-width:52ch}
+.df-body{margin-top:clamp(16px,2.4vh,26px)}
+.df-facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.df-facts div{padding:14px 16px;border-radius:16px;background:var(--paper);box-shadow:0 0 0 1px var(--line);opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .7s var(--ease);transition-delay:calc(.4s + var(--k) * 80ms)}
+.df-step.on .df-facts div,.df-step.on .df-list li,.df-step.on .df-steps li{opacity:1;transform:none}
+.df-facts strong{display:block;font-size:clamp(18px,1.6vw,22px);letter-spacing:-.02em;color:var(--forest)}
+.df-facts span{font-size:13px;color:var(--muted)}
+.df-note,.df-sub{margin-top:14px;font-size:13.5px;color:var(--muted)}
+.df-sub{margin:0 0 6px;font-weight:700;color:var(--ink)}
+.df-list,.df-steps{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.df-list li,.df-steps li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;font-size:15px;line-height:1.45;opacity:0;transform:translateX(-14px);transition:opacity .6s var(--ease),transform .7s var(--ease);transition-delay:calc(.4s + var(--k) * 80ms)}
+.df-list i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--lime);color:var(--ink)}
+.df-steps li{padding:10px 14px;border-radius:14px;background:var(--paper);box-shadow:0 0 0 1px var(--line)}
+.df-steps b{font-size:13px;color:var(--leaf);padding-top:1px}
+.df-big{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:16px 18px;margin-bottom:14px;border-radius:18px;background:var(--ink);color:#fff}
+.df-big strong{font-size:clamp(44px,4.6vw,64px);letter-spacing:-.05em;line-height:1;color:var(--lime)}
+.df-big span{font-size:14px;line-height:1.5;color:rgba(255,255,255,.8)}
+.df-tabs{display:inline-flex;flex-wrap:wrap;gap:6px;padding:5px;border-radius:999px;background:var(--paper);box-shadow:0 0 0 1px var(--line);margin-bottom:16px}
+.df-tabs button{padding:8px 16px;border-radius:999px;font-size:14px;font-weight:700;color:var(--muted);transition:background .3s,color .3s}
+.df-tabs button.on{background:var(--ink);color:#fff}
+.df-panes{display:grid}
+.df-pane{grid-area:1/1;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .4s var(--ease),transform .5s var(--ease)}
+.df-pane.on{opacity:1;transform:none;pointer-events:auto}
+.df-right{display:flex;justify-content:center}
+.df-frame{position:relative;width:min(100%,calc((100vh - 170px) * .8));aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:#dfe5da;box-shadow:0 40px 80px -40px rgba(11,31,22,.55)}
+.df-img{position:absolute;inset:0;margin:0;clip-path:inset(0 0 0 100%);z-index:1;transition:clip-path 1.1s cubic-bezier(.7,0,.2,1)}
+.df-img img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.18) translateX(6%);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+.df-img.on{clip-path:inset(0 0 0 0);z-index:2}
+.df-img.on img{transform:none}
+.df-img.prev{clip-path:inset(0 0 0 0);z-index:1}
+.df-img.prev img{transform:scale(1.04) translateX(-4%)}
+@media (max-width:860px){
+  .df-intro{grid-template-columns:1fr}
+  .df-scroll{height:auto}
+  .df-stage{position:static;height:auto;padding:0;display:block}
+  .df-anchor{display:none}
+  .df-grid{display:block}
+  .df-left{grid-template-columns:1fr}
+  .df-rail,.df-right{display:none}
+  .df-texts{display:block}
+  .df-step{visibility:visible;margin-bottom:56px}
+  .df-step::before{content:"";display:block;aspect-ratio:4/3;border-radius:22px;margin-bottom:22px;background:var(--img) center 70%/cover}
+  .df-step>*,.df-facts div,.df-list li,.df-steps li{opacity:1;transform:none;filter:none}
+}
+@media (max-height:700px) and (min-width:861px){.df-note{display:none}.df-q{font-size:clamp(24px,2.6vw,36px)}.df-list li,.df-steps li{font-size:14px}.df-steps li{padding:7px 12px}}
+@media (prefers-reduced-motion:reduce){.df-w,.df-later,.df-index li{opacity:1!important;transform:none!important;filter:none!important}}
+
 /* Responsive */
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
@@ -727,7 +819,7 @@ section{position:relative}
         <li class="has-drop">
           <button aria-expanded="false">About EUDR <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="drop">
-            <a href="Deforestation-analysis.html">Deforestation analysis</a>
+            <a href="#deforestation-analysis" data-route="defo">Deforestation analysis</a>
             <a href="Risk-Legality%20.html">Risk &amp; Legality Assessments</a>
             <a href="Traceability-due-diligence.html">Traceability &amp; Due diligence</a>
             <a href="faq.html">EUDR FAQ</a>
@@ -769,7 +861,7 @@ section{position:relative}
   <a href="#home" data-route="home">Home</a>
   <a href="#bsnr-about" data-route="about">About BSNR</a>
   <details><summary>About EUDR <svg class="chev" width="14" height="14" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></summary>
-    <a href="Deforestation-analysis.html">Deforestation analysis</a>
+    <a href="#deforestation-analysis" data-route="defo">Deforestation analysis</a>
     <a href="Risk-Legality%20.html">Risk &amp; Legality Assessments</a>
     <a href="Traceability-due-diligence.html">Traceability &amp; Due diligence</a>
     <a href="faq.html">EUDR FAQ</a>
@@ -1018,7 +1110,7 @@ section{position:relative}
         <h2 class="split"><span class="ln"><span>Critical aspects of</span></span><span class="ln"><span style="--d:.08s" class="serif">EUDR compliance</span></span></h2>
       </div>
       <div class="asp-grid">
-        <a class="asp rv" style="--d:0.0s" href="Deforestation-analysis.html">
+        <a class="asp rv" style="--d:0.0s" href="#deforestation-analysis" data-route="defo">
           <span class="asp-shine" aria-hidden="true"></span>
           <div class="asp-top">
             <span class="asp-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3.5 6h-2l3 5h-2.5l3 5H7l3-5H7.5l3-5h-2z"/><path d="M12 19v2"/></svg></span>
@@ -1360,6 +1452,84 @@ section{position:relative}
 </section>
 </main>
 
+
+<!-- ================= DEFORESTATION ANALYSIS PAGE ================= -->
+<main class="page" data-page="defo" hidden>
+<section class="df-hero" id="dfHero">
+  <div class="wrap">
+    <span class="eyebrow df-later">About EUDR</span>
+    <h1 class="df-head" id="dfHead">
+      <span class="df-l"><span class="df-w">Deforestation</span></span>
+      <span class="df-l"><span class="df-w df-brand">Analysis</span></span>
+      <svg class="df-arc" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-20 210C90 40 330 -10 470 70S650 230 560 250"/></svg>
+    </h1>
+    <div class="df-intro df-later">
+      <p class="df-lead">How BSNR checks every rubber plot against the EUDR deforestation rules, from mapping in the field to satellite analysis. Scroll through the five questions below.</p>
+      <ol class="df-index"><li style="--k:0"><a href="#dfStep0" data-step="0"><b>01</b><span>What does EUDR say about deforestation?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:1"><a href="#dfStep1" data-step="1"><b>02</b><span>How do we map rubber farms?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:2"><a href="#dfStep2" data-step="2"><b>03</b><span>What happens to farms on deforested land?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:3"><a href="#dfStep3" data-step="3"><b>04</b><span>How can you contribute to mapping?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:4"><a href="#dfStep4" data-step="4"><b>05</b><span>How does the system analyse deforestation?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li></ol>
+    </div>
+  </div>
+</section>
+
+<section class="df-scroll" id="dfScroll" style="--n:5">
+  <div class="df-stage">
+    <div class="wrap df-grid">
+      <div class="df-left">
+        <div class="df-rail" aria-hidden="true"><i data-i="0"></i><i data-i="1"></i><i data-i="2"></i><i data-i="3"></i><i data-i="4"></i></div>
+        <div class="df-texts">
+        <article class="df-step on" data-i="0" style="--img:url(&quot;assets/img/defo/eudr.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/eudr.jpg&quot;)">
+          <span class="df-num">01 <em>/ 05</em></span>
+          <h2 class="df-q">What does EUDR say about deforestation?</h2>
+          <p class="df-a">Rubber grown on land deforested after the cut-off date cannot be sold into the EU, and every shipment needs proof of where it was grown.</p>
+          <div class="df-body"><div class="df-facts"><div style="--k:0"><strong>31 Dec 2020</strong><span>Cut-off date for the deforestation check</span></div><div style="--k:1"><strong>Above 4 ha</strong><span>Full geo-coordinates and boundaries</span></div><div style="--k:2"><strong>Below 4 ha</strong><span>A single GPS point is enough</span></div><div style="--k:3"><strong>5 years</strong><span>Due Diligence records kept</span></div></div><p class="df-note">Required: geo-coordinates, a Due Diligence Statement, risk assessment (Art. 10) and risk mitigation (Art. 11).</p></div>
+        </article>
+        <article class="df-step" data-i="1" style="--img:url(&quot;assets/img/defo/mapping.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/mapping.jpg&quot;)">
+          <span class="df-num">02 <em>/ 05</em></span>
+          <h2 class="df-q">How do we map rubber farms?</h2>
+          <p class="df-a">The Rubber Board is rolling out 100% polygon mapping of rubber farms in three phases, carried out by trained field agents.</p>
+          <div class="df-body"><ol class="df-steps"><li style="--k:0"><b>01</b><span>Field agents trained for 3 weeks</span></li><li style="--k:1"><b>02</b><span>On-ground mapping with RPS, farmers and dealers</span></li><li style="--k:2"><b>03</b><span>Back-end checks for overlaps, duplicates and forest cut</span></li><li style="--k:3"><b>04</b><span>Follow-up mapping of erroneous polygons</span></li><li style="--k:4"><b>05</b><span>Final polygons updated on the Central Database</span></li></ol></div>
+        </article>
+        <article class="df-step" data-i="2" style="--img:url(&quot;assets/img/defo/consequences.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/consequences.jpg&quot;)">
+          <span class="df-num">03 <em>/ 05</em></span>
+          <h2 class="df-q">What happens to farms on deforested land?</h2>
+          <p class="df-a">Rubber from land deforested after December 2020 is non-compliant and cannot be exported to the EU. It can still be sold for local Bharat consumption.</p>
+          <div class="df-body"><div class="df-big"><strong>4%</strong><span>Exporters can be fined up to 4% of their total annual EU turnover, have rubber confiscated, and face exclusion from the EU market.</span></div><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span><b>Farmers</b> can no longer sell to traders targeting the EU</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span><b>Dealers</b> face trade restrictions with exporters</span></li></ul></div>
+        </article>
+        <article class="df-step" data-i="3" style="--img:url(&quot;assets/img/defo/contribute.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/contribute.jpg&quot;)">
+          <span class="df-num">04 <em>/ 05</em></span>
+          <h2 class="df-q">How can you contribute to mapping?</h2>
+          <p class="df-a">Every stakeholder has a part to play. Pick your role:</p>
+          <div class="df-body"><div class="df-tabs" role="tablist"><button type="button" role="tab" class="on" data-t="0">Farmer</button><button type="button" role="tab" class="" data-t="1">Dealer</button><button type="button" role="tab" class="" data-t="2">Processor</button><button type="button" role="tab" class="" data-t="3">Exporter</button></div><div class="df-panes"><div class="df-pane on"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Attend the sensitisation meetings</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Cooperate with field agents in mapping and due diligence</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Keep one KYC document (Aadhaar, ration card, voter ID or passport) and one land document ready</span></li><li style="--k:3"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Show the correct boundaries of your farm</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Attend the sensitisation meetings</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Complete self-mapping training and follow the SOPs</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Help map your own farm and the farms you buy from</span></li><li style="--k:3"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Set aside a separate area for EUDR-compliant rubber</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Attend the sensitisation meetings</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Complete self-mapping training and processor due diligence</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Help map your own farm and the farms you buy from</span></li><li style="--k:3"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Keep EUDR-compliant rubber segregated in storage</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Put policies in place for the dealers and farmers you buy from</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Communicate your EUDR requirements down the chain</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Register as an exporter on the Rubber Board EUDR portal</span></li></ul></div></div></div>
+        </article>
+        <article class="df-step" data-i="4" style="--img:url(&quot;assets/img/defo/analysis.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/analysis.jpg&quot;)">
+          <span class="df-num">05 <em>/ 05</em></span>
+          <h2 class="df-q">How does the system analyse deforestation?</h2>
+          <p class="df-a">Every mapped plot is checked against satellite imagery and protected forest cover from the 31 December 2020 baseline before it can be used in any shipment.</p>
+          <div class="df-body"><p class="df-sub">If a problem is found</p><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>High-risk farms get detailed action plans to reduce the risk</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Regular audits and reviews track progress</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Wrong classification? Records are reviewed with local authorities</span></li></ul></div>
+        </article>
+        </div>
+      </div>
+      <div class="df-right"><div class="df-frame"><figure class="df-img on" data-i="0"><img src="assets/img/defo/eudr.jpg" alt="Aerial view of rubber plantation blocks beside forest" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/eudr.jpg'"></figure><figure class="df-img" data-i="1"><img src="assets/img/defo/mapping.jpg" alt="Rubber trees tapped for latex in a plantation" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/mapping.jpg'"></figure><figure class="df-img" data-i="2"><img src="assets/img/defo/consequences.jpg" alt="Cargo port with ships at sunset" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/consequences.jpg'"></figure><figure class="df-img" data-i="3"><img src="assets/img/defo/contribute.jpg" alt="Farmer walking through a rubber plantation" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/contribute.jpg'"></figure><figure class="df-img" data-i="4"><img src="assets/img/defo/analysis.jpg" alt="Aerial view of dense forest canopy" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/analysis.jpg'"></figure></div></div>
+    </div>
+  </div>
+  <span class="df-anchor" id="dfStep0" style="top:calc(0 * 100vh + 10px)"></span><span class="df-anchor" id="dfStep1" style="top:calc(1 * 100vh + 10px)"></span><span class="df-anchor" id="dfStep2" style="top:calc(2 * 100vh + 10px)"></span><span class="df-anchor" id="dfStep3" style="top:calc(3 * 100vh + 10px)"></span><span class="df-anchor" id="dfStep4" style="top:calc(4 * 100vh + 10px)"></span>
+</section>
+
+<section class="sec" style="padding-top:clamp(40px,6vw,80px)">
+  <div class="wrap">
+    <div class="cta rv">
+      <img src="assets/img/defo/eudr.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/eudr.jpg'">
+      <span class="pill"><b>Mapping</b> Free for every farmer</span>
+      <h2>Get your farm <span class="serif">mapped.</span></h2>
+      <p class="lead">Register your interest and a trained field agent will help you map your plots for EUDR compliance.</p>
+      <div class="row-btns">
+        <a class="btn btn--lime" href="register-yourself.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--ghost" href="faq.html">Read the EUDR FAQ</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
 <!-- ================= Footer ================= -->
 <footer class="footer">
   <div class="wrap">
@@ -1384,7 +1554,7 @@ section{position:relative}
       <div>
         <h5>EUDR</h5>
         <ul>
-          <li><a href="Deforestation-analysis.html">Deforestation analysis</a></li>
+          <li><a href="#deforestation-analysis" data-route="defo">Deforestation analysis</a></li>
           <li><a href="Risk-Legality%20.html">Risk &amp; Legality</a></li>
           <li><a href="Traceability-due-diligence.html">Traceability</a></li>
           <li><a href="faq.html">EUDR FAQ</a></li>
@@ -1424,20 +1594,22 @@ section{position:relative}
 
 
   /* Pages: #bsnr-about shows About BSNR, anything else shows home */
-  const ROUTES = { '#bsnr-about': 'about', '#home': 'home' };
+  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#home': 'home' };
   const pages = $$('.page');
   let curPage = null;
   const showPage = (name, jump) => {
-    if (name === curPage) return;
+    if (name === curPage) { if (jump) scrollTo({ top: 0, behavior: 'instant' }); dispatchEvent(new CustomEvent('pageshow:' + name)); return; }
     curPage = name;
     pages.forEach(pg => { pg.hidden = pg.dataset.page !== name; });
     $$('[data-route]').forEach(a => a.classList.toggle('active', a.dataset.route === name));
     // nothing on a hidden page should keep playing
     $$('.page[hidden] video').forEach(v => v.pause());
-    document.title = name === 'about' ? 'About BSNR' : 'Bharat Sustainable Natural Rubber';
+    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
     document.body.classList.remove('menu-open'); document.body.style.overflow = '';
     if (jump) scrollTo({ top: 0, behavior: 'instant' });
+    $$('.has-drop.open').forEach(li => li.classList.remove('open'));
     dispatchEvent(new Event('scroll')); dispatchEvent(new Event('resize'));
+    dispatchEvent(new CustomEvent('pageshow:' + name));
   };
   const route = () => showPage(ROUTES[location.hash] || 'home', true);
   addEventListener('hashchange', route);
@@ -1887,6 +2059,68 @@ section{position:relative}
       cards.forEach(c => whenVisible(c, () => fillCard(c)));
     })
     .catch(() => {});
+  /* ===== Deforestation Analysis page ===== */
+  {
+    const hero = $('#dfHero'), head = $('#dfHead');
+    $$('.df-w', head).forEach((w, i) => w.style.setProperty('--i', i));
+    const centre = () => {
+      if (head.classList.contains('settle')) return;
+      const W = head.clientWidth;
+      $$('.df-l', head).forEach(l => l.style.setProperty('--cx', Math.max(0, (W - l.offsetWidth) / 2) + 'px'));
+    };
+    let t1, t2;
+    const enter = () => {
+      clearTimeout(t1); clearTimeout(t2);
+      hero.classList.remove('settled'); head.classList.remove('on', 'settle');
+      centre();
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        head.classList.add('on');
+        t1 = setTimeout(() => head.classList.add('settle'), reduce ? 0 : 1700);
+        t2 = setTimeout(() => hero.classList.add('settled'), reduce ? 0 : 2600);
+      }));
+    };
+    addEventListener('resize', centre);
+    const isDefo = () => location.hash === '#deforestation-analysis';
+    addEventListener('pageshow:defo', enter);
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { if (isDefo()) enter(); });
+    if (isDefo()) enter();
+
+    // scroll-driven questions: text swaps on the left, image wipes in from the right
+    const sc = $('#dfScroll'), stepsEl = $$('.df-step', sc), imgsEl = $$('.df-img', sc), rail = $$('.df-rail i', sc), N = stepsEl.length;
+    let cur = 0;
+    const go = i => {
+      if (i === cur) return;
+      const back = i < cur;
+      stepsEl.forEach((st, k) => { st.classList.toggle('on', k === i); st.classList.toggle('out', k === cur); });
+      const old = cur; setTimeout(() => stepsEl[old].classList.remove('out'), 700);
+      imgsEl.forEach((im, k) => { im.classList.remove('prev'); if (k === old) im.classList.add('prev'); im.classList.toggle('on', k === i); });
+      if (back) imgsEl[old].classList.remove('prev');
+      cur = i;
+    };
+    const tick = () => {
+      if (sc.offsetParent === null || innerWidth <= 860) return;
+      const r = sc.getBoundingClientRect(), span = r.height - innerHeight;
+      const p = Math.min(.9999, Math.max(0, -r.top / span));
+      go(Math.floor(p * N));
+      rail.forEach((b, k) => b.style.setProperty('--f', Math.min(1, Math.max(0, p * N - k)).toFixed(3)));
+    };
+    addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick();
+    // index links jump to the matching step
+    $$('.df-index a').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      const i = +a.dataset.step;
+      if (innerWidth <= 860) { stepsEl[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); return; }
+      const top = sc.getBoundingClientRect().top + scrollY + (sc.offsetHeight - innerHeight) * (i + .5) / N;
+      scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    }, true));
+    // role tabs on the "contribute" step
+    $$('.df-tabs button').forEach(b => b.addEventListener('click', () => {
+      const box = b.closest('.df-body');
+      $$('.df-tabs button', box).forEach(x => x.classList.toggle('on', x === b));
+      $$('.df-pane', box).forEach((pn, k) => pn.classList.toggle('on', k === +b.dataset.t));
+    }));
+  }
+
   /* ===== About BSNR page ===== */
   {
   /* About hero: headline words resolve from blur, cards rise in and follow the cursor */
@@ -1943,8 +2177,7 @@ section{position:relative}
     if (!reduce) $('#header').animate([{ transform: 'translateY(-140%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 1000, delay: 400, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' });
     fxCount();
   };
-  addEventListener('hashchange', () => { if (location.hash === '#bsnr-about') ahEnter(); });
-  document.addEventListener('click', e => { if (e.target.closest('a[href="#bsnr-about"]')) setTimeout(ahEnter, 0); });
+  addEventListener('pageshow:about', ahEnter);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(fxFit);
   ahEnter();
   let tx = 0, ty = 0, cx = 0, cy = 0, lx = .5, ly = .6;
