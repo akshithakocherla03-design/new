@@ -126,10 +126,13 @@ The live page has only Location, Email and Phone, and no form. Those three detai
 
 ## Farmer Registration page (`#register-farmer`, from Register → Farmer)
 The live page is "How it works · Farmer Registration" with four tabs. Every step title, point and Register button (linking to `https://bsnrapp.rubberboard.org.in/#/farmer`) is kept word for word. The user stressed that animations matter.
-1. **Hero:** "Farmer / **Registration**", headline only, centred, over the live site's photo of a farmer tapping rubber (`assets/img/farmer/hero.jpg`).
-2. **Pinned journey** (`#fmSteps`, 4 × 90vh):
+1. **Hero** (`#fmTop`): compact, not the full-screen breathing hero; the user asked for a different, smaller hero so the steps stand out.
+   - **Left:** the headline rises out of masks, with four step chips joined by a drawing line. The chips jump to their step.
+   - **Right:** the farmer photo in an arch that wipes up, with floating "4 simple steps" and "Free for every farmer" badges.
+   - **Intro:** replays on `pageshow:farmer`.
+2. **Pinned journey** (`#fmSteps`, 4 × 90vh): the page's highlight, set on a dark forest panel with a big ghost step number. The scene column is wider (grid .82fr / 1.18fr).
    - **Steps column:** a progress rail fills through numbered nodes (past nodes go dark, the active one pulses lime). The active step opens with its points sliding in and its Register button. Step titles are clickable, like the live tabs.
-   - **Scenes:** the right column holds a photo per step that wipes in, with a looping demo (restarted by toggling `.go` every 7s): a sign-up form filling in and confirming; buyers (Dealer, Processor, Manufacturer) ticked off the pre-registered list; plot polygons drawing over the aerial photo, pins dropping and a plot checklist; a review checklist, a Declare & submit press, then the "Submitted · Rubber Board will contact you…" card.
+   - **Scenes:** the right column holds a photo per step that wipes in, with a looping demo (restarted by toggling `.go` every 7s): a large sign-up form whose fields type themselves (driven by script) before the button confirms, labelled "Preview · Register on the BSNR portal" because real registration happens on the BSNR app; buyers (Dealer, Processor, Manufacturer) ticked off the pre-registered list; plot polygons drawing over the aerial photo, pins dropping and a plot checklist; a review checklist, a Declare & submit press, then the "Submitted · Rubber Board will contact you…" card.
    - **Positioning:** scenes sit inside each step and are positioned past the right edge of `.fm-list`, its containing block.
 3. **Marquee:** two crossing bands (dark sans, lime serif) with the step names and "Free for every farmer". They drift and speed up with scroll velocity.
 4. **"Keep these ready":** three cards (one KYC document, one land document, your plot details) that flip up in turn and tilt on hover.
