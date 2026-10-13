@@ -795,26 +795,79 @@ section{position:relative}
 @media (max-width:860px){.df-cue{display:none}.df-scroll .df-grid{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.df-hero>.wrap,.df-scroll .df-grid{transform:none!important;opacity:1!important}}
 
-/* ===== Risk & Legality page: shares the Deforestation layout (df-*), plus its own pieces ===== */
+/* ===== Risk & Legality page: Deforestation-style hero (df-*), then role tabs, Read more, FAQs ===== */
 .rk-hero::before{background:url("assets/img/risk/hero.jpg") center 55%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/hero.jpg") center 55%/cover;filter:saturate(.95) brightness(.6)}
 .rk-hero .df-head{font-size:clamp(46px,7.6vw,116px)}
-.rk-areas{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.rk-areas li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:9px 13px;border-radius:14px;background:var(--paper);box-shadow:0 0 0 1px var(--line);font-size:14px;font-weight:600;line-height:1.3;opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease),transform .7s var(--ease),box-shadow .3s;transition-delay:calc(.35s + var(--k) * 55ms)}
-.rk-areas li:last-child{grid-column:1/-1}
+.rk-picks a{grid-template-columns:48px 1fr auto;padding:16px 4px}
+.rk-ic{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(200,241,105,.14);color:var(--lime);transition:background .4s,color .4s}
+/* role switch: two big tabs with a gliding ink pill */
+.rk-roles{--r:0;position:relative;display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:880px;margin:0 auto clamp(40px,5vw,72px);padding:6px;border-radius:24px;background:var(--paper);box-shadow:0 0 0 1px var(--line),0 24px 60px -36px rgba(11,31,22,.45)}
+.rk-glider{position:absolute;top:6px;bottom:6px;left:6px;width:calc(50% - 9px);border-radius:18px;background:var(--ink);transform:translateX(calc(var(--r) * (100% + 6px)));transition:transform .7s var(--ease)}
+.rk-role{position:relative;z-index:1;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:18px;font-size:clamp(15px,1.35vw,18px);font-weight:700;line-height:1.25;text-align:left;color:var(--ink);transition:color .4s}
+.rk-role .rk-ic{background:rgba(75,175,71,.12);color:var(--leaf)}
+.rk-role.on{color:#fff}
+.rk-role.on .rk-ic{background:var(--lime);color:var(--ink)}
+.rk-role:not(.on):hover .rk-ic{background:var(--lime);color:var(--ink)}
+/* each panel: copy on the left, sticky photo on the right */
+.rk-panel{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(32px,5vw,80px);align-items:start}
+.rk-panel[hidden]{display:none}
+.rk-copy>*{animation:rkIn .9s var(--ease) both}
+.rk-copy>:nth-child(2){animation-delay:.1s}.rk-copy>:nth-child(3){animation-delay:.2s}.rk-copy>:nth-child(4){animation-delay:.3s}
+@keyframes rkIn{from{opacity:0;transform:translateY(24px);filter:blur(6px)}}
+.rk-intro{font-size:clamp(18px,1.65vw,23px);line-height:1.45;letter-spacing:-.02em;font-weight:500;color:var(--ink)}
+.rk-h{margin:clamp(32px,4vw,48px) 0 16px;font-size:clamp(20px,1.8vw,26px);line-height:1.2;letter-spacing:-.025em}
+.rk-p{max-width:62ch;margin-bottom:18px;color:var(--muted)}
+.rk-areas{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.rk-areas--3{grid-template-columns:repeat(3,1fr)}
+.rk-areas--2{grid-template-columns:repeat(2,1fr)}
+.rk-areas li{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:18px;background:var(--paper);box-shadow:0 0 0 1px var(--line);font-size:15px;font-weight:600;line-height:1.35;animation:rkIn .7s var(--ease) both;animation-delay:calc(.25s + var(--k) * 60ms);transition:transform .4s var(--ease),box-shadow .3s}
 .rk-areas b{font-size:12px;color:var(--leaf)}
-.rk-areas li:hover{box-shadow:0 0 0 1.5px var(--leaf)}
-.df-step.on .rk-areas li{opacity:1;transform:none}
-.rk-meter{position:relative;height:8px;margin:4px 0 18px;max-width:420px}
+.rk-areas li:hover{transform:translateY(-3px);box-shadow:0 0 0 1.5px var(--leaf),0 14px 30px -18px rgba(11,31,22,.35)}
+.rk-areas--2 li{flex-direction:row;align-items:center;gap:14px;padding:18px 20px;font-size:16px}
+.rk-photo{position:sticky;top:110px;margin:0;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:#dfe5da;box-shadow:0 40px 80px -40px rgba(11,31,22,.55);animation:rkWipe 1.1s cubic-bezier(.7,0,.2,1) both}
+.rk-photo img{width:100%;height:100%;object-fit:cover;display:block;animation:rkZoom 1.6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rkWipe{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes rkZoom{from{transform:scale(1.18) translateX(6%)}}
+.rk-photo figcaption{position:absolute;left:16px;right:16px;bottom:16px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(11,31,22,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);color:#fff;font-size:14px;font-weight:700}
+/* Read more: the completion section opens in place */
+.rk-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .8s var(--ease)}
+.rk-more-in{min-height:0;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.rk-more.open{grid-template-rows:1fr}
+.rk-more.open .rk-more-in{opacity:1;transform:none;transition-delay:.15s}
+.rk-read{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:12px 20px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink);font-size:14px;font-weight:700;transition:background .3s,color .3s}
+.rk-read:hover{background:var(--ink);color:#fff}
+.rk-read svg{transition:transform .5s var(--ease)}
+.rk-read span+span,.rk-read[aria-expanded="true"] span:first-child{display:none}
+.rk-read[aria-expanded="true"] span+span{display:inline}
+.rk-read[aria-expanded="true"] svg{transform:rotate(180deg)}
+/* risk levels: tabs plus a meter that slides to the chosen level */
+.rk-levels .df-list li{opacity:1;transform:none}
+.rk-meter{position:relative;height:8px;margin:4px 0 18px;max-width:440px}
 .rk-meter span{position:absolute;inset:0;border-radius:8px;background:linear-gradient(90deg,var(--lime),#f2b84b 50%,#ef6a4f)}
 .rk-meter i{position:absolute;top:50%;left:calc((var(--t,0) * 2 + 1) * 100% / 6);width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 4px #fff,0 6px 16px -4px rgba(11,31,22,.5);transition:left .7s var(--ease)}
 .rk-meter~.df-panes .df-pane:nth-child(2) .df-list i{background:#f6cd78}
 .rk-meter~.df-panes .df-pane:nth-child(3) .df-list i{background:#f59a86}
 .rk-dot{display:inline-block;width:9px;height:9px;margin-right:8px;border-radius:50%;background:var(--c);vertical-align:1px}
-.df-steps strong{color:var(--ink)}
-.rk-hero ~ .df-scroll .df-steps span{color:var(--muted)}
-@media (max-width:860px){.rk-areas li{opacity:1;transform:none}.rk-areas{grid-template-columns:1fr}}
-@media (max-width:560px){.df-tabs{display:flex;border-radius:20px}.df-tabs button{flex:1 1 auto}}
-@media (max-height:700px) and (min-width:861px){.rk-areas li{padding:7px 12px;font-size:13px}.rk-hero .df-head{font-size:clamp(42px,6.6vw,96px)}}
+/* dealer outcomes: two cards side by side */
+.rk-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rk-col{padding:22px;border-radius:22px;background:var(--paper);box-shadow:0 0 0 1px var(--line)}
+.rk-col h4{margin:0 0 16px;font-size:17px;line-height:1.3;color:var(--leaf)}
+.rk-col ol{list-style:none;margin:0;padding:0;display:grid;gap:16px;counter-reset:c}
+.rk-col li{display:grid;grid-template-columns:auto 1fr;column-gap:12px;counter-increment:c}
+.rk-col li::before{content:counter(c,decimal-leading-zero);grid-row:span 2;padding-top:2px;font-size:12px;font-weight:700;color:var(--leaf)}
+.rk-col b{font-size:15px}
+.rk-col p{margin-top:3px;font-size:14px;line-height:1.5;color:var(--muted)}
+@media (max-width:1180px){.rk-cols{grid-template-columns:1fr}.rk-areas--3{grid-template-columns:1fr 1fr}}
+@media (max-width:860px){
+  .rk-panel{grid-template-columns:1fr;gap:28px}
+  .rk-photo{position:relative;top:0;order:-1;aspect-ratio:16/10}
+  .rk-role{gap:10px;padding:12px;font-size:14px}
+  .rk-role .rk-ic{width:32px;height:32px}
+}
+@media (max-width:560px){.rk-areas--3,.rk-areas--2{grid-template-columns:1fr}.rk-areas--3 li{flex-direction:row;align-items:center;gap:14px;padding:13px 16px}.rk-role .rk-ic{display:none}.df-tabs{display:flex;border-radius:20px}.df-tabs button{flex:1 1 auto}}
+@media (max-height:700px) and (min-width:861px){.rk-hero .df-head{font-size:clamp(42px,6.6vw,96px)}}
+.rk-main:not(.in) :is(.rk-copy>*,.rk-areas li,.rk-photo,.rk-photo img){animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.rk-copy>*,.rk-areas li,.rk-photo,.rk-photo img{animation:none}}
 
 /* Responsive */
 @media (max-width:1080px){
@@ -1572,79 +1625,49 @@ section{position:relative}
 <main class="page" data-page="risk" hidden>
 <section class="df-hero rk-hero">
   <div class="wrap">
-    <span class="eyebrow df-later">EUDR · Article 10</span>
+    <span class="eyebrow df-later">About EUDR</span>
     <h1 class="df-head">
       <span class="df-l"><span class="df-w">Risk &amp; Legality</span></span>
       <span class="df-l"><span class="df-w df-brand">Assessments</span></span>
     </h1>
     <div class="df-intro df-later">
-      <p class="df-lead">How BSNR checks that every farmer and trader in the rubber supply chain meets EUDR and Indian law, and what each risk rating means. Scroll through the five questions below.</p>
-      <ol class="df-index"><li style="--k:0"><a href="#rkStep0" data-step="0"><b>01</b><span>Why is risk assessment part of EUDR?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:1"><a href="#rkStep1" data-step="1"><b>02</b><span>What does a farmer’s risk assessment cover?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:2"><a href="#rkStep2" data-step="2"><b>03</b><span>What happens after a farmer is assessed?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:3"><a href="#rkStep3" data-step="3"><b>04</b><span>What does a dealer’s risk assessment cover?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:4"><a href="#rkStep4" data-step="4"><b>05</b><span>What happens once a dealer is approved?</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li></ol>
+      <p class="df-lead">Risk Assessment is an integral part of EUDR Compliance (Article 10). Though there are no specific requirements in EUDR towards the Risk Assessment, our system is designed to obtain information that has been used under various best Risk Assessment Frameworks that helps in making the supply chain efficient and compliant.</p>
+      <ol class="df-index rk-picks"><li style="--k:0"><a href="#rkMain" class="rk-pick" data-r="0"><span class="rk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M7 9l1.5-4h7L17 9"/><path d="M8 9v2a4 4 0 0 0 8 0V9"/><path d="M5 21c.6-3.4 3.4-5.5 7-5.5s6.4 2.1 7 5.5"/></svg></span><span>Risk Assessment for Farmer</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:1"><a href="#rkMain" class="rk-pick" data-r="1"><span class="rk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v10h14V10"/><path d="M9 20v-5h6v5"/></svg></span><span>Risk Assessment for Dealer/Sub-Dealer</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li></ol>
     </div>
   </div>
-  <a class="df-cue df-later" href="#rkStep0" data-step="0"><i></i>Scroll to explore</a>
+  <a class="df-cue df-later" href="#rkMain"><i></i>Scroll to explore</a>
 </section>
 
-<section class="df-scroll" style="--n:5">
-  <div class="df-stage">
-    <div class="wrap df-grid">
-      <div class="df-left">
-        <div class="df-rail" aria-hidden="true"><i data-i="0"></i><i data-i="1"></i><i data-i="2"></i><i data-i="3"></i><i data-i="4"></i></div>
-        <div class="df-texts">
-        <article class="df-step on" data-i="0" style="--img:url(&quot;assets/img/risk/why.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/why.jpg&quot;)">
-          <span class="df-num">01 <em>/ 05</em></span>
-          <h2 class="df-q">Why is risk assessment part of EUDR?</h2>
-          <p class="df-a">Article 10 makes risk assessment mandatory: exporters must collect full information on where rubber comes from, whether it was produced legally and any link to deforestation.</p>
-          <div class="df-body"><div class="df-facts"><div style="--k:0"><strong>Article 10</strong><span>Risk assessment is required under EUDR</span></div><div style="--k:1"><strong>Farmer-level</strong><span>The most important part of compliance</span></div><div style="--k:2"><strong>2 tracks</strong><span>Farmers, and dealers or sub-dealers</span></div><div style="--k:3"><strong>Every year</strong><span>An initial assessment, then annual reviews</span></div></div><p class="df-note">EUDR sets no fixed method, so BSNR collects the information used in the leading risk assessment frameworks.</p></div>
-        </article>
-        <article class="df-step" data-i="1" style="--img:url(&quot;assets/img/risk/farmer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/farmer.jpg&quot;)">
-          <span class="df-num">02 <em>/ 05</em></span>
-          <h2 class="df-q">What does a farmer’s risk assessment cover?</h2>
-          <p class="df-a">Farmers answer a short set of questions showing their rubber was produced under the laws of India. Nine areas are checked:</p>
-          <div class="df-body"><ul class="rk-areas"><li style="--k:0"><b>01</b><span>Deforestation risk</span></li><li style="--k:1"><b>02</b><span>Land ownership</span></li><li style="--k:2"><b>03</b><span>Child labour</span></li><li style="--k:3"><b>04</b><span>Migrant worker rights</span></li><li style="--k:4"><b>05</b><span>Environmental pollution</span></li><li style="--k:5"><b>06</b><span>Use of banned chemicals</span></li><li style="--k:6"><b>07</b><span>Worker safety, forced labour and fair wages</span></li><li style="--k:7"><b>08</b><span>Free, Prior and Informed Consent (FPIC) for indigenous rights</span></li><li style="--k:8"><b>09</b><span>Tax, anti-corruption, trade and customs rules</span></li></ul></div>
-        </article>
-        <article class="df-step" data-i="2" style="--img:url(&quot;assets/img/risk/rating.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/rating.jpg&quot;)">
-          <span class="df-num">03 <em>/ 05</em></span>
-          <h2 class="df-q">What happens after a farmer is assessed?</h2>
-          <p class="df-a">Each farmer is given an internal risk rating. The rating decides whether they can supply EUDR rubber and what follow-up is needed.</p>
-          <div class="df-body"><div class="rk-meter" aria-hidden="true"><span></span><i></i></div><div class="df-tabs" role="tablist"><button type="button" role="tab" class="on" data-t="0"><em class="rk-dot" style="--c:var(--lime)"></em>Low</button><button type="button" role="tab" class="" data-t="1"><em class="rk-dot" style="--c:#f2b84b"></em>Medium</button><button type="button" role="tab" class="" data-t="2"><em class="rk-dot" style="--c:#ef6a4f"></em>High</button></div><div class="df-panes"><div class="df-pane on"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Approved to supply EUDR rubber automatically</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>No further follow-up, unless special issues arise</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>May be part of an annual survey</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Approved to supply EUDR rubber</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Follows a Risk Mitigation Plan</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Submits mitigation compliance to the Rubber Board</span></li><li style="--k:3"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>May be part of an annual survey</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Approval is at the discretion of the Rubber Board</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Follows a Risk Mitigation Plan and submits a response</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Must move to Medium or Low risk before supplying EUDR rubber</span></li></ul></div></div></div>
-        </article>
-        <article class="df-step" data-i="3" style="--img:url(&quot;assets/img/risk/dealer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/dealer.jpg&quot;)">
-          <span class="df-num">04 <em>/ 05</em></span>
-          <h2 class="df-q">What does a dealer’s risk assessment cover?</h2>
-          <p class="df-a">Dealers, sub-dealers, manufacturers and processors link farmers to end users. Even dealers who also farm rubber take a separate assessment in their trading role.</p>
-          <div class="df-body"><div class="df-facts"><div style="--k:0"><strong>Legal compliance</strong><span>EUDR and local Bharat regulations</span></div><div style="--k:1"><strong>Segregation</strong><span>EUDR rubber kept apart from other material</span></div><div style="--k:2"><strong>Policies &amp; SOPs</strong><span>Documented and uploaded to the portal</span></div><div style="--k:3"><strong>Training</strong><span>Compliance training for the team</span></div></div><p class="df-note">Done through a self-assessment survey plus policy documents uploaded to a central portal, then reviewed every year.</p></div>
-        </article>
-        <article class="df-step" data-i="4" style="--img:url(&quot;assets/img/risk/approval.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/approval.jpg&quot;)">
-          <span class="df-num">05 <em>/ 05</em></span>
-          <h2 class="df-q">What happens once a dealer is approved?</h2>
-          <p class="df-a">Approved traders are connected into the supply chain and trained on IntelliTrack, the app used to record, collect, batch and invoice rubber consignments.</p>
-          <div class="df-body"><div class="df-tabs" role="tablist"><button type="button" role="tab" class="on" data-t="0">Sub-dealer</button><button type="button" role="tab" class="" data-t="1">Main dealer, manufacturer &amp; processor</button></div><div class="df-panes"><div class="df-pane on"><ol class="df-steps"><li style="--k:0"><b>01</b><span><strong>Mapped to farmers:</strong> assigned to the farmers they manage</span></li><li style="--k:1"><b>02</b><span><strong>Mapped to dealers:</strong> linked to the next dealer up the chain</span></li><li style="--k:2"><b>03</b><span><strong>IntelliTrack training:</strong> to record, batch and invoice consignments</span></li><li style="--k:3"><b>04</b><span><strong>Annual review:</strong> by the Rubber Board under EUDR</span></li></ol></div><div class="df-pane"><ol class="df-steps"><li style="--k:0"><b>01</b><span><strong>Listed on the portal:</strong> visible to buyers and exporters</span></li><li style="--k:1"><b>02</b><span><strong>Automatic mapping:</strong> their sub-dealers and farmers sit under them</span></li><li style="--k:2"><b>03</b><span><strong>IntelliTrack training:</strong> to handle collection, batching and invoicing</span></li><li style="--k:3"><b>04</b><span><strong>Annual review:</strong> by the Rubber Board under EUDR</span></li></ol></div></div></div>
-        </article>
-        </div>
-      </div>
-      <div class="df-right"><div class="df-frame"><figure class="df-img on" data-i="0"><img src="assets/img/risk/why.jpg" alt="Latex collecting in a cup on a tapped rubber tree" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/why.jpg'"></figure><figure class="df-img" data-i="1"><img src="assets/img/risk/farmer.jpg" alt="Farmer spraying a paddy field in Ernakulam, Kerala" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/farmer.jpg'"></figure><figure class="df-img" data-i="2"><img src="assets/img/risk/rating.jpg" alt="Row of tapped rubber trees with collection cups" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/rating.jpg'"></figure><figure class="df-img" data-i="3"><img src="assets/img/risk/dealer.jpg" alt="Worker carrying a sack in a storage warehouse" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/dealer.jpg'"></figure><figure class="df-img" data-i="4"><img src="assets/img/risk/approval.jpg" alt="Trader checking a smartphone app outdoors" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/approval.jpg'"></figure></div></div>
+<section class="sec rk-main" id="rkMain">
+  <div class="wrap">
+    <div class="rk-roles rv" role="tablist"><span class="rk-glider" aria-hidden="true"></span><button type="button" role="tab" class="rk-role on" data-r="0" aria-selected="true"><span class="rk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M7 9l1.5-4h7L17 9"/><path d="M8 9v2a4 4 0 0 0 8 0V9"/><path d="M5 21c.6-3.4 3.4-5.5 7-5.5s6.4 2.1 7 5.5"/></svg></span><span>Risk Assessment for Farmer</span></button><button type="button" role="tab" class="rk-role" data-r="1" aria-selected="false"><span class="rk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v10h14V10"/><path d="M9 20v-5h6v5"/></svg></span><span>Risk Assessment for Dealer/Sub-Dealer</span></button></div>
+    <div class="rk-panel on" data-r="0" role="tabpanel">
+      <div class="rk-copy"><p class="rk-intro">Risk Assessment at farmer-level is the most important and integral aspect of EUDR Compliance. Each farmer shall take part in the full effect in this process of Risk Assessment.</p><h3 class="rk-h">What is covered under Farmer Risk Assessment?</h3><ul class="rk-areas rk-areas--3"><li style="--k:0"><b>01</b><span>Deforestation Risk</span></li><li style="--k:1"><b>02</b><span>Land Ownership</span></li><li style="--k:2"><b>03</b><span>Child Labour</span></li><li style="--k:3"><b>04</b><span>Migrant Worker Rights</span></li><li style="--k:4"><b>05</b><span>Environmental Pollution</span></li><li style="--k:5"><b>06</b><span>Use of Banned Chemicals</span></li><li style="--k:6"><b>07</b><span>Worker Safety, Forced Labour and Decent &amp; Minimum Wages</span></li><li style="--k:7"><b>08</b><span>Free, Prior and Informed Consent (FPIC) for indigenous worker’s rights</span></li><li style="--k:8"><b>09</b><span>Tax, Anti-Corruption, Relevant Trade and Customs Regulations</span></li></ul><div class="rk-more"><div class="rk-more-in"><h3 class="rk-h">What happens upon the completion of Risk Assessment?</h3><p class="rk-p">Once the farmer has been subjected to Risk Assessment, he/she will be subjected to an internal Risk rating process. This process shall categorize the farmer into the following 3 categories:</p><div class="df-body rk-levels"><div class="rk-meter" aria-hidden="true"><span></span><i></i></div><div class="df-tabs" role="tablist"><button type="button" role="tab" class="on" data-t="0"><em class="rk-dot" style="--c:var(--lime)"></em>Low Risk Farmer</button><button type="button" role="tab" class="" data-t="1"><em class="rk-dot" style="--c:#f2b84b"></em>Medium Risk Farmer</button><button type="button" role="tab" class="" data-t="2"><em class="rk-dot" style="--c:#ef6a4f"></em>High Risk Farmer</button></div><div class="df-panes"><div class="df-pane on"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Approved to supply EUDR Rubber automatically</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>No further follow ups are required (unless special issues arise)</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Maybe subjected to annual survey</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Approved to supply EUDR Rubber</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Subjected to Risk Mitigation Plan</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Submit Risk Mitigation Compliance to Rubber Board</span></li><li style="--k:3"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Maybe subjected to annual survey</span></li><li style="--k:4"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Maybe approved or not approved to supply EUDR Rubber based on the discretion of Rubber Board</span></li></ul></div><div class="df-pane"><ul class="df-list"><li style="--k:0"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Subjected to Risk Mitigation Plan</span></li><li style="--k:1"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Submit response to Risk Mitigation Plan</span></li><li style="--k:2"><i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></i><span>Have to move from High Risk to Medium or Low Risk before being allowed to supply EUDR Rubber</span></li></ul></div></div></div></div></div><button type="button" class="rk-read" aria-expanded="false"><span>Read more</span><span>Read less</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      <figure class="rk-photo"><img src="assets/img/risk/farmer.jpg" alt="Farmer spraying a paddy field in Ernakulam, Kerala" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/farmer.jpg'"><figcaption><span class="rk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M7 9l1.5-4h7L17 9"/><path d="M8 9v2a4 4 0 0 0 8 0V9"/><path d="M5 21c.6-3.4 3.4-5.5 7-5.5s6.4 2.1 7 5.5"/></svg></span>Risk Assessment for Farmer</figcaption></figure>
+    </div>
+    <div class="rk-panel" data-r="1" role="tabpanel" hidden>
+      <div class="rk-copy"><p class="rk-intro">As a vital part of the rubber supply chain; dealers, sub-dealers, manufacturers and processors serve as crucial connection points between farmers and end-users. Although many dealers and sub-dealers may also be rubber farmers, they must undergo a separate risk assessment process in their capacity as a dealer or sub-dealer.</p><h3 class="rk-h">What is covered under dealer/sub-dealer risk assessment?</h3><ul class="rk-areas rk-areas--2"><li style="--k:0"><b>01</b><span>Legal Compliance</span></li><li style="--k:1"><b>02</b><span>Segregation practices</span></li><li style="--k:2"><b>03</b><span>Policies &amp; SOPs adoption</span></li><li style="--k:3"><b>04</b><span>Compliance Training</span></li></ul><div class="rk-more"><div class="rk-more-in"><h3 class="rk-h">What happens upon completion of risk assessment?</h3><div class="rk-cols"><div class="rk-col" style="--k:0"><h4>Sub-Dealer</h4><ol><li><b>Mapping to Farmers:</b><p>Approved sub-dealers are assigned to the farmers under their management to ensure structured oversight and traceability.</p></li><li><b>Mapping to Dealers:</b><p>Sub-dealers are also connected to the next level of dealers, whether they are main dealers or other sub-dealers, to streamline the supply chain.</p></li><li><b>Training on IntelliTrack:</b><p>Sub-dealers receive comprehensive training on using the IntelliTrack application, which is essential for recording, tracking, collecting, batching, and invoicing rubber consignments.</p></li><li><b>Annual Review:</b><p>They are subject to an annual compliance review by the Rubber Board of India under EUDR regulations, ensuring ongoing adherence to standards.</p></li></ol></div><div class="rk-col" style="--k:1"><h4>Main-Dealer / Manufacturer / Processor</h4><ol><li><b>Listing in the Portal:</b><p>Approved dealers/manufacturers/processors are listed on the portal, making them visible to end buyers and exporters for selection, which facilitates market transactions.</p></li><li><b>Automatic Mapping:</b><p>All sub-dealers and farmers associated with a dealer/manufacturer/processor are automatically mapped under them, enhancing the management and traceability within the supply chain.</p></li><li><b>Training on IntelliTrack:</b><p>Dealers/manufacturers/processors are provided with full training on the IntelliTrack app to proficiently handle collection, batching, and invoicing of rubber consignments.</p></li><li><b>Annual Compliance Review:</b><p>Dealers/manufacturers/processors undergo an annual review by the Rubber Board under EUDR compliance to ensure continuous adherence to regulatory standards.</p></li></ol></div></div></div></div><button type="button" class="rk-read" aria-expanded="false"><span>Read more</span><span>Read less</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      <figure class="rk-photo"><img src="assets/img/risk/dealer.jpg" alt="Worker carrying a sack in a storage warehouse" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/dealer.jpg'"><figcaption><span class="rk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v10h14V10"/><path d="M9 20v-5h6v5"/></svg></span>Risk Assessment for Dealer/Sub-Dealer</figcaption></figure>
     </div>
   </div>
-  <span class="df-anchor" id="rkStep0" style="top:calc(0 * 100vh + 10px)"></span><span class="df-anchor" id="rkStep1" style="top:calc(1 * 100vh + 10px)"></span><span class="df-anchor" id="rkStep2" style="top:calc(2 * 100vh + 10px)"></span><span class="df-anchor" id="rkStep3" style="top:calc(3 * 100vh + 10px)"></span><span class="df-anchor" id="rkStep4" style="top:calc(4 * 100vh + 10px)"></span>
 </section>
 
-<section class="sec" id="rkFaq">
+<section class="sec" style="padding-top:0" id="rkFaq">
   <div class="wrap faq">
     <div>
-      <span class="eyebrow rv">General FAQs</span>
-      <h2 class="split" style="margin-top:18px"><span class="ln"><span>Questions on</span></span><span class="ln"><span style="--d:.08s" class="serif">risk assessment</span></span></h2>
+      <span class="eyebrow rv">FAQ</span>
+      <h2 class="split" style="margin-top:18px"><span class="ln"><span>General FAQs on</span></span><span class="ln"><span style="--d:.08s" class="serif">Risk Assessment</span></span></h2>
     </div>
     <div class="faq-list rv">
-      <details open><summary>Is risk assessment mandatory under EUDR? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Yes. Article 10 of EUDR requires it: exporters must collect comprehensive information about their products, including their origin, the legality of production and any risks associated with deforestation.</p></details>
-      <details><summary>How do farmers take part in the risk assessment? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Farmers answer a few questions and provide information showing their rubber was produced in line with the relevant laws of India. This data is used to assess their compliance with EUDR.</p></details>
-      <details><summary>How often do farmers need to be assessed? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Farmers complete an initial risk assessment, followed by annual reviews to make sure they keep meeting EUDR standards and local regulations.</p></details>
-      <details><summary>What support is there for farmers? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Farmers get a Risk Mitigation Plan and full assistance to reduce their risk, follow the plan and meet EUDR requirements.</p></details>
-      <details><summary>What is the purpose of the dealer and sub-dealer assessment? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>It makes sure dealers and sub-dealers comply with both EUDR and local Bharat regulations, covering legal compliance, material segregation, policy documents and training. This keeps the supply chain from farmers to end users transparent.</p></details>
-      <details><summary>How is the dealer and sub-dealer assessment carried out? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Through a self-assessment survey and policy documents, such as SOPs and segregation policies, uploaded to a central portal. The survey checks compliance with EUDR standards and the documents are reviewed to confirm it.</p></details>
-      <details><summary>How often do dealers and sub-dealers need to be assessed? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>There is an initial evaluation followed by annual reviews, so compliance keeps pace with any changes in EUDR or local requirements.</p></details>
-      <details><summary>What happens when a dealer or sub-dealer passes? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>They are approved. Approved sub-dealers are mapped to farmers and dealers, and both receive training on the IntelliTrack app for managing rubber consignments. Approval is reviewed every year.</p></details>
-      <details><summary>What support is there for dealers and sub-dealers? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Guidance on drafting compliant policies, workshops and training, to help them pass the assessment and stay compliant.</p></details>
+      <details><summary>Is it mandatory to perform risk assessment as per EUDR? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Yes, it is mandatory to conduct Risk Assessment as per EUDR Article 10 which states that “Exporters must collect comprehensive information about the products, including their origin, the legality of production, and any risks associated with deforestation.”</p></details>
+      <details><summary>How do farmers participate in the EUDR risk assessment? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Farmers need to answer a few questions and provide information to ensure that Rubber has been produced in accordance with the relevant legislation of the country of production (India). This data is used to assess their compliance with EUDR regulations.</p></details>
+      <details><summary>How often do farmers need to undergo risk assessment? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Farmers must complete an initial risk assessment, followed by annual reviews to ensure ongoing compliance with EUDR standards and local regulations.</p></details>
+      <details><summary>What support is available for farmers to meet the risk assessment criteria? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Farmers receive support in the form of Risk Mitigation Plan and full assistance to reduce the risk, abide by the mitigation plan and comply with EUDR requirements.</p></details>
+      <details><summary>What is the purpose of the risk assessment for dealers and sub-dealers? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>The risk assessment aims to ensure that dealers and sub-dealers comply with both EUDR and local Bharat regulations. It focuses on legal compliance, material segregation, policy documentation, and providing necessary training. This process helps maintain the integrity and transparency of the rubber supply chain from farmers to end-users.</p></details>
+      <details><summary>How is the risk assessment conducted for dealers and sub-dealers? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>The risk assessment process for dealers and sub-dealers includes a self-assessment survey and a requirement to upload specific policy documents on a centralized portal. The survey evaluates compliance with EUDR standards, while the uploaded documents, such as SOPs and segregation policies, are reviewed to verify adherence to these standards. This dual approach ensures comprehensive compliance assessment.</p></details>
+      <details><summary>How often do dealers and sub-dealers need to undergo risk assessment? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>The risk assessment process includes an initial evaluation and subsequent annual reviews. These reviews ensure ongoing compliance with the EUDR standards and local regulations, helping address any changes or updates in compliance requirements.</p></details>
+      <details><summary>What happens if a dealer or sub-dealer passes the risk assessment? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Upon successful completion of the risk assessment, dealers and sub-dealers receive approval. Approved sub-dealers are mapped to farmers and dealers, and both dealers and sub-dealers receive training on the IntelliTrack application for managing rubber consignments. This status is subject to an annual review to maintain compliance.</p></details>
+      <details><summary>What support is available for dealers and sub-dealers to meet the risk assessment criteria? <i><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></i></summary><p>Support includes guidance materials on drafting compliant policies, workshops, and training to help understand and implement the necessary compliance measures. This assistance is designed to help dealers and sub-dealers not only pass the risk assessment but also maintain their compliance status effectively.</p></details>
     </div>
   </div>
 </section>
@@ -1653,9 +1676,9 @@ section{position:relative}
   <div class="wrap">
     <div class="cta rv">
       <img src="assets/img/risk/hero.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/hero.jpg'">
-      <span class="pill"><b>Assessment</b> Free for every farmer</span>
-      <h2>Know your <span class="serif">risk rating.</span></h2>
-      <p class="lead">Register on BSNR to take the risk assessment. If anything needs fixing, you get a Risk Mitigation Plan and support to follow it.</p>
+      <span class="pill"><b>EUDR</b> Article 10</span>
+      <h2>Take part in the <span class="serif">risk assessment.</span></h2>
+      <p class="lead">Register on BSNR as a farmer, dealer or sub-dealer to complete your risk assessment.</p>
       <div class="row-btns">
         <a class="btn btn--lime" href="register-yourself.html">Register your Interest <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         <a class="btn btn--ghost" href="faq.html">Read the EUDR FAQ</a>
@@ -2222,7 +2245,10 @@ section{position:relative}
     if (location.hash === hash) (document.fonts ? document.fonts.ready : Promise.resolve()).then(enter);
 
     // scroll-driven questions: text swaps on the left, image wipes in from the right
-    const sc = $('.df-scroll', page), stepsEl = $$('.df-step', sc), imgsEl = $$('.df-img', sc), rail = $$('.df-rail i', sc), N = stepsEl.length;
+    // (a page without them, like Risk & Legality, keeps only the hero behaviour)
+    const sc = $('.df-scroll', page);
+    if (sc) {
+    const stepsEl = $$('.df-step', sc), imgsEl = $$('.df-img', sc), rail = $$('.df-rail i', sc), N = stepsEl.length;
     let cur = 0;
     const go = i => {
       if (i === cur) return;
@@ -2241,22 +2267,6 @@ section{position:relative}
       rail.forEach((b, k) => b.style.setProperty('--f', Math.min(1, Math.max(0, p * N - k)).toFixed(3)));
     };
     addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick();
-    // hand-off between hero and the questions, driven by scroll
-    const handoff = () => {
-      if (hero.offsetParent === null) return;
-      const hr = hero.getBoundingClientRect();
-      const hp = Math.min(1, Math.max(0, -hr.top / (hr.height * .75)));
-      hero.style.setProperty('--hp', hp.toFixed(3));
-      const sr = sc.getBoundingClientRect();
-      const ep = Math.min(1, Math.max(0, 1 - (sr.top / innerHeight)));
-      sc.style.setProperty('--ep', ep.toFixed(3));
-    };
-    addEventListener('scroll', handoff, { passive: true }); addEventListener('resize', handoff);
-    $('.df-cue', page).addEventListener('click', e => {
-      e.preventDefault(); e.stopPropagation();
-      scrollTo({ top: sc.getBoundingClientRect().top + scrollY + 2, behavior: reduce ? 'auto' : 'smooth' });
-    }, true);
-    handoff();
     // index links jump to the matching step
     $$('.df-index a', page).forEach(a => a.addEventListener('click', e => {
       e.preventDefault(); e.stopPropagation();
@@ -2265,6 +2275,26 @@ section{position:relative}
       const top = sc.getBoundingClientRect().top + scrollY + (sc.offsetHeight - innerHeight) * (i + .5) / N;
       scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
     }, true));
+    }
+    // hand-off between the hero and the next section, driven by scroll
+    const handoff = () => {
+      if (hero.offsetParent === null) return;
+      const hr = hero.getBoundingClientRect();
+      const hp = Math.min(1, Math.max(0, -hr.top / (hr.height * .75)));
+      hero.style.setProperty('--hp', hp.toFixed(3));
+      if (!sc) return;
+      const sr = sc.getBoundingClientRect();
+      const ep = Math.min(1, Math.max(0, 1 - (sr.top / innerHeight)));
+      sc.style.setProperty('--ep', ep.toFixed(3));
+    };
+    addEventListener('scroll', handoff, { passive: true }); addEventListener('resize', handoff);
+    const cue = $('.df-cue', page);
+    cue.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      const to = sc || $(cue.getAttribute('href'));
+      scrollTo({ top: to.getBoundingClientRect().top + scrollY + 2, behavior: reduce ? 'auto' : 'smooth' });
+    }, true);
+    handoff();
     // tabs inside a step (roles, risk levels); --t lets a step style itself by the open tab
     $$('.df-tabs button', page).forEach(b => b.addEventListener('click', () => {
       const box = b.closest('.df-body');
@@ -2275,6 +2305,35 @@ section{position:relative}
   };
   questionPage('defo', '#deforestation-analysis');
   questionPage('risk', '#risk-legality');
+
+  /* Risk & Legality: Farmer / Dealer tabs, hero shortcuts and Read more */
+  {
+    const page = $('.page[data-page="risk"]'), roles = $('.rk-roles', page);
+    const pick = r => {
+      roles.style.setProperty('--r', r);
+      $$('.rk-role', page).forEach(b => { const on = +b.dataset.r === r; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+      $$('.rk-panel', page).forEach(pn => {
+        const on = +pn.dataset.r === r;
+        if (on && pn.hidden) { pn.hidden = false; pn.classList.add('on'); }
+        else if (!on) { pn.hidden = true; pn.classList.remove('on'); }
+      });
+    };
+    $$('.rk-role', page).forEach(b => b.addEventListener('click', () => pick(+b.dataset.r)));
+    // panel entrance waits until the section is on screen
+    const main = $('#rkMain');
+    new IntersectionObserver(([en]) => { if (en.isIntersecting) main.classList.add('in'); }, { threshold: .08 }).observe(main);
+    $$('.rk-pick', page).forEach(a => a.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      pick(+a.dataset.r);
+      scrollTo({ top: $('#rkMain').getBoundingClientRect().top + scrollY - 20, behavior: reduce ? 'auto' : 'smooth' });
+    }, true));
+    $$('.rk-read', page).forEach(b => b.addEventListener('click', () => {
+      const box = b.previousElementSibling, open = !box.classList.contains('open');
+      box.classList.toggle('open', open); b.setAttribute('aria-expanded', open);
+      // closing from far down: bring the button back into view
+      if (!open && b.getBoundingClientRect().top < 80) b.closest('.rk-copy').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    }));
+  }
 
   /* ===== About BSNR page ===== */
   {

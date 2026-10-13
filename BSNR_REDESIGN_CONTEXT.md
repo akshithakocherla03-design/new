@@ -63,15 +63,12 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 3. **CTA:** "Get your farm mapped."
 
 ## Risk & Legality Assessments page (`#risk-legality`)
-Built on the Deforestation layout: same `df-*` markup and CSS, plus `rk-*` extras. The script is shared: `questionPage(name, hash)` runs the hero intro, scrollytelling, index links and tabs for both pages (scoped to each page, so no IDs are needed).
-1. **Hero:** "Risk & Legality / **Assessments**" over a dark plantation with collection cups (`assets/img/risk/hero.jpg`), eyebrow "EUDR · Article 10", lead line and an index of five questions.
-2. **Questions** (5 × 100vh):
-   - Q1 why (Article 10, 4 fact tiles)
-   - Q2 farmer coverage (9 numbered area tiles, `.rk-areas`)
-   - Q3 risk rating (Low / Medium / High tabs with a sliding meter, `.rk-meter`, driven by `--t` set on `.df-body`)
-   - Q4 dealer coverage (4 fact tiles)
-   - Q5 after approval (Sub-dealer / Main dealer tabs)
-3. **General FAQs** (9 questions, About-page FAQ style), then a **CTA**: "Know your risk rating."
+Keeps the live page's structure and wording (the user asked for all existing content and functionality to stay), styled like Deforestation. The hero uses the shared `questionPage()` (it skips the scrollytelling when a page has no `.df-scroll`).
+1. **Hero:** "Risk & Legality / **Assessments**" over a dark plantation (`assets/img/risk/hero.jpg`), with the live intro paragraph and two glass shortcuts that open each tab.
+2. **Role tabs** (`.rk-roles`, gliding pill): "Risk Assessment for Farmer" / "Risk Assessment for Dealer/Sub-Dealer". Each panel has copy on the left and a sticky photo on the right (`farmer.jpg`, `dealer.jpg`).
+   - **Farmer:** intro, "What is covered under Farmer Risk Assessment?" (9 tiles), then **Read more** opens "What happens upon the completion of Risk Assessment?" with Low / Medium / High Risk Farmer tabs and a sliding meter. Medium has 5 points.
+   - **Dealer:** intro, "What is covered under dealer/sub-dealer risk assessment?" (4 tiles), then **Read more** opens "What happens upon completion of risk assessment?" with Sub-Dealer and Main-Dealer / Manufacturer / Processor cards.
+3. **General FAQs on Risk Assessment:** the live page's 9 questions, verbatim, as an accordion. Then a short **CTA**, which is new and not on the live page.
 
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
@@ -79,7 +76,7 @@ Built on the Deforestation layout: same `df-*` markup and CSS, plus `rk-*` extra
 - `assets/img/stats/`: plot, growers, dealer, processor, manufacturer, exporter
 - `assets/img/about/hero.jpg`
 - `assets/img/defo/`: eudr, mapping, consequences, contribute, analysis
-- `assets/img/risk/`: hero, why, farmer, rating, dealer, approval
+- `assets/img/risk/`: hero, farmer, dealer
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
