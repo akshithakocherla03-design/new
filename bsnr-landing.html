@@ -1325,6 +1325,146 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 @media (max-width:560px){.ct-row{grid-template-columns:auto 1fr}.ct-acts{grid-column:1/-1;flex-direction:row;justify-content:flex-start}.ct-ic{width:46px;height:46px}.ct-map{min-height:320px}}
 @media (prefers-reduced-motion:reduce){.ct-map{clip-path:none}.ct-pin,.ct-map-card{opacity:1;transform:none}}
 
+/* ===== Farmer registration: centred hero, pinned four-step journey with live scenes, marquee, documents, magnetic CTA ===== */
+.fm-hero::before{background:url("assets/img/farmer/hero.jpg") center 40%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@f8194796156f685f5832fbce98bdf88a50c56d09/assets/img/farmer/hero.jpg") center 40%/cover;filter:saturate(.95) brightness(.52)}
+.fm-hero .df-head{font-size:clamp(52px,9vw,140px)}
+.fm-hero>.wrap{text-align:center}
+.fm-hero .eyebrow.df-later{justify-content:center}
+/* the journey */
+.fm-steps{position:relative;height:calc(var(--n) * 90vh + 60vh)}
+.fm-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;padding-top:clamp(64px,9vh,90px)}
+.fm-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;min-height:min(72vh,620px)}
+.fm-list{position:relative;padding-left:64px}
+.fm-list>.eyebrow{margin-bottom:clamp(10px,2vh,22px)}
+.fm-of{font-style:normal;margin-left:10px;color:#a6b2ab;letter-spacing:.08em}
+.fm-of b{color:var(--ink)}
+.fm-rail{position:absolute;left:21px;top:62px;bottom:30px;width:2px;border-radius:2px;background:var(--line)}
+.fm-rail i{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(var(--leaf),var(--lime));transform:scaleY(var(--fp,0));transform-origin:50% 0}
+.fm-tab{position:relative;display:flex;align-items:center;width:100%;padding:clamp(10px,1.8vh,16px) 0;text-align:left;font:inherit;font-size:clamp(17px,1.6vw,23px);font-weight:700;line-height:1.25;letter-spacing:-.02em;color:#9aa69f;cursor:pointer;transition:color .5s}
+.fm-tab:hover{color:var(--ink)}
+.fm-node{position:absolute;left:-64px;top:50%;display:grid;place-items:center;width:44px;height:44px;margin-top:-22px;border-radius:50%;background:var(--cream);box-shadow:0 0 0 1.5px var(--line);font-size:15px;color:#9aa69f;transition:background .5s,color .5s,box-shadow .5s,transform .6s var(--ease)}
+.fm-step.past .fm-node{background:var(--forest);color:var(--lime);box-shadow:none}
+.fm-step.on .fm-node{background:var(--lime);color:var(--ink);box-shadow:none;transform:scale(1.12)}
+.fm-step.on .fm-node::after{content:"";position:absolute;inset:0;border-radius:50%;animation:fmRing 2s var(--ease) infinite}
+@keyframes fmRing{0%{box-shadow:0 0 0 0 rgba(75,175,71,.5)}100%{box-shadow:0 0 0 16px rgba(75,175,71,0)}}
+.fm-step.on .fm-tab{color:var(--ink);font-size:clamp(20px,2vw,30px)}
+.fm-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .7s var(--ease)}
+.fm-step.on .fm-body{grid-template-rows:1fr}
+.fm-body-in{min-height:0;overflow:hidden}
+.fm-body ul{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:9px}
+.fm-body li{position:relative;padding-left:26px;font-size:15px;line-height:1.5;color:var(--muted);opacity:0;transform:translateX(-14px);transition:opacity .5s var(--ease),transform .6s var(--ease)}
+.fm-body li::before{content:"";position:absolute;left:0;top:4px;width:16px;height:16px;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3L9.5 3.8' fill='none' stroke='%230b1f16' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.fm-step.on .fm-body li{opacity:1;transform:none;transition-delay:calc(.25s + var(--i) * 90ms)}
+.fm-body .btn{margin-bottom:6px;opacity:0;transform:translateY(10px);transition:opacity .5s .5s,transform .6s var(--ease) .5s,background .3s}
+.fm-step.on .fm-body .btn{opacity:1;transform:none}
+/* scenes sit in the right column; the active one wipes in */
+.fm-scene{--sh:min(72vh,620px);position:absolute;top:50%;height:var(--sh);margin-top:calc(var(--sh) / -2);left:calc(100% + clamp(28px,4vw,64px));width:100%;overflow:hidden;border-radius:var(--radius);background:#dfe5da;box-shadow:0 40px 80px -45px rgba(11,31,22,.6);clip-path:inset(0 0 0 100% round var(--radius));transition:clip-path 1.1s cubic-bezier(.7,0,.2,1);z-index:1}
+.fm-step.on .fm-scene{clip-path:inset(0 0 0 0 round var(--radius));z-index:2}
+.fm-photo,.fm-photo img{position:absolute;inset:0;width:100%;height:100%}
+.fm-photo img{object-fit:cover;transform:scale(1.18) translateX(5%);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+.fm-step.on .fm-photo img{transform:scale(1.04)}
+.fm-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,13,.1),rgba(6,20,13,.5))}
+.fm-ui{position:absolute;left:50%;top:50%;width:min(80%,330px);padding:16px;border-radius:18px;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 24px 50px -22px rgba(0,0,0,.55);transform:translate(-50%,-50%) translateY(18px) scale(.95);opacity:0;transition:opacity .6s .45s,transform .9s var(--ease) .45s;display:grid;gap:10px}
+.fm-step.on .fm-ui{transform:translate(-50%,-50%);opacity:1}
+.fm-ui-h{font-size:14px}
+.fm-ui-s{margin-top:-6px;font-size:11.5px;color:var(--muted)}
+.fm-check{display:grid;place-items:center;flex:none;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(11,31,22,.18);color:transparent}
+.go .fm-check{animation:fmTick .5s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--cd,.8s) + var(--i,0) * .65s)}
+@keyframes fmTick{to{background:var(--lime);color:var(--ink);box-shadow:none;transform:scale(1.1)}}
+/* scene 1: form fills in, the button presses and confirms */
+.fm-field{display:grid;gap:5px;padding:9px 11px;border-radius:10px;background:rgba(11,31,22,.05);font-size:11px;color:var(--muted)}
+.fm-field i{display:block;height:8px;width:0;border-radius:4px;background:var(--forest)}
+.go .fm-field i{animation:fmFill .8s var(--ease) both;animation-delay:calc(.5s + var(--i) * .6s)}
+@keyframes fmFill{from{width:0}to{width:var(--w)}}
+.go .fm-field{animation:fmFocus .8s both;animation-delay:calc(.5s + var(--i) * .6s)}
+@keyframes fmFocus{0%,100%{box-shadow:none}30%{box-shadow:inset 0 0 0 1.5px var(--leaf)}}
+.fm-submit{display:grid;place-items:center;padding:11px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:700}
+.fm-submit em{grid-area:1/1;display:inline-flex;align-items:center;gap:7px;font-style:normal}
+.fm-submit em+em{opacity:0}
+.go .fm-submit{animation:fmPress 2.2s both;animation-delay:var(--sd,2.5s)}
+.go .fm-submit em:first-child{animation:fmOut .3s forwards;animation-delay:calc(var(--sd,2.5s) + .25s)}
+.go .fm-submit em+em{animation:fmIn .4s forwards;animation-delay:calc(var(--sd,2.5s) + .35s)}
+@keyframes fmPress{0%{transform:scale(1)}8%{transform:scale(.94)}16%,100%{transform:scale(1);background:var(--lime);color:var(--ink)}}
+@keyframes fmOut{to{opacity:0;transform:translateY(-8px)}}
+@keyframes fmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* scene 2: buyers ticked off the list */
+.fm-buyer{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(11,31,22,.04);transition:background .3s}
+.fm-av{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:50%;background:var(--forest);color:var(--lime);font-size:12px}
+.fm-buyer>span{flex:1;display:grid;gap:4px}
+.fm-buyer em{font-style:normal;font-size:12.5px;font-weight:700}
+.fm-buyer>span i{display:block;height:6px;width:var(--w);border-radius:3px;background:rgba(11,31,22,.12)}
+.go .fm-buyer{animation:fmPick .5s both;animation-delay:calc(.8s + var(--i) * .65s)}
+@keyframes fmPick{to{background:rgba(200,241,105,.35)}}
+.fm-add{justify-self:start;padding:7px 12px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--leaf);font-size:12px;font-weight:700;color:var(--leaf)}
+.go .fm-add{animation:fmPulse 1.6s ease-in-out 3s infinite}
+@keyframes fmPulse{50%{background:rgba(200,241,105,.4)}}
+/* scene 3: plot boundaries draw over the aerial photo, pins drop */
+.fm-plots{position:absolute;inset:0;width:100%;height:100%}
+.fm-plots polygon{fill:rgba(200,241,105,0);stroke:var(--lime);stroke-width:.7;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:100;stroke-dashoffset:100}
+.go .fm-plots polygon{animation:fmDraw 1.4s var(--ease) both,fmFillPoly .8s both;animation-delay:calc(.3s + var(--i) * .9s),calc(1.5s + var(--i) * .9s)}
+.fm-plots polygon{stroke-width:2.5}
+@keyframes fmDraw{to{stroke-dashoffset:0}}
+@keyframes fmFillPoly{to{fill:rgba(200,241,105,.28)}}
+.fm-gps{position:absolute;left:var(--x);top:var(--y);width:18px;height:18px;margin:-18px 0 0 -9px;border-radius:50% 50% 50% 0;background:var(--lime);box-shadow:0 6px 12px -4px rgba(0,0,0,.5);transform:rotate(-45deg) translate(10px,-10px);opacity:0}
+.go .fm-gps{animation:fmPin .7s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(1.3s + var(--i) * .9s)}
+@keyframes fmPin{to{opacity:1;transform:rotate(-45deg)}}
+.fm-scene .fm-plotcard{top:auto;bottom:18px;transform:translate(-50%,0) translateY(18px) scale(.95);gap:6px;padding:12px}
+.fm-step.on .fm-plotcard{transform:translate(-50%,0)}
+.fm-plotrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:12px}
+.fm-plotrow small{color:var(--muted)}
+.fm-plotcard{--cd:1.5s}
+/* scene 4: review ticks, submit, then the confirmation */
+.fm-rrow{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(11,31,22,.04);font-size:12.5px;font-weight:600}
+.fm-review{--cd:.6s;--sd:3.3s;overflow:hidden}
+.fm-done{position:absolute;inset:0;display:grid;place-content:center;gap:8px;padding:22px;border-radius:inherit;background:var(--forest);color:rgba(255,255,255,.8);font-size:13.5px;line-height:1.5;text-align:center;opacity:0;transform:scale(.9)}
+.fm-done b{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--lime)}
+.fm-done b::before{content:"";display:block;width:46px;height:46px;margin:0 auto 10px;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3L9.5 3.8' fill='none' stroke='%230b1f16' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/22px no-repeat}
+.go .fm-done{animation:fmDone .7s var(--ease) 4.3s both}
+@keyframes fmDone{to{opacity:1;transform:none}}
+/* marquee: two bands crossing, speed follows the scroll */
+.fm-mq{position:relative;padding:clamp(40px,6vw,80px) 0;overflow:hidden}
+.fm-mq-row{padding:14px 0;transform:rotate(-2deg);background:var(--forest);color:var(--cream)}
+.fm-mq-row.rev{margin-top:-8px;transform:rotate(1.5deg);background:var(--lime);color:var(--ink)}
+.fm-mq-track{display:flex;align-items:center;gap:28px;width:max-content;transform:translateX(var(--mx,0px));will-change:transform}
+.fm-mq-track span{font-size:clamp(28px,4.2vw,62px);font-weight:600;letter-spacing:-.04em;white-space:nowrap}
+.fm-mq-row.rev .fm-mq-track span{font-family:var(--serif);font-weight:400;font-style:italic;letter-spacing:-.01em}
+.fm-mq-track i{font-style:normal;font-size:clamp(18px,2vw,28px);opacity:.6}
+/* documents to keep ready: cards flip up in turn */
+.fm-keep-head h2{margin:16px 0 clamp(24px,3vw,40px);font-size:clamp(34px,4.2vw,62px);line-height:1;letter-spacing:-.04em}
+.fm-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;perspective:1200px}
+.fm-card{position:relative;overflow:hidden;padding:clamp(22px,2.4vw,32px);border-radius:24px;background:var(--paper);box-shadow:0 0 0 1px var(--line);transform-origin:50% 100%;transform:rotateX(-35deg) translateY(60px);opacity:0;transition:transform 1.1s var(--ease),opacity .8s,box-shadow .4s;transition-delay:calc(var(--k) * .14s)}
+.fm-cards.in .fm-card{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));opacity:1}
+.fm-card:hover{box-shadow:0 0 0 1px rgba(75,175,71,.45),0 30px 60px -36px rgba(11,31,22,.5);transition-delay:0s;transition-duration:.4s}
+.fm-card-n{position:absolute;right:18px;top:6px;font-size:clamp(70px,7vw,110px);font-weight:700;letter-spacing:-.06em;line-height:1;color:rgba(75,175,71,.1)}
+.fm-card-ic{display:grid;place-items:center;width:56px;height:56px;border-radius:18px;background:var(--forest);color:var(--lime);transition:transform .7s var(--ease),background .3s,color .3s}
+.fm-card:hover .fm-card-ic{transform:rotate(-12deg) scale(1.08);background:var(--lime);color:var(--ink)}
+.fm-card h3{margin:22px 0 8px;font-size:clamp(19px,1.6vw,23px);letter-spacing:-.02em}
+.fm-card p{font-size:14.5px;line-height:1.55;color:var(--muted)}
+.fm-mag{display:inline-block}
+.fm-mag .btn{transform:translate(var(--mx,0px),var(--my,0px));transition:transform .5s var(--ease)}
+@media (max-height:700px) and (min-width:861px){.fm-body li{font-size:14px}.fm-body ul{gap:6px;margin-bottom:12px}.fm-ui{padding:12px;gap:8px}.fm-step.on .fm-tab{font-size:clamp(18px,1.8vw,24px)}}
+@media (max-width:860px){
+  .fm-steps{height:auto;padding:clamp(40px,8vw,64px) 0}
+  .fm-stage{position:static;height:auto;overflow:visible;padding-top:0;display:block}
+  .fm-grid{display:block;min-height:0}
+  .fm-list{padding-left:0}
+  .fm-rail,.fm-of{display:none}
+  .fm-step{margin-bottom:44px}
+  .fm-tab{gap:14px;color:var(--ink);font-size:20px;cursor:default}
+  .fm-step.on .fm-tab{font-size:20px}
+  .fm-node{position:static;flex:none;margin:0;background:var(--lime);color:var(--ink);box-shadow:none}
+  .fm-body{grid-template-rows:1fr}
+  .fm-body li,.fm-body .btn{opacity:1;transform:none}
+  .fm-scene{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:100%;height:auto;aspect-ratio:4/3.4;margin:6px 0 18px;clip-path:none}
+  .fm-ui{opacity:1;transform:translate(-50%,-50%)}
+  .fm-scene .fm-plotcard{transform:translate(-50%,0)}
+  .fm-step{display:flex;flex-direction:column}
+  .fm-step .fm-scene{order:2}
+  .fm-step .fm-body{order:3}
+  .fm-cards{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.fm-card{transform:none;opacity:1}.fm-scene{transition:none}}
+
 /* Responsive */
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
@@ -1385,7 +1525,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
         <li class="has-drop">
           <button aria-expanded="false">Register <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="drop">
-            <a href="farmer-how-it-work.html">Farmer</a>
+            <a href="#register-farmer" data-route="farmer">Farmer</a>
             <a href="Estate-how-it-work.html">Estate</a>
             <a href="Dealer-how-it-work.html">Dealer</a>
             <a href="Manufacturer-how-it-work.html">Manufacturer</a>
@@ -1421,7 +1561,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     <a href="pricing.html">Pricing</a>
   </details>
   <details><summary>Register <svg class="chev" width="14" height="14" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></summary>
-    <a href="farmer-how-it-work.html">Farmer</a>
+    <a href="#register-farmer" data-route="farmer">Farmer</a>
     <a href="Estate-how-it-work.html">Estate</a>
     <a href="Dealer-how-it-work.html">Dealer</a>
     <a href="Manufacturer-how-it-work.html">Manufacturer</a>
@@ -2549,6 +2689,90 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 </section>
 </main>
 
+<main class="page" data-page="farmer" hidden>
+<section class="df-hero fm-hero" data-centre>
+  <div class="wrap">
+    <span class="eyebrow df-later">How it works</span>
+    <h1 class="df-head">
+      <span class="df-l"><span class="df-w">Farmer</span></span>
+      <span class="df-l"><span class="df-w df-brand">Registration</span></span>
+    </h1>
+  </div>
+  <a class="df-cue df-later" href="#fmSteps"><i></i>Scroll to explore</a>
+</section>
+
+<section class="fm-steps" id="fmSteps" style="--n:4">
+  <div class="fm-stage">
+    <div class="wrap fm-grid">
+      <div class="fm-list">
+        <span class="eyebrow">Farmer Registration <em class="fm-of"><b>01</b> / 04</em></span>
+        <div class="fm-rail" aria-hidden="true"><i></i></div>
+        <article class="fm-step on" data-k="0">
+          <button type="button" class="fm-tab"><span class="fm-node">1</span><span class="fm-name">Register</span></button>
+          <div class="fm-body"><div class="fm-body-in"><ul><li style="--i:0">Create your free account by providing your contact details.</li><li style="--i:1">Our user-friendly registration process ensures a seamless onboarding experience.</li></ul><a class="btn btn--lime btn--sm" href="https://bsnrapp.rubberboard.org.in/#/farmer" target="_blank" rel="noopener">Register <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div>
+          <div class="fm-scene"><div class="fm-photo"><img src="assets/img/trace/mapping.jpg" alt="Man holding a phone in a green field" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@7d7154451de05e539fbb648f36fb933b41403c01/assets/img/trace/mapping.jpg'"></div><span class="fm-shade" aria-hidden="true"></span><div class="fm-ui fm-form"><b class="fm-ui-h">Create your free account</b>
+     <span class="fm-field" style="--i:0"><small>Full name</small><i style="--w:64%"></i></span>
+     <span class="fm-field" style="--i:1"><small>Mobile number</small><i style="--w:50%"></i></span>
+     <span class="fm-field" style="--i:2"><small>District</small><i style="--w:40%"></i></span>
+     <span class="fm-submit"><em>Create account</em><em><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Account created</em></span></div></div>
+        </article>
+        <article class="fm-step" data-k="1">
+          <button type="button" class="fm-tab"><span class="fm-node">2</span><span class="fm-name">Map your Dealers / Processor / Manufacturer</span></button>
+          <div class="fm-body"><div class="fm-body-in"><ul><li style="--i:0">Identify the dealers to whom you are selling your rubber.</li><li style="--i:1">Select dealers/processors/manufacturers from the pre-registered list from Rubber Board.</li><li style="--i:2">You can add/delete buyers anytime in the future.</li></ul><a class="btn btn--lime btn--sm" href="https://bsnrapp.rubberboard.org.in/#/farmer" target="_blank" rel="noopener">Register <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div>
+          <div class="fm-scene"><div class="fm-photo"><img src="assets/video/roles/dealer.jpg" alt="Sacks of rubber traded at a market" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/dealer.jpg'"></div><span class="fm-shade" aria-hidden="true"></span><div class="fm-ui fm-buyers"><b class="fm-ui-h">Select your buyers</b><small class="fm-ui-s">Pre-registered list · Rubber Board</small><span class="fm-buyer" style="--i:0"><b class="fm-av">D</b><span><em>Dealer</em><i style="--w:70%"></i></span><i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-buyer" style="--i:1"><b class="fm-av">P</b><span><em>Processor</em><i style="--w:55%"></i></span><i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-buyer" style="--i:2"><b class="fm-av">M</b><span><em>Manufacturer</em><i style="--w:62%"></i></span><i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-add">+ Add buyer</span></div></div>
+        </article>
+        <article class="fm-step" data-k="2">
+          <button type="button" class="fm-tab"><span class="fm-node">3</span><span class="fm-name">Areas for Mapping</span></button>
+          <div class="fm-body"><div class="fm-body-in"><ul><li style="--i:0">List how many plots of land you own.</li><li style="--i:1">Mention the geo coordinates of your land if available for analysis.</li><li style="--i:2">Keep ownership documents ready (refer to acceptable docs).</li><li style="--i:3">Reach out to the Rubber Board if you have doubts or wait for meetings.</li></ul><a class="btn btn--lime btn--sm" href="https://bsnrapp.rubberboard.org.in/#/farmer" target="_blank" rel="noopener">Register <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div>
+          <div class="fm-scene"><div class="fm-photo"><img src="assets/img/defo/eudr.jpg" alt="Aerial view of rubber plantation blocks" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/eudr.jpg'"></div><span class="fm-shade" aria-hidden="true"></span><svg class="fm-plots" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+     <polygon pathLength="100" style="--i:0" points="14,30 46,24 52,52 18,60"/>
+     <polygon pathLength="100" style="--i:1" points="56,58 86,50 90,82 60,90"/>
+   </svg>
+   <span class="fm-gps" style="--x:32%;--y:34%;--i:0"></span><span class="fm-gps" style="--x:73%;--y:56%;--i:1"></span>
+   <div class="fm-ui fm-plotcard"><span class="fm-plotrow" style="--i:0"><b>Plot 1</b><small>Geo coordinates added</small><i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-plotrow" style="--i:1"><b>Plot 2</b><small>Geo coordinates added</small><i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-plotrow" style="--i:2"><b>Ownership document</b><small>Ready</small><i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span></div></div>
+        </article>
+        <article class="fm-step" data-k="3">
+          <button type="button" class="fm-tab"><span class="fm-node">4</span><span class="fm-name">Review and Submit</span></button>
+          <div class="fm-body"><div class="fm-body-in"><ul><li style="--i:0">Review all your info and documents.</li><li style="--i:1">Declare and submit your details.</li><li style="--i:2">Rubber Board will contact you when mapping begins in your area.</li></ul><a class="btn btn--lime btn--sm" href="https://bsnrapp.rubberboard.org.in/#/farmer" target="_blank" rel="noopener">Register <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div>
+          <div class="fm-scene"><div class="fm-photo"><img src="assets/img/blog/featured.jpg" alt="Woman tapping a rubber tree" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b5ac4c44d5af2c1c4d4d7336e0f5190f9eb8be86/assets/img/blog/featured.jpg'"></div><span class="fm-shade" aria-hidden="true"></span><div class="fm-ui fm-review"><b class="fm-ui-h">Review your details</b><span class="fm-rrow" style="--i:0">Contact details<i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-rrow" style="--i:1">Buyers<i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-rrow" style="--i:2">Plots<i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-rrow" style="--i:3">Documents<i class="fm-check"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></span><span class="fm-submit fm-submit--final"><em>Declare &amp; submit</em><em><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Submitted</em></span><span class="fm-done"><b>Submitted</b>Rubber Board will contact you when mapping begins in your area.</span></div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fm-mq" aria-hidden="true">
+  <div class="fm-mq-row"><div class="fm-mq-track"><span>Register</span><i aria-hidden="true">✦</i><span>Map your buyers</span><i aria-hidden="true">✦</i><span>Areas for mapping</span><i aria-hidden="true">✦</i><span>Review and submit</span><i aria-hidden="true">✦</i><span>Free for every farmer</span><i aria-hidden="true">✦</i><span>Register</span><i aria-hidden="true">✦</i><span>Map your buyers</span><i aria-hidden="true">✦</i><span>Areas for mapping</span><i aria-hidden="true">✦</i><span>Review and submit</span><i aria-hidden="true">✦</i><span>Free for every farmer</span><i aria-hidden="true">✦</i><span>Register</span><i aria-hidden="true">✦</i><span>Map your buyers</span><i aria-hidden="true">✦</i><span>Areas for mapping</span><i aria-hidden="true">✦</i><span>Review and submit</span><i aria-hidden="true">✦</i><span>Free for every farmer</span><i aria-hidden="true">✦</i></div></div>
+  <div class="fm-mq-row rev"><div class="fm-mq-track"><span>Register</span><i aria-hidden="true">✦</i><span>Map your buyers</span><i aria-hidden="true">✦</i><span>Areas for mapping</span><i aria-hidden="true">✦</i><span>Review and submit</span><i aria-hidden="true">✦</i><span>Free for every farmer</span><i aria-hidden="true">✦</i><span>Register</span><i aria-hidden="true">✦</i><span>Map your buyers</span><i aria-hidden="true">✦</i><span>Areas for mapping</span><i aria-hidden="true">✦</i><span>Review and submit</span><i aria-hidden="true">✦</i><span>Free for every farmer</span><i aria-hidden="true">✦</i><span>Register</span><i aria-hidden="true">✦</i><span>Map your buyers</span><i aria-hidden="true">✦</i><span>Areas for mapping</span><i aria-hidden="true">✦</i><span>Review and submit</span><i aria-hidden="true">✦</i><span>Free for every farmer</span><i aria-hidden="true">✦</i></div></div>
+</section>
+
+<section class="sec fm-keep">
+  <div class="wrap">
+    <div class="fm-keep-head"><span class="eyebrow rv">Before you begin</span><h2 class="split"><span class="ln"><span>Keep these</span></span><span class="ln"><span style="--d:.08s" class="serif">ready</span></span></h2></div>
+    <div class="fm-cards">
+      <article class="fm-card" style="--k:0"><span class="fm-card-n">01</span><span class="fm-card-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14 10h4M14 13h3"/></svg></span><h3>One KYC document</h3><p>Aadhaar, ration card, voter ID or passport.</p></article>
+      <article class="fm-card" style="--k:1"><span class="fm-card-n">02</span><span class="fm-card-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></svg></span><h3>One land document</h3><p>Ownership documents for your land (refer to acceptable docs).</p></article>
+      <article class="fm-card" style="--k:2"><span class="fm-card-n">03</span><span class="fm-card-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l5-3 6 3 5-3v13l-5 3-6-3-5 3z"/><path d="M9 4v13M15 7v13"/></svg></span><h3>Your plot details</h3><p>How many plots of land you own, and their geo coordinates if available.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta rv fm-cta">
+      <img src="assets/img/farmer/hero.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@f8194796156f685f5832fbce98bdf88a50c56d09/assets/img/farmer/hero.jpg'">
+      <span class="pill"><b>Farmers</b> Free registration</span>
+      <h2>Register as a <span class="serif">farmer.</span></h2>
+      <p class="lead">Create your free account on the BSNR portal. The Rubber Board will contact you when mapping begins in your area.</p>
+      <div class="row-btns">
+        <span class="fm-mag"><a class="btn btn--lime" href="https://bsnrapp.rubberboard.org.in/#/farmer" target="_blank" rel="noopener">Register <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></span>
+        <a class="btn btn--ghost" href="#eudr-faq" data-route="faq">Read the EUDR FAQ</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
 <!-- ================= Footer ================= -->
 <footer class="footer">
   <div class="wrap">
@@ -2613,7 +2837,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 
 
   /* Pages: each hash in ROUTES shows its page, anything else shows home */
-  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#risk-legality': 'risk', '#traceability-due-diligence': 'trace', '#eudr-faq': 'faq', '#resources': 'res', '#blog': 'blog', '#contact': 'contact', '#home': 'home' };
+  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#risk-legality': 'risk', '#traceability-due-diligence': 'trace', '#eudr-faq': 'faq', '#resources': 'res', '#blog': 'blog', '#contact': 'contact', '#register-farmer': 'farmer', '#home': 'home' };
   const pages = $$('.page');
   let curPage = null;
   const showPage = (name, jump) => {
@@ -2623,7 +2847,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     $$('[data-route]').forEach(a => a.classList.toggle('active', a.dataset.route === name));
     // nothing on a hidden page should keep playing
     $$('.page[hidden] video').forEach(v => v.pause());
-    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR', risk: 'Risk & Legality Assessments · BSNR', trace: 'Traceability & Due Diligence · BSNR', faq: 'EUDR FAQs · BSNR', res: 'Resources & Guides · BSNR', blog: 'Blog · BSNR', contact: 'Contact · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
+    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR', risk: 'Risk & Legality Assessments · BSNR', trace: 'Traceability & Due Diligence · BSNR', faq: 'EUDR FAQs · BSNR', res: 'Resources & Guides · BSNR', blog: 'Blog · BSNR', contact: 'Contact · BSNR', farmer: 'Farmer Registration · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
     document.body.classList.remove('menu-open'); document.body.style.overflow = '';
     if (jump) scrollTo({ top: 0, behavior: 'instant' });
     $$('.has-drop.open').forEach(li => li.classList.remove('open'));
@@ -3175,6 +3399,88 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
   questionPage('res', '#resources');
   questionPage('blog', '#blog');
   questionPage('contact', '#contact');
+  questionPage('farmer', '#register-farmer');
+
+  /* Farmer registration: scroll walks through the four steps; each step's scene plays its own little demo */
+  {
+    const page = $('.page[data-page="farmer"]'), sc = $('#fmSteps', page), steps = $$('.fm-step', sc), N = steps.length;
+    const rail = $('.fm-rail', sc), of = $('.fm-of b', sc);
+    const desk = () => innerWidth > 860;
+    // restart a scene's demo by removing and re-adding .go; it loops while the step leads
+    const loops = new Map();
+    const play = (step, on) => {
+      const scene = $('.fm-scene', step);
+      clearInterval(loops.get(step)); loops.delete(step);
+      scene.classList.remove('go');
+      if (!on || reduce) { if (reduce && on) scene.classList.add('go'); return; }
+      const run = () => { scene.classList.remove('go'); void scene.offsetWidth; scene.classList.add('go'); };
+      requestAnimationFrame(run);
+      loops.set(step, setInterval(run, 7000));
+    };
+    let lead = -1;
+    const setLead = k => {
+      if (k === lead) return;
+      lead = k;
+      steps.forEach((st, i) => { st.classList.toggle('on', i === k); st.classList.toggle('past', i < k); play(st, i === k); });
+      of.textContent = String(k + 1).padStart(2, '0');
+    };
+    const tick = () => {
+      if (page.hidden || !desk()) return;
+      const r = sc.getBoundingClientRect(), span = r.height - innerHeight;
+      const t = Math.min(N - .001, Math.max(0, (-r.top / span) * N));
+      rail.style.setProperty('--fp', Math.min(1, t / (N - 1)).toFixed(4));
+      setLead(Math.floor(t));
+    };
+    let busy = false;
+    addEventListener('scroll', () => { if (!busy) { busy = true; requestAnimationFrame(() => { busy = false; tick(); }); } }, { passive: true });
+    addEventListener('resize', tick);
+    addEventListener('pageshow:farmer', () => { lead = -1; setTimeout(tick, 30); });
+    // step titles work like the live page's tabs: jump to that step
+    steps.forEach((st, i) => $('.fm-tab', st).addEventListener('click', () => {
+      if (!desk()) return;
+      const span = sc.offsetHeight - innerHeight;
+      scrollTo({ top: sc.getBoundingClientRect().top + scrollY + span * (i + .5) / N, behavior: reduce ? 'auto' : 'smooth' });
+    }));
+    // phones: steps are stacked, so each scene plays while it is on screen
+    const io = new IntersectionObserver(es => es.forEach(en => { if (!desk()) play(en.target.closest('.fm-step'), en.isIntersecting); }), { threshold: .4 });
+    steps.forEach(st => io.observe($('.fm-scene', st)));
+    tick();
+
+    // marquee bands drift on their own and speed up with the scroll
+    const mq = $('.fm-mq', page), tracks = $$('.fm-mq-track', mq);
+    let mx = 0, lastY = scrollY, vel = 0, mqOn = false, mqRaf = 0;
+    const mqStep = () => {
+      mqRaf = 0;
+      if (!mqOn || page.hidden || reduce) return;
+      vel = vel * .9 + (scrollY - lastY) * .1; lastY = scrollY;
+      mx -= .6 + Math.min(14, Math.abs(vel) * .5);
+      tracks.forEach((t, i) => {
+        const w = t.scrollWidth / 3;
+        const x = ((mx % w) + w) % w;
+        t.style.setProperty('--mx', (i ? -(w - x) : -x).toFixed(1) + 'px');
+      });
+      mqRaf = requestAnimationFrame(mqStep);
+    };
+    new IntersectionObserver(([en]) => { mqOn = en.isIntersecting; if (mqOn && !mqRaf) { lastY = scrollY; mqRaf = requestAnimationFrame(mqStep); } }).observe(mq);
+
+    // documents: cards flip up in turn, then tilt under the cursor
+    const cardsEl = $('.fm-cards', page);
+    new IntersectionObserver(([en], o) => { if (en.isIntersecting) { cardsEl.classList.add('in'); o.disconnect(); } }, { threshold: .25 }).observe(cardsEl);
+    if (matchMedia('(hover: hover)').matches && !reduce) $$('.fm-card', cardsEl).forEach(c => {
+      c.addEventListener('mousemove', e => { const r = c.getBoundingClientRect(); c.style.setProperty('--ry', (((e.clientX - r.left) / r.width - .5) * 10).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((.5 - (e.clientY - r.top) / r.height) * 10).toFixed(2) + 'deg'); });
+      c.addEventListener('mouseleave', () => { c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
+    });
+    // the Register button leans toward the cursor
+    const mag = $('.fm-mag', page), mb = $('.btn', mag), cta = mag.closest('.cta');
+    if (matchMedia('(hover: hover)').matches && !reduce) {
+      cta.addEventListener('mousemove', e => {
+        const r = mag.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+        const d = Math.hypot(dx, dy), pull = d < 220 ? (1 - d / 220) * .35 : 0;
+        mb.style.setProperty('--mx', (dx * pull).toFixed(1) + 'px'); mb.style.setProperty('--my', (dy * pull).toFixed(1) + 'px');
+      });
+      cta.addEventListener('mouseleave', () => { mb.style.setProperty('--mx', '0px'); mb.style.setProperty('--my', '0px'); });
+    }
+  }
 
   /* Contact: copy buttons, live Kottayam time, glow that follows the cursor, map wipes in */
   {

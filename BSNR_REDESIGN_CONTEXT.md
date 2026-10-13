@@ -9,7 +9,7 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog|contact">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, `#contact` shows Contact, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|contact|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog|contact|farmer">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, `#contact` shows Contact, `#register-farmer` shows Farmer Registration, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|contact|farmer|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -124,6 +124,19 @@ The live page has only Location, Email and Phone, and no form. Those three detai
    - Beside it, an embedded Google Map of the Rubber Board office. It wipes in, a custom pin drops onto it, and it turns full colour on hover. The reveal observes the grid, because the map's starting clip hides it from IntersectionObserver.
 3. **"Before you write":** three quick-link cards to the EUDR FAQs, Resources and Register yourself.
 
+## Farmer Registration page (`#register-farmer`, from Register → Farmer)
+The live page is "How it works · Farmer Registration" with four tabs. Every step title, point and Register button (linking to `https://bsnrapp.rubberboard.org.in/#/farmer`) is kept word for word. The user stressed that animations matter.
+1. **Hero:** "Farmer / **Registration**", headline only, centred, over the live site's photo of a farmer tapping rubber (`assets/img/farmer/hero.jpg`).
+2. **Pinned journey** (`#fmSteps`, 4 × 90vh):
+   - **Steps column:** a progress rail fills through numbered nodes (past nodes go dark, the active one pulses lime). The active step opens with its points sliding in and its Register button. Step titles are clickable, like the live tabs.
+   - **Scenes:** the right column holds a photo per step that wipes in, with a looping demo (restarted by toggling `.go` every 7s): a sign-up form filling in and confirming; buyers (Dealer, Processor, Manufacturer) ticked off the pre-registered list; plot polygons drawing over the aerial photo, pins dropping and a plot checklist; a review checklist, a Declare & submit press, then the "Submitted · Rubber Board will contact you…" card.
+   - **Positioning:** scenes sit inside each step and are positioned past the right edge of `.fm-list`, its containing block.
+3. **Marquee:** two crossing bands (dark sans, lime serif) with the step names and "Free for every farmer". They drift and speed up with scroll velocity.
+4. **"Keep these ready":** three cards (one KYC document, one land document, your plot details) that flip up in turn and tilt on hover.
+5. **CTA:** "Register as a *farmer.*" with a magnetic Register button.
+
+On phones the steps stack, each with its scene above its points, and each scene plays while it's in view.
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
@@ -136,10 +149,11 @@ The live page has only Location, Email and Phone, and no form. Those three detai
 - `assets/img/res/hero.jpg`
 - `assets/img/blog/`: featured, farm, tapper, vessel
 - `assets/img/contact/hero.jpg`
+- `assets/img/farmer/hero.jpg`
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Pricing and the register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Pricing and the other register pages (Estate, Dealer, Manufacturer, Processor, Trader, Exporters). When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
