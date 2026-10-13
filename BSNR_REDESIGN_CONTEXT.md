@@ -9,7 +9,7 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog|contact">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, `#contact` shows Contact, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|contact|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -115,6 +115,15 @@ The live "All Blogs" page shows only one post, "How India is Building the World'
 
 Article photos (graded copies of the live article's images) are in `assets/img/blog/` (featured, farm, tapper, vessel); the other chapters reuse site images.
 
+## Contact page (`#contact`)
+The live page has only Location, Email and Phone, and no form. Those three details are kept word for word.
+1. **Hero:** "Contact / **BSNR**", headline only, centred, over an aerial road through Kerala forest (`assets/img/contact/hero.jpg`).
+2. **Contact panel and map:**
+   - A dark panel ("Talk to the *BSNR team*") with the three details as rows. Each row has hover motion (an icon ring pulse) and actions: Open in Maps, Copy and Write for email, Copy and Call for phone.
+   - A live Kottayam (IST) clock and a lime glow that follows the cursor.
+   - Beside it, an embedded Google Map of the Rubber Board office. It wipes in, a custom pin drops onto it, and it turns full colour on hover. The reveal observes the grid, because the map's starting clip hides it from IntersectionObserver.
+3. **"Before you write":** three quick-link cards to the EUDR FAQs, Resources and Register yourself.
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
@@ -126,10 +135,11 @@ Article photos (graded copies of the live article's images) are in `assets/img/b
 - `assets/img/faq/hero.jpg`
 - `assets/img/res/hero.jpg`
 - `assets/img/blog/`: featured, farm, tapper, vessel
+- `assets/img/contact/hero.jpg`
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Pricing and the register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
