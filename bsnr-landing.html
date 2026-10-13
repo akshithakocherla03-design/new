@@ -643,14 +643,9 @@ section{position:relative}
 .tp-head.on .tp-w.tp-brand{color:var(--forest)}
 .tp-l{width:fit-content;transform:translateX(var(--cx,0px));transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
 .tp-head.settle .tp-l{transform:none}
-.tp-head .tp-arc{transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
-.tp-body,.tp-headwrap .eyebrow{transition:opacity .9s var(--ease),transform 1s var(--ease)}
+.tp-head .tp-body,.tp-headwrap .eyebrow{transition:opacity .9s var(--ease),transform 1s var(--ease)}
 .tp-top:not(.settled) .tp-body{opacity:0;transform:translateY(20px)}
 .tp-top:not(.settled) .tp-headwrap .eyebrow{opacity:0;transform:translateY(12px)}
-.tp-arc{position:absolute;left:-6%;top:-12%;width:112%;height:124%;pointer-events:none;overflow:visible}
-.tp-arc path{fill:none;stroke:var(--lime);stroke-width:14;stroke-linecap:round;opacity:.9;stroke-dasharray:1 1;stroke-dashoffset:1;filter:blur(1px)}
-.tp-head.on .tp-arc path{animation:tparc 1.6s cubic-bezier(.6,0,.3,1) .1s forwards}
-@keyframes tparc{0%{stroke-dasharray:0 1;stroke-dashoffset:0;opacity:.9}55%{stroke-dasharray:.45 1;stroke-dashoffset:-.25;opacity:.9}100%{stroke-dasharray:0 1;stroke-dashoffset:-1;opacity:0}}
 .tp-in{display:inline-flex;opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
 .tp-top.on .tp-in{opacity:1;transform:none}
 .tp-body{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);margin-top:clamp(32px,4vw,52px);max-width:1120px}
@@ -684,30 +679,39 @@ section{position:relative}
 }
 @media (prefers-reduced-motion:reduce){.tp-w,.tp-in,.tp-stat,.tp-row,.tp-p .w{opacity:1!important;transform:none!important;filter:none!important;color:inherit}}
 
+
+@keyframes breathe{0%{scale:.9;letter-spacing:-.085em}55%{scale:1.035;letter-spacing:-.035em}100%{scale:1;letter-spacing:var(--ls)}}
+.tp-l,.df-l{transform-origin:50% 60%}
+.tp-head{--ls:-.045em}.df-head{--ls:-.05em}
+.tp-head.on .tp-l,.df-head.on .df-l{animation:breathe 1.9s cubic-bezier(.3,0,.2,1) both}
+.tp-head.settle .tp-l,.df-head.settle .df-l{transform-origin:0 60%}
 /* ===== Deforestation Analysis page ===== */
-.df-hero{overflow-x:clip;padding:clamp(130px,18vh,190px) 0 clamp(40px,6vw,80px)}
-.df-hero .eyebrow{color:var(--leaf)}
+.df-hero{position:relative;isolation:isolate;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:clamp(120px,16vh,170px) 0 clamp(48px,7vh,80px);color:#fff;background:#0b1f16;border-radius:0 0 var(--radius) var(--radius)}
+.df-hero::before{content:"";position:absolute;inset:-4%;z-index:-2;background:url("assets/img/defo/eudr.jpg") center 40%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/eudr.jpg") center 40%/cover;filter:saturate(.9) brightness(.62);transform:scale(1.12);animation:dfken 24s ease-in-out infinite alternate}
+@keyframes dfken{to{transform:scale(1.02) translate(-1.5%,-1%)}}
+.df-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 55% at 50% 42%,rgba(6,20,13,.35),rgba(6,20,13,.82)),linear-gradient(180deg,rgba(6,20,13,.55),transparent 30%,rgba(6,20,13,.75)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E")}
+.df-hero>.wrap{width:min(var(--wrap),100% - 32px)}
+.df-hero .eyebrow{color:var(--lime)}
 .df-head{position:relative;margin:18px 0 0;font-size:clamp(52px,8.4vw,128px);line-height:.95;letter-spacing:-.05em;font-weight:600}
 .df-l{display:block;width:fit-content;transform:translateX(var(--cx,0px));transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
 .df-head.settle .df-l{transform:none}
-.df-w{display:inline-block;color:rgba(11,31,22,.16);transform:translateY(38%);filter:blur(10px);opacity:0;transition:opacity .7s var(--ease),transform 1s var(--ease),filter .8s var(--ease),color .9s var(--ease);transition-delay:calc(var(--i) * 220ms)}
-.df-head.on .df-w{opacity:1;transform:none;filter:none;color:var(--ink);transition-delay:calc(var(--i) * 220ms),calc(var(--i) * 220ms),calc(var(--i) * 220ms),calc(var(--i) * 220ms + .45s)}
-.df-head.on .df-w.df-brand{color:var(--forest)}
-.df-arc{position:absolute;left:-6%;top:-14%;width:112%;height:128%;pointer-events:none;overflow:visible}
-.df-arc path{fill:none;stroke:var(--lime);stroke-width:14;stroke-linecap:round;stroke-dasharray:0 1;filter:blur(1px)}
-.df-head.on .df-arc path{animation:tparc 1.6s cubic-bezier(.6,0,.3,1) .1s forwards}
+.df-w{display:inline-block;color:rgba(255,255,255,.18);transform:translateY(38%);filter:blur(10px);opacity:0;transition:opacity .7s var(--ease),transform 1s var(--ease),filter .8s var(--ease),color .9s var(--ease);transition-delay:calc(var(--i) * 220ms)}
+.df-head.on .df-w{opacity:1;transform:none;filter:none;color:#fff;transition-delay:calc(var(--i) * 220ms),calc(var(--i) * 220ms),calc(var(--i) * 220ms),calc(var(--i) * 220ms + .45s)}
+.df-head.on .df-w.df-brand{color:var(--lime)}
+.df-head{text-shadow:0 4px 40px rgba(0,0,0,.35)}
 .df-later{opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
 .df-hero.settled .df-later{opacity:1;transform:none}
 .df-hero .eyebrow.df-later{display:inline-flex}
 .df-intro{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,80px);margin-top:clamp(28px,4vw,52px);align-items:start;transition-delay:.15s}
-.df-lead{font-size:clamp(16px,1.35vw,19px);line-height:1.6;color:var(--muted)}
-.df-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.df-index li{border-bottom:1px solid var(--line);opacity:0;transform:translateX(-20px);transition:opacity .7s var(--ease),transform .8s var(--ease);transition-delay:calc(.35s + var(--k) * 90ms)}
+.df-lead{font-size:clamp(16px,1.35vw,19px);line-height:1.6;color:rgba(255,255,255,.78)}
+.df-index{list-style:none;margin:0;padding:6px 18px;border-radius:20px;background:rgba(255,255,255,.07);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.df-index li{border-bottom:1px solid rgba(255,255,255,.12);opacity:0;transform:translateX(-20px);transition:opacity .7s var(--ease),transform .8s var(--ease);transition-delay:calc(.35s + var(--k) * 90ms)}
 .df-hero.settled .df-index li{opacity:1;transform:none}
 .df-index a{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;padding:15px 4px;font-weight:600;transition:padding .4s var(--ease),color .3s}
-.df-index a b{font-size:13px;color:var(--leaf)}
+.df-index li:last-child{border-bottom:0}
+.df-index a b{font-size:13px;color:var(--lime)}
 .df-index a svg{opacity:.4;transition:transform .4s var(--ease),opacity .3s}
-.df-index a:hover{padding-left:12px;color:var(--forest)}
+.df-index a:hover{padding-left:12px;color:var(--lime)}
 .df-index a:hover svg{opacity:1;transform:translateX(4px)}
 
 .df-scroll{position:relative;height:calc(var(--n) * 100vh)}
@@ -1406,7 +1410,6 @@ section{position:relative}
           <span class="tp-l"><span class="tp-w">Built</span> <span class="tp-w">in</span></span>
           <span class="tp-l"><span class="tp-w">Partnership</span></span>
           <span class="tp-l"><span class="tp-w">with</span> <span class="tp-w tp-brand">TRST01</span></span>
-          <svg class="tp-arc" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-20 210C90 40 330 -10 470 70S650 230 560 250"/></svg>
         </h2>
       </div>
       <div class="tp-body">
@@ -1461,7 +1464,6 @@ section{position:relative}
     <h1 class="df-head" id="dfHead">
       <span class="df-l"><span class="df-w">Deforestation</span></span>
       <span class="df-l"><span class="df-w df-brand">Analysis</span></span>
-      <svg class="df-arc" viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M-20 210C90 40 330 -10 470 70S650 230 560 250"/></svg>
     </h1>
     <div class="df-intro df-later">
       <p class="df-lead">How BSNR checks every rubber plot against the EUDR deforestation rules, from mapping in the field to satellite analysis. Scroll through the five questions below.</p>
@@ -2075,15 +2077,15 @@ section{position:relative}
       centre();
       requestAnimationFrame(() => requestAnimationFrame(() => {
         head.classList.add('on');
-        t1 = setTimeout(() => head.classList.add('settle'), reduce ? 0 : 1700);
-        t2 = setTimeout(() => hero.classList.add('settled'), reduce ? 0 : 2600);
+        t1 = setTimeout(() => head.classList.add('settle'), reduce ? 0 : 2100);
+        t2 = setTimeout(() => hero.classList.add('settled'), reduce ? 0 : 3000);
       }));
     };
     addEventListener('resize', centre);
     const isDefo = () => location.hash === '#deforestation-analysis';
     addEventListener('pageshow:defo', enter);
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { if (isDefo()) enter(); });
-    if (isDefo()) enter();
+    // first load: wait for the fonts so the centred lines are measured correctly, then play once
+    if (isDefo()) (document.fonts ? document.fonts.ready : Promise.resolve()).then(enter);
 
     // scroll-driven questions: text swaps on the left, image wipes in from the right
     const sc = $('#dfScroll'), stepsEl = $$('.df-step', sc), imgsEl = $$('.df-img', sc), rail = $$('.df-rail i', sc), N = stepsEl.length;
