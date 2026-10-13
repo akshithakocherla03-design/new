@@ -561,7 +561,10 @@ section{position:relative}
 .fx-stat a{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--ink);color:#fff;font-size:11.5px;font-weight:700;transition:background .3s,color .3s}
 .fx-stat a:hover{background:var(--lime);color:var(--ink)}
 .ah.settled .fx-item{transition:opacity .9s var(--ease),transform .6s var(--ease),filter 1s var(--ease);transition-delay:0s}
-@media (max-width:1199px),(max-height:740px){.ah-fx{display:none}}
+.ah-fx{transform-origin:100% 0;scale:var(--fxs,1)}
+.ah.fx-on .ah-copy{max-width:min(760px,58vw)}
+.ah.fx-off .ah-fx{display:none}
+@media (max-width:859px){.ah-fx{display:none}}
 @media (prefers-reduced-motion:reduce){.ah::before{opacity:0}.fx-item{opacity:1;filter:none}.fx-bob{animation:none}}
 
 /* Responsive */
@@ -1745,6 +1748,20 @@ section{position:relative}
   wrapWords(title);
   // play the entrance each time the About page is opened
   const fxNum = $('#fxNum'), fxLbl = $('#fxLbl'), fx = $('#ahFx');
+  // fit the floating cluster into the space between the header and the glass card
+  const fxFit = () => {
+    if (ah.offsetParent === null) return;
+    const side = $('.ah-side', ah).getBoundingClientRect(), top = ah.getBoundingClientRect().top;
+    const hd = $('#header'), hdr = hd.offsetTop + hd.offsetHeight + 18;   // resting position, not mid-animation
+    const availH = side.top - top - hdr - 10, availW = innerWidth * .4;
+    const k = Math.min(1, availH / 400, availW / 430);
+    const on = innerWidth >= 860 && k >= .48;
+    ah.classList.toggle('fx-on', on); ah.classList.toggle('fx-off', !on);
+    fx.style.setProperty('--fxs', k.toFixed(3));
+    fx.style.top = hdr + 'px';
+    fx.style.right = Math.max(24, Math.min(130, innerWidth * .07)) + 'px';
+  };
+  addEventListener('resize', fxFit);
   let fxTimer;
   const fxCount = () => {
     clearTimeout(fxTimer);
@@ -1761,6 +1778,7 @@ section{position:relative}
     requestAnimationFrame(() => requestAnimationFrame(() => ah.classList.add('in')));
     if (!reduce) $('#header').animate([{ transform: 'translateY(-140%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 1000, delay: 400, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' });
     fxCount();
+    requestAnimationFrame(fxFit);
   };
   addEventListener('hashchange', () => { if (location.hash === '#bsnr-about') ahEnter(); });
   document.addEventListener('click', e => { if (e.target.closest('a[href="#bsnr-about"]')) setTimeout(ahEnter, 0); });
