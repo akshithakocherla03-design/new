@@ -900,39 +900,81 @@ section{position:relative}
 .tr-card li{padding-left:16px;border-left:2px solid rgba(200,241,105,.5)}
 .tr-card li b{display:block;font-size:15px}
 .tr-card li p{margin-top:3px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.7)}
-/* due diligence: copy on the left, the flow on the right */
-.tr-dd-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(32px,6vw,96px);align-items:center}
-.tr-dd-copy>p{margin-top:18px;color:var(--muted);line-height:1.65}
-.tr-els{list-style:none;margin:20px 0 4px;padding:0;display:grid;gap:8px}
-.tr-els li{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;background:var(--paper);box-shadow:0 0 0 1px var(--line);font-weight:600}
-.tr-els b{font-size:12px;color:var(--leaf)}
-.tr-link{font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-color:var(--leaf);text-decoration-thickness:2px;text-underline-offset:3px}
-.tr-link:hover{color:var(--leaf)}
-.tr-flow{display:flex;flex-direction:column;align-items:center;padding:clamp(24px,3vw,40px);border-radius:var(--radius);background:var(--paper);box-shadow:0 0 0 1px var(--line),0 40px 80px -50px rgba(11,31,22,.5)}
-.tr-node{position:relative;width:min(100%,320px);padding:16px 18px;border-radius:16px;text-align:center;font-weight:700;font-size:15px;line-height:1.35;color:var(--forest);background:#fff;box-shadow:inset 0 0 0 1.5px rgba(75,175,71,.55);opacity:0;transform:translateY(14px) scale(.96);transition:opacity .6s var(--ease),transform .7s var(--ease),box-shadow .3s;transition-delay:calc(var(--s) * 180ms)}
+/* due diligence: Article 8 copy and the DD cycle on the left, the live flow on the right, DDS card below */
+.tr-dd{position:relative;isolation:isolate;overflow:hidden}
+.tr-art{position:absolute;right:-1vw;top:clamp(10px,3vw,50px);z-index:-1;font-size:clamp(150px,22vw,360px);font-weight:700;line-height:.8;letter-spacing:-.07em;white-space:nowrap;color:rgba(75,175,71,.07);transform:translateY(var(--ay,0px));pointer-events:none;user-select:none}
+.tr-dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,80px);align-items:center}
+.tr-lead{margin-top:20px;font-size:clamp(17px,1.45vw,21px);line-height:1.6;color:var(--ink)}
+.tr-mk{padding:0 2px;color:inherit;background:linear-gradient(transparent 60%,rgba(200,241,105,.9) 60%) 0 0/0% 100% no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size 1.2s var(--ease) calc(.5s + var(--md,0s))}
+.tr-lead.in .tr-mk{background-size:100% 100%}
+/* the three DD elements cycle: one lights up at a time, the track fills, then it loops */
+.tr-cycle{margin-top:30px}
+.tr-els{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tr-el{position:relative;display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:18px;background:var(--paper);box-shadow:0 0 0 1px var(--line);font-size:14.5px;font-weight:600;line-height:1.35;cursor:default;transition:transform .6s var(--ease),box-shadow .4s,background .5s,color .5s}
+.tr-el b{font-size:12px;color:var(--leaf);transition:color .5s}
+.tr-el-ic{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:rgba(75,175,71,.12);color:var(--leaf);transition:background .5s,color .5s,transform .7s var(--ease)}
+.tr-el.on{background:var(--forest);color:#fff;transform:translateY(-6px);box-shadow:0 24px 40px -22px rgba(11,31,22,.65)}
+.tr-el.on b{color:var(--lime)}
+.tr-el.on .tr-el-ic{background:var(--lime);color:var(--ink);transform:rotate(-8deg) scale(1.08)}
+.tr-el:not(:last-child)::after{content:"";position:absolute;top:34px;right:-12px;z-index:1;width:8px;height:8px;border-top:2px solid var(--leaf);border-right:2px solid var(--leaf);transform:rotate(45deg)}
+.tr-track{position:relative;height:3px;margin-top:18px;border-radius:3px;background:rgba(11,31,22,.08);overflow:hidden}
+.tr-track i{position:absolute;inset:0;background:linear-gradient(90deg,var(--leaf),var(--lime));transform:scaleX(var(--tp,0));transform-origin:0 50%}
+.tr-loop{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tr-loop svg{color:var(--leaf);animation:trSpin 3.2s linear infinite}
+@keyframes trSpin{to{transform:rotate(360deg)}}
+/* flow: SVG connectors drawn by script, a packet travels the route, hover lights a node's links */
+.tr-flow-wrap{perspective:1400px}
+.tr-flow{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:38px;padding:clamp(24px,3vw,40px);border-radius:var(--radius);background:radial-gradient(70% 45% at 50% 0%,rgba(200,241,105,.22),transparent 70%),var(--paper);box-shadow:0 0 0 1px var(--line),0 40px 80px -50px rgba(11,31,22,.5);transform:rotateX(var(--fx,0deg)) rotateY(var(--fy,0deg));transition:transform .5s var(--ease)}
+.tr-lines{position:absolute;inset:0;z-index:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.tr-lines .base{fill:none;stroke:rgba(75,175,71,.5);stroke-width:2;stroke-linejoin:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1s var(--ease),stroke .3s,stroke-width .3s,opacity .3s}
+.tr-flow.on .tr-lines .base{stroke-dashoffset:0}
+.tr-lines .flow{fill:none;stroke:var(--lime);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:4 16;opacity:0;animation:trDash 1.4s linear infinite;transition:opacity .6s,stroke .3s}
+.tr-flow.drawn .tr-lines .flow{opacity:1}
+@keyframes trDash{to{stroke-dashoffset:-20}}
+.tr-lines .hot.base{stroke:var(--leaf);stroke-width:3}
+.tr-lines .hot.flow{stroke:var(--forest);animation-duration:.6s}
+.tr-lines .dim{opacity:.2}
+.tr-packet{fill:var(--lime);stroke:var(--forest);stroke-width:2;opacity:0;transition:opacity .4s}
+.tr-flow.drawn .tr-packet{opacity:1}
+.tr-packet-halo{fill:rgba(200,241,105,.45);opacity:0;transition:opacity .4s}
+.tr-flow.drawn .tr-packet-halo{opacity:1}
+.tr-glare{position:absolute;inset:0;z-index:3;border-radius:inherit;pointer-events:none;background:radial-gradient(420px circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.7),transparent 60%);mix-blend-mode:soft-light;opacity:0;transition:opacity .4s}
+.tr-flow:hover .tr-glare{opacity:1}
+.tr-node{position:relative;z-index:1;width:min(100%,320px);padding:16px 18px;border-radius:16px;text-align:center;font-size:15px;font-weight:700;line-height:1.35;color:var(--forest);background:#fff;box-shadow:inset 0 0 0 1.5px rgba(75,175,71,.55);opacity:0;cursor:default;transition:translate .45s var(--ease),scale .45s var(--ease),box-shadow .3s,filter .35s}
+.tr-flow.on .tr-node{animation:trPop .8s var(--ease) both;animation-delay:calc(var(--s) * 170ms)}
+@keyframes trPop{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:none}}
+.tr-node:hover{translate:0 -4px;scale:1.04;box-shadow:inset 0 0 0 2px var(--leaf),0 18px 32px -16px rgba(11,31,22,.45)}
+.tr-node.lit{box-shadow:inset 0 0 0 2px var(--leaf),0 0 0 5px rgba(200,241,105,.35)}
+.tr-flow.hovering .tr-node:not(:hover):not(.lit){filter:saturate(.3) opacity(.45)}
 .tr-node--dark{background:var(--forest);color:#fff;box-shadow:none}
 .tr-node--lime{background:var(--lime);color:var(--ink);box-shadow:none}
-.tr-node:not(.tr-node--dark):not(.tr-node--lime):hover{box-shadow:inset 0 0 0 2px var(--leaf),0 12px 24px -14px rgba(11,31,22,.4)}
-.tr-v{display:block;width:2px;height:30px;background:var(--leaf);transform:scaleY(0);transform-origin:50% 0;transition:transform .5s var(--ease);transition-delay:calc(var(--s) * 180ms)}
-.tr-docs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.tr-node--dark::after,.tr-node--lime::after{content:"";position:absolute;inset:0;border-radius:inherit;animation:trPulse 2.6s var(--ease) infinite}
+.tr-node--lime::after{animation-delay:1.3s}
+@keyframes trPulse{0%{box-shadow:0 0 0 0 rgba(75,175,71,.45)}100%{box-shadow:0 0 0 16px rgba(75,175,71,0)}}
+.tr-docs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
 .tr-doc{width:auto;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 10px;font-size:14px}
-.tr-ic{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(75,175,71,.12);color:var(--leaf)}
-/* branch out to the three documents, then back in */
-.tr-split,.tr-merge{position:relative;width:100%;height:30px}
-.tr-split i,.tr-merge i{position:absolute;left:calc(100% / 6);right:calc(100% / 6);height:2px;background:var(--leaf);transform:scaleX(0);transition:transform .6s var(--ease);transition-delay:calc(var(--s) * 180ms)}
-.tr-split i{top:50%}.tr-merge i{top:50%}
-.tr-split::before,.tr-merge::before{content:"";position:absolute;left:50%;width:2px;height:50%;margin-left:-1px;background:var(--leaf);transform:scaleY(0);transition:transform .4s var(--ease);transition-delay:calc(var(--s) * 180ms)}
-.tr-split::before{top:0;transform-origin:50% 0}.tr-merge::before{bottom:0;transform-origin:50% 0;transition-delay:calc(var(--s) * 180ms + 300ms)}
-.tr-split i::before,.tr-split i::after,.tr-merge i::before,.tr-merge i::after{content:"";position:absolute;width:2px;height:15px;background:var(--leaf)}
-.tr-split i::before,.tr-split i::after{top:0}.tr-merge i::before,.tr-merge i::after{bottom:0}
-.tr-split i::before,.tr-merge i::before{left:0}.tr-split i::after,.tr-merge i::after{right:0}
-.tr-flow.on .tr-node{opacity:1;transform:none}
-.tr-flow.on .tr-v,.tr-flow.on .tr-split::before,.tr-flow.on .tr-merge::before{transform:none}
-.tr-flow.on .tr-split i,.tr-flow.on .tr-merge i{transform:none}
-/* the middle document's own drop line */
-.tr-split::after,.tr-merge::after{content:"";position:absolute;left:50%;width:2px;height:50%;margin-left:-1px;background:var(--leaf);opacity:0;transition:opacity .3s;transition-delay:calc(var(--s) * 180ms + 400ms)}
-.tr-split::after{bottom:0}.tr-merge::after{top:0}
-.tr-flow.on .tr-split::after,.tr-flow.on .tr-merge::after{opacity:1}
+.tr-ic{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:rgba(75,175,71,.12);color:var(--leaf);transition:transform .6s var(--ease),background .3s,color .3s}
+.tr-doc:hover .tr-ic,.tr-doc.ping .tr-ic{transform:rotate(-12deg) scale(1.15);background:var(--lime);color:var(--ink)}
+.tr-doc.ping{box-shadow:inset 0 0 0 2px var(--leaf),0 0 0 7px rgba(200,241,105,.4)}
+/* DDS card: a fan of the three documents next to the portal paragraph */
+.tr-dds{grid-column:1/-1;position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:auto 1fr;gap:clamp(32px,6vw,96px);align-items:center;padding:clamp(32px,4.5vw,64px) clamp(28px,5vw,80px);border-radius:var(--radius);background:radial-gradient(60% 90% at 0% 100%,rgba(75,175,71,.32),transparent 60%),var(--forest);color:#fff}
+.tr-dds::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.07) 50%,transparent 60%);transform:translateX(-100%);animation:trShine 7s ease-in-out infinite}
+@keyframes trShine{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.tr-stack{position:relative;width:clamp(160px,16vw,215px);aspect-ratio:3/4;margin:10px 10px 10px clamp(90px,9vw,110px)}
+.tr-sheet{position:absolute;inset:0;display:flex;flex-direction:column;gap:9px;padding:18px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 24px 44px -20px rgba(0,0,0,.65);transform-origin:50% 110%;transition:transform 1s var(--ease)}
+.tr-sheet:nth-child(1){background:#dfeccf}.tr-sheet:nth-child(2){background:#eef5e5}
+.tr-dds.in .tr-sheet{transform:rotate(calc((2 - var(--i)) * -6deg)) translateX(calc((2 - var(--i)) * -10px));transition-delay:calc(.3s + (2 - var(--i)) * .12s)}
+.tr-dds:hover .tr-sheet{transform:rotate(calc((2 - var(--i)) * -11deg)) translate(calc((2 - var(--i)) * -22px),calc((2 - var(--i)) * -6px));transition-delay:0s}
+.tr-dds:hover .tr-sheet:nth-child(3){transform:translateY(-8px) rotate(3deg)}
+.tr-sheet b{font-size:12px;line-height:1.25;color:var(--leaf)}
+.tr-sheet:nth-child(3) b{font-size:clamp(34px,3.2vw,44px);letter-spacing:-.04em;line-height:1;color:var(--forest)}
+.tr-sheet i{display:block;height:6px;border-radius:3px;background:rgba(11,31,22,.1)}
+.tr-sheet i:nth-of-type(2){width:72%}.tr-sheet i:nth-of-type(3){width:86%}
+.tr-sheet em{position:absolute;right:16px;bottom:16px;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--lime);color:var(--ink)}
+.tr-dds-k{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
+.tr-dds-k::before{content:"";width:18px;height:2px;border-radius:2px;background:currentColor}
+.tr-dds-copy p{max-width:66ch;margin:16px 0 24px;font-size:clamp(15px,1.25vw,18px);line-height:1.65;color:rgba(255,255,255,.8)}
+.tr-dds .tr-link{color:var(--lime);text-decoration:underline;text-decoration-color:rgba(200,241,105,.6);text-decoration-thickness:2px;text-underline-offset:3px;font-weight:700}
 @media (max-width:1080px){.tr-dd-grid{grid-template-columns:1fr}.tr-card-body{padding:18px}}
 @media (max-width:860px){
   .tr-resp-head{grid-template-columns:1fr}
@@ -940,18 +982,17 @@ section{position:relative}
   .tr-resp-head h2{font-size:clamp(30px,8vw,44px)}
   .tr-big{font-size:64px}
 }
-@media (max-width:560px){
-  .tr-cards{grid-template-columns:1fr}
-  .tr-docs{grid-template-columns:1fr}
-  .tr-split,.tr-merge{height:18px}
-  .tr-split i,.tr-merge i,.tr-split::before,.tr-merge::before{display:none}
-  .tr-split::after,.tr-merge::after{height:100%;top:0}
-  .tr-docs{gap:0}
-  .tr-docs .tr-doc+.tr-doc{margin-top:18px}
-  .tr-docs .tr-doc+.tr-doc::before{content:"";position:absolute;left:50%;top:-18px;width:2px;height:18px;margin-left:-1px;background:var(--leaf)}
-}
 @media (max-height:700px) and (min-width:861px){.tr-big{font-size:clamp(64px,7vw,96px)}.tr-hero .df-head{font-size:clamp(42px,6.6vw,96px)}}
-@media (prefers-reduced-motion:reduce){.tr-node,.tr-v,.tr-split i,.tr-merge i,.tr-split::before,.tr-merge::before{opacity:1!important;transform:none!important}}
+@media (max-width:560px){
+  .tr-els{grid-template-columns:1fr}
+  .tr-el{flex-direction:row;align-items:center;gap:14px}
+  .tr-el:not(:last-child)::after{top:auto;bottom:-11px;right:auto;left:36px;transform:rotate(135deg)}
+  .tr-docs{grid-template-columns:1fr;gap:22px}
+  .tr-flow{gap:26px}
+  .tr-dds{grid-template-columns:1fr;justify-items:center;text-align:left}
+  .tr-stack{width:150px;margin:6px 0 4px 60px}
+}
+@media (prefers-reduced-motion:reduce){.tr-node{opacity:1;animation:none!important}.tr-lines .base{stroke-dashoffset:0}.tr-lines .flow,.tr-node::after,.tr-loop svg,.tr-dds::before{animation:none}}
 
 /* Responsive */
 @media (max-width:1080px){
@@ -1850,28 +1891,40 @@ section{position:relative}
 </section>
 
 <section class="sec tr-dd" id="trDD">
+  <span class="tr-art" aria-hidden="true">Art.&nbsp;8</span>
   <div class="wrap tr-dd-grid">
     <div class="tr-dd-copy">
       <span class="eyebrow rv">EUDR · Article 8</span>
       <h2 class="split" style="margin-top:18px"><span class="ln"><span>Due</span></span><span class="ln"><span style="--d:.08s" class="serif">Diligence</span></span></h2>
-      <p class="rv">As per EUDR [Article 8], prior to exporting Rubber to the EU market, exporters are mandated to exercise Due Diligence. For exercising Due Diligence (DD), three fundamental elements to be implemented which together form the continuous process of DD.</p>
-      <ol class="tr-els"><li class="rv" style="--d:0.0s"><b>01</b><span>Information gathering with the relevant legislation of India</span></li><li class="rv" style="--d:0.1s"><b>02</b><span>Risk Assessment measures</span></li><li class="rv" style="--d:0.2s"><b>03</b><span>Risk Mitigation measures</span></li></ol>
-      <p class="rv">Exporters registered on the <a class="tr-link" href="https://bsnrapp.rubberboard.org.in/#/exporter" target="_blank" rel="noopener">Rubber Board Portal</a> will receive all the necessary information required by the EU, the system will facilitate risk assessment and provide relevant risk mitigation measures as well. All the required information will be provided to the exporter in the form of a Due Diligence Statement (DDS). This DDS can be shared with EU buyers to ensure compliance with EUDR requirements.</p>
-    </div>
-    <div class="tr-flow" id="trFlow" aria-label="Due Diligence flow: Exporter registers in the Rubber Board EUDR Portal, receives the Due Diligence Statement, Traceability Certificate and GeoJson files, passes them to the buyer in the EU, who submits them in the EU Portal">
-      <div class="tr-node tr-node--dark" style="--s:0">Exporter</div>
-      <i class="tr-v" style="--s:1"></i>
-      <div class="tr-node" style="--s:2">Register in Rubber Board EUDR Portal</div>
-      <div class="tr-split" style="--s:3"><i></i></div>
-      <div class="tr-docs">
-        <div class="tr-node tr-doc" style="--s:4"><span class="tr-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></svg></span>Receive Due Diligence Statement (DDS)</div>
-        <div class="tr-node tr-doc" style="--s:4.4"><span class="tr-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M9 13.5L7.5 21l4.5-2.5 4.5 2.5-1.5-7.5"/></svg></span>Receive Traceability Certificate</div>
-        <div class="tr-node tr-doc" style="--s:4.8"><span class="tr-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l5-3 6 3 5-3v13l-5 3-6-3-5 3z"/><path d="M9 4v13M15 7v13"/></svg></span>Receive GeoJson files</div>
+      <p class="tr-lead rv">As per EUDR [Article 8], <mark class="tr-mk">prior to exporting Rubber to the EU market</mark>, exporters are mandated to exercise Due Diligence. For exercising Due Diligence (DD), <mark class="tr-mk" style="--md:.5s">three fundamental elements</mark> to be implemented which together form the continuous process of DD.</p>
+      <div class="tr-cycle rv" id="trCycle">
+        <ol class="tr-els"><li class="tr-el" style="--k:0" data-k="0"><span class="tr-el-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M8.5 11h5M11 8.5v5"/></svg></span><b>01</b><span>Information gathering with the relevant legislation of India</span></li><li class="tr-el" style="--k:1" data-k="1"><span class="tr-el-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/><circle cx="12" cy="17" r="1.2"/></svg></span><b>02</b><span>Risk Assessment measures</span></li><li class="tr-el" style="--k:2" data-k="2"><span class="tr-el-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><b>03</b><span>Risk Mitigation measures</span></li></ol>
+        <div class="tr-track" aria-hidden="true"><i></i></div>
+        <span class="tr-loop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg>Continuous process of DD</span>
       </div>
-      <div class="tr-merge" style="--s:5.6"><i></i></div>
-      <div class="tr-node tr-node--dark" style="--s:6.4">Buyer in EU</div>
-      <i class="tr-v" style="--s:7.2"></i>
-      <div class="tr-node tr-node--lime" style="--s:8">All the above documents to be submitted in the EU Portal</div>
+    </div>
+    <div class="tr-flow-wrap rv">
+    <div class="tr-flow" id="trFlow" aria-label="Due Diligence flow: Exporter registers in the Rubber Board EUDR Portal, receives the Due Diligence Statement, Traceability Certificate and GeoJson files, passes them to the buyer in the EU, who submits them in the EU Portal">
+      <svg class="tr-lines" aria-hidden="true"></svg>
+      <span class="tr-glare" aria-hidden="true"></span>
+      <div class="tr-node tr-node--dark" data-n="exp" style="--s:0">Exporter</div>
+      <div class="tr-node" data-n="reg" style="--s:1.2">Register in Rubber Board EUDR Portal</div>
+      <div class="tr-docs"><div class="tr-node tr-doc" data-n="doc0" style="--s:3.00"><span class="tr-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></svg></span>Receive Due Diligence Statement (DDS)</div><div class="tr-node tr-doc" data-n="doc1" style="--s:3.35"><span class="tr-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M9 13.5L7.5 21l4.5-2.5 4.5 2.5-1.5-7.5"/></svg></span>Receive Traceability Certificate</div><div class="tr-node tr-doc" data-n="doc2" style="--s:3.70"><span class="tr-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l5-3 6 3 5-3v13l-5 3-6-3-5 3z"/><path d="M9 4v13M15 7v13"/></svg></span>Receive GeoJson files</div></div>
+      <div class="tr-node tr-node--dark" data-n="buy" style="--s:4.6">Buyer in EU</div>
+      <div class="tr-node tr-node--lime" data-n="eu" style="--s:5.8">All the above documents to be submitted in the EU Portal</div>
+    </div>
+    </div>
+    <div class="tr-dds rv">
+      <div class="tr-stack" aria-hidden="true">
+        <span class="tr-sheet" style="--i:0"><b>GeoJson</b><i></i><i></i><i></i></span>
+        <span class="tr-sheet" style="--i:1"><b>Traceability Certificate</b><i></i><i></i><i></i></span>
+        <span class="tr-sheet" style="--i:2"><b>DDS</b><i></i><i></i><i></i><em><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></svg></em></span>
+      </div>
+      <div class="tr-dds-copy">
+        <span class="tr-dds-k">Due Diligence Statement (DDS)</span>
+        <p>Exporters registered on the <a class="tr-link" href="https://bsnrapp.rubberboard.org.in/#/exporter" target="_blank" rel="noopener">Rubber Board Portal</a> will receive all the necessary information required by the EU, the system will facilitate risk assessment and provide relevant risk mitigation measures as well. All the required information will be provided to the exporter in the form of a Due Diligence Statement (DDS). This DDS can be shared with EU buyers to ensure compliance with EUDR requirements.</p>
+        <a class="btn btn--lime btn--sm" href="https://bsnrapp.rubberboard.org.in/#/exporter" target="_blank" rel="noopener">Rubber Board Portal <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      </div>
     </div>
   </div>
 </section>
@@ -2532,8 +2585,134 @@ section{position:relative}
       });
       c.addEventListener('mouseleave', () => { c.style.setProperty('--ry', '0deg'); c.style.setProperty('--rx', '0deg'); });
     });
-    const flow = $('#trFlow');
-    new IntersectionObserver(([en], o) => { if (en.isIntersecting) { flow.classList.add('on'); o.disconnect(); } }, { threshold: .3 }).observe(flow);
+
+    /* Due Diligence flow: connectors are SVG paths measured from the nodes, so they follow any layout */
+    const flow = $('#trFlow'), svg = $('.tr-lines', flow), NS = 'http://www.w3.org/2000/svg';
+    const node = k => $(`[data-n="${k}"]`, flow);
+    let edges = [], packet, halo;
+    const drawLines = () => {
+      if (flow.offsetParent === null) return;
+      // offsets ignore the panel's tilt, so the lines stay true while it rotates
+      const box = k => {
+        const n = node(k); let x = 0, y = 0;
+        for (let e = n; e && e !== flow; e = e.offsetParent) { x += e.offsetLeft; y += e.offsetTop; }
+        return { x: x + n.offsetWidth / 2, t: y, b: y + n.offsetHeight };
+      };
+      const path = (a, b) => { const my = (a.b + b.t) / 2; return `M${a.x},${a.b} V${my} H${b.x} V${b.t}`; };
+      const P = { exp: box('exp'), reg: box('reg'), buy: box('buy'), eu: box('eu'), doc0: box('doc0'), doc1: box('doc1'), doc2: box('doc2') };
+      // on phones the documents stack, so the line runs through them one after another
+      const stacked = Math.abs(P.doc0.x - P.doc2.x) < 4;
+      const pairs = [['exp', 'reg']].concat(stacked
+        ? [['reg', 'doc0'], ['doc0', 'doc1'], ['doc1', 'doc2'], ['doc2', 'buy']]
+        : [0, 1, 2].map(i => ['reg', 'doc' + i]).concat([0, 1, 2].map(i => ['doc' + i, 'buy'])), [['buy', 'eu']]);
+      svg.setAttribute('viewBox', `0 0 ${flow.offsetWidth} ${flow.offsetHeight}`);
+      svg.innerHTML = '';
+      const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); svg.append(e); return e; };
+      edges = pairs.map(([f, t], i) => {
+        const d = path(P[f], P[t]);
+        const base = el('path', { d, class: 'base' }), fl = el('path', { d, class: 'flow' });
+        const len = base.getTotalLength();
+        base.style.setProperty('--len', len + 'px');
+        if (!flow.classList.contains('on')) base.style.transitionDelay = (.25 + i * .12) + 's';
+        return { f, t, base, fl, len };
+      });
+      halo = el('circle', { r: 11, class: 'tr-packet-halo', cx: -50, cy: -50 });
+      packet = el('circle', { r: 5.5, class: 'tr-packet', cx: -50, cy: -50 });
+      stacked ? flow.dataset.stacked = '' : delete flow.dataset.stacked;
+    };
+    // the packet carries one document per trip: Exporter, Register, a document, Buyer, EU Portal
+    let trip = 0, tripT = 0, last = 0, flowSeen = false, raf = 0;
+    const route = () => {
+      const by = (f, t) => edges.find(e => e.f === f && e.t === t);
+      if ('stacked' in flow.dataset) return edges;
+      const k = 'doc' + (trip % 3);
+      return [by('exp', 'reg'), by('reg', k), by(k, 'buy'), by('buy', 'eu')];
+    };
+    const step = now => {
+      raf = 0;
+      if (!flowSeen || page.hidden || !edges.length) return;
+      const dt = Math.min(64, now - (last || now)); last = now;
+      const r = route(), total = r.reduce((a, e) => a + e.len, 0);
+      tripT += dt * .16;
+      if (tripT > total + 120) { tripT = 0; trip++; }
+      let d = Math.min(tripT, total);
+      for (const e of r) {
+        if (d <= e.len) {
+          const pt = e.base.getPointAtLength(d);
+          packet.setAttribute('cx', pt.x); packet.setAttribute('cy', pt.y); halo.setAttribute('cx', pt.x); halo.setAttribute('cy', pt.y);
+          // a document glows as the packet reaches it
+          const doc = e.t.startsWith('doc') && e.len - d < 14 ? node(e.t) : null;
+          if (doc && !doc.classList.contains('ping')) { doc.classList.add('ping'); setTimeout(() => doc.classList.remove('ping'), 900); }
+          break;
+        }
+        d -= e.len;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    const run = () => { if (!raf && flowSeen && !reduce) { last = 0; raf = requestAnimationFrame(step); } };
+    new IntersectionObserver(([en]) => {
+      flowSeen = en.isIntersecting;
+      if (flowSeen && !flow.classList.contains('on')) {
+        drawLines(); void flow.offsetWidth; flow.classList.add('on');
+        setTimeout(() => { flow.classList.add('drawn'); edges.forEach(e => { e.base.style.transitionDelay = ''; }); }, reduce ? 0 : 1900);
+      }
+      run();
+    }, { threshold: .25 }).observe(flow);
+    let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (flow.classList.contains('on')) drawLines(); }, 120); });
+    addEventListener('pageshow:trace', () => setTimeout(() => { if (flow.classList.contains('on')) drawLines(); run(); }, 60));
+
+    // hover: lift the node, light its connections, dim the rest
+    const clearHot = () => { flow.classList.remove('hovering'); $$('.lit', flow).forEach(n => n.classList.remove('lit')); edges.forEach(e => [e.base, e.fl].forEach(p => p.classList.remove('hot', 'dim'))); };
+    $$('.tr-node', flow).forEach(n => {
+      n.addEventListener('mouseenter', () => {
+        clearHot(); flow.classList.add('hovering');
+        const k = n.dataset.n;
+        edges.forEach(e => {
+          const on = e.f === k || e.t === k;
+          [e.base, e.fl].forEach(p => p.classList.add(on ? 'hot' : 'dim'));
+          if (on) node(e.f === k ? e.t : e.f).classList.add('lit');
+        });
+      });
+      n.addEventListener('mouseleave', clearHot);
+    });
+    // the panel tilts toward the cursor, with a soft glare
+    if (matchMedia('(hover: hover)').matches && !reduce) {
+      flow.addEventListener('mousemove', e => {
+        const r = flow.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        flow.style.setProperty('--fy', ((x - .5) * 7).toFixed(2) + 'deg'); flow.style.setProperty('--fx', ((.5 - y) * 7).toFixed(2) + 'deg');
+        flow.style.setProperty('--gx', (x * 100).toFixed(1) + '%'); flow.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+      });
+      flow.addEventListener('mouseleave', () => { flow.style.setProperty('--fx', '0deg'); flow.style.setProperty('--fy', '0deg'); });
+    }
+
+    /* the three DD elements light up in turn; hovering one holds it */
+    const cyc = $('#trCycle'), els = $$('.tr-el', cyc), CYC = 2600;
+    let ck = 0, ct = 0, cLast = 0, cHold = false, cSeen = false, cRaf = 0;
+    const setEl = k => els.forEach((e, i) => e.classList.toggle('on', i === k));
+    const cStep = now => {
+      cRaf = 0;
+      if (!cSeen || page.hidden) return;
+      const dt = Math.min(64, now - (cLast || now)); cLast = now;
+      if (!cHold) { ct += dt; if (ct >= CYC) { ct = 0; ck = (ck + 1) % 3; setEl(ck); } }
+      cyc.style.setProperty('--tp', ((ck + (cHold ? 1 : ct / CYC)) / 3).toFixed(4));
+      cRaf = requestAnimationFrame(cStep);
+    };
+    setEl(0);
+    if (reduce) cyc.style.setProperty('--tp', 1);
+    else new IntersectionObserver(([en]) => { cSeen = en.isIntersecting; if (cSeen && !cRaf) { cLast = 0; cRaf = requestAnimationFrame(cStep); } }, { threshold: .3 }).observe(cyc);
+    els.forEach((e, i) => {
+      e.addEventListener('mouseenter', () => { cHold = true; ck = i; ct = 0; setEl(i); });
+      e.addEventListener('mouseleave', () => { cHold = false; });
+    });
+
+    /* "Art. 8" watermark drifts against the scroll */
+    const dd = $('#trDD'), art = $('.tr-art', dd);
+    if (!reduce) addEventListener('scroll', () => {
+      if (page.hidden) return;
+      const r = dd.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      art.style.setProperty('--ay', ((r.top + r.height / 2 - innerHeight / 2) * -.18).toFixed(1) + 'px');
+    }, { passive: true });
   }
 
   /* Risk & Legality: Farmer / Dealer tabs, hero shortcuts and Read more */

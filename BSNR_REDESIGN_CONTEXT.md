@@ -76,10 +76,10 @@ All live text is kept, apart from one typo fix: "processors, and processors" bec
 2. **How Traceability is Achieved:** the live page's five steps as pinned scrollytelling, each with a large tinted number and a photo (`register`, `mapping`, `transactions`, `storage`, `certificate`).
 3. **Your Responsibilities in Establishing Traceability:** a dark panel with three glass cards (Dealers/Sub-Dealers, For Processors / Manufacturers, For Exporters). Each card has a looping role clip from `assets/video/roles/` and tilts under the cursor.
 4. **Due Diligence (Article 8):**
-   - the live text;
-   - the three elements as tiles;
-   - the Rubber Board Portal link;
-   - the live flowchart rebuilt in HTML (`#trFlow`): Exporter → Register → DDS / Traceability Certificate / GeoJson files → Buyer in EU → EU Portal. It draws itself when scrolled into view.
+   - **Copy:** the live text, with an "Art. 8" watermark that drifts on scroll and lime highlighter sweeps on two key phrases.
+   - **Three DD elements:** a cycle (`#trCycle`) where one card lights up at a time and a track fills before it loops. Hovering a card holds it.
+   - **Flow** (`#trFlow`): SVG connectors measured from the nodes, so they redraw on resize and run through the documents when they stack on phones. They draw in, then carry moving lime dashes. A packet travels Exporter → Register → one document → Buyer → EU Portal, cycling through the three documents. Hovering a node lights its links and dims the rest. The panel tilts toward the cursor with a glare, and the dark and lime nodes pulse.
+   - **DDS card:** a dark card with a fan of three document sheets that spreads on hover, the live portal paragraph and a Rubber Board Portal button.
 5. **CTA**, which is new and not on the live page.
 
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
