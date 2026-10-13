@@ -92,7 +92,7 @@ All 32 live questions and answers in the live page's 4 categories (7 / 6 / 8 / 1
 
 ## Resources page (`#resources`)
 The live content is kept: the headline "Your Step-by-Step Guide to EUDR Compliance" and its five cards (Tutorial Videos plus four PDF guides) with their live titles, text, links and buttons. The card layout and motion follow the user's screen recording.
-1. **Hero:** the headline over a path through a rubber plantation (`assets/img/res/hero.jpg`), with an index of the five resources that jumps to each card.
+1. **Hero:** the headline only, centred over a path through a rubber plantation (`assets/img/res/hero.jpg`). The user asked for no sub-text or index. `data-centre` on the hero keeps the headline centred instead of gliding left.
 2. **Card stack** (`#rsStack`, sticky). Each card rises over the previous one as you scroll; the earlier cards shrink, dim and peek above.
    - **Captions:** the serif title, text and button sit beside each card and alternate sides, fading in with a blur.
    - **Clips:** each card plays real footage, and only the leading card's clip plays. Tutorial Videos uses the plantation clip, the three user guides use the dealer, manufacturer and exporter role clips, and Country Classification uses the latex clip.

@@ -1089,6 +1089,8 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 /* ===== Resources page: Deforestation-style hero, then a scroll-driven stack of resource cards, then a scatter of photos around a counting number ===== */
 .rs-hero::before{background:url("assets/img/res/hero.jpg") center 55%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@21e390e32aab9c3e414ebf471ca5cac01d5e5a25/assets/img/res/hero.jpg") center 55%/cover;filter:saturate(.9) brightness(.55)}
 .rs-hero .df-head{font-size:clamp(40px,6.4vw,100px)}
+.rs-hero>.wrap{text-align:center}
+.rs-hero .eyebrow.df-later{justify-content:center}
 /* the stack: each card rises over the last, which settles back and peeks above it */
 .rs-stack{position:relative;height:calc(var(--n) * 85vh + 40vh)}
 .rs-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
@@ -2228,17 +2230,13 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 </main>
 
 <main class="page" data-page="res" hidden>
-<section class="df-hero rs-hero">
+<section class="df-hero rs-hero" data-centre>
   <div class="wrap">
     <span class="eyebrow df-later">Resources &amp; Guides</span>
     <h1 class="df-head">
       <span class="df-l"><span class="df-w">Your Step-by-Step Guide</span></span>
       <span class="df-l"><span class="df-w df-brand">to EUDR Compliance</span></span>
     </h1>
-    <div class="df-intro df-later">
-      <p class="df-lead">Tutorial videos and step-by-step user guides for every stakeholder on the BSNR portal, from registration to your Due Diligence Statement.</p>
-      <ol class="df-index"><li style="--k:0"><a href="#rsStack" class="rs-jump" data-k="0"><b>01</b><span>Tutorial Videos</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:1"><a href="#rsStack" class="rs-jump" data-k="1"><b>02</b><span>User Guide for Dealers &amp; Processors</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:2"><a href="#rsStack" class="rs-jump" data-k="2"><b>03</b><span>User Guide for Manufacturers</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:3"><a href="#rsStack" class="rs-jump" data-k="3"><b>04</b><span>User Guide for Exporters</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:4"><a href="#rsStack" class="rs-jump" data-k="4"><b>05</b><span>EUDR Country Classification Implications</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li></ol>
-    </div>
   </div>
   <a class="df-cue df-later" href="#rsStack"><i></i>Scroll to explore</a>
 </section>
@@ -2845,6 +2843,8 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
       const W = head.clientWidth;
       $$('.df-l', head).forEach(l => l.style.setProperty('--cx', Math.max(0, (W - l.offsetWidth) / 2) + 'px'));
     };
+    // a hero marked data-centre keeps its headline centred instead of gliding left
+    const keepCentre = hero.hasAttribute('data-centre');
     let t1, t2;
     const enter = () => {
       // step photos are lazy; fetch them as soon as the page opens so none are blank mid-scroll
@@ -2854,7 +2854,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
       centre(); void head.offsetWidth; head.classList.add('ready');
       requestAnimationFrame(() => requestAnimationFrame(() => {
         head.classList.add('on');
-        t1 = setTimeout(() => head.classList.add('settle'), reduce ? 0 : 2100);
+        if (!keepCentre) t1 = setTimeout(() => head.classList.add('settle'), reduce ? 0 : 2100);
         t2 = setTimeout(() => hero.classList.add('settled'), reduce ? 0 : 3000);
       }));
     };
@@ -3023,14 +3023,6 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     }), { threshold: .45 });
     cards.forEach(c => io.observe(c));
     addEventListener('pageshow:res', () => { lead = -1; setTimeout(tick, 30); });
-    // hero links jump to their card in the stack
-    $$('.rs-jump', page).forEach(a => a.addEventListener('click', e => {
-      e.preventDefault(); e.stopPropagation();
-      const k = +a.dataset.k;
-      if (!desk()) { cards[k].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); return; }
-      const span = stack.offsetHeight - innerHeight;
-      scrollTo({ top: stack.getBoundingClientRect().top + scrollY + span * (k + .3) / N + 2, behavior: reduce ? 'auto' : 'smooth' });
-    }, true));
 
     // closing scatter: photos drift at their own speeds, the number counts up once
     const sc = $('#rsScatter'), ths = $$('.rs-th', sc), num = $('.rs-num', sc);
