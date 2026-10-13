@@ -9,7 +9,7 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, anything else shows Home. Links use `data-route="about|defo|risk|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, anything else shows Home. Links use `data-route="about|defo|risk|trace|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -70,6 +70,18 @@ Keeps the live page's structure and wording (the user asked for all existing con
    - **Dealer:** intro, "What is covered under dealer/sub-dealer risk assessment?" (4 tiles), then **Read more** opens "What happens upon completion of risk assessment?" with Sub-Dealer and Main-Dealer / Manufacturer / Processor cards.
 3. **General FAQs on Risk Assessment:** the live page's 9 questions, verbatim, as an accordion. Then a short **CTA**, which is new and not on the live page.
 
+## Traceability & Due Diligence page (`#traceability-due-diligence`)
+All live text is kept, apart from one typo fix: "processors, and processors" became "processors, and manufacturers". The page uses `questionPage('trace', ...)` with `tr-*` extras.
+1. **Hero:** "Traceability & / **Due Diligence**" over rows of tapped trees (`assets/img/trace/hero.jpg`), with an index linking to the three sections.
+2. **How Traceability is Achieved:** the live page's five steps as pinned scrollytelling, each with a large tinted number and a photo (`register`, `mapping`, `transactions`, `storage`, `certificate`).
+3. **Your Responsibilities in Establishing Traceability:** a dark panel with three glass cards (Dealers/Sub-Dealers, For Processors / Manufacturers, For Exporters). Each card has a looping role clip from `assets/video/roles/` and tilts under the cursor.
+4. **Due Diligence (Article 8):**
+   - the live text;
+   - the three elements as tiles;
+   - the Rubber Board Portal link;
+   - the live flowchart rebuilt in HTML (`#trFlow`): Exporter → Register → DDS / Traceability Certificate / GeoJson files → Buyer in EU → EU Portal. It draws itself when scrolled into view.
+5. **CTA**, which is new and not on the live page.
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
@@ -77,10 +89,11 @@ Keeps the live page's structure and wording (the user asked for all existing con
 - `assets/img/about/hero.jpg`
 - `assets/img/defo/`: eudr, mapping, consequences, contribute, analysis
 - `assets/img/risk/`: hero, farmer, dealer
+- `assets/img/trace/`: hero, register, mapping, transactions, storage, certificate
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Traceability & Due Diligence, EUDR FAQ, Resources/User Guide, Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+EUDR FAQ, Resources/User Guide, Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
