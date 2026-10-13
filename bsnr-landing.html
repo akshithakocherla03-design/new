@@ -448,7 +448,7 @@ section{position:relative}
 .ah-copy{max-width:760px}
 .ah h1{margin:22px 0 20px;font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.4vw,66px);line-height:1.02;letter-spacing:-.02em;text-shadow:0 2px 30px rgba(0,0,0,.35)}
 .ah h1 em{font-style:italic;color:var(--lime)}
-.ah h1 .w{display:inline-block;opacity:0;transform:translateY(55%);filter:blur(12px);transition:opacity .9s var(--ease),transform 1.2s var(--ease),filter .9s var(--ease);transition-delay:calc(.25s + var(--i) * 45ms)}
+.ah h1 .w{display:inline-block;opacity:0;transform:translateY(55%);filter:blur(12px);transition:opacity .9s var(--ease),transform 1.2s var(--ease),filter .9s var(--ease);transition-delay:calc(.7s + var(--i) * 55ms)}
 .ah.in h1 .w{opacity:1;transform:none;filter:none}
 .ah-lead{max-width:52ch;font-size:clamp(15px,1.25vw,18px);line-height:1.6;color:rgba(255,255,255,.8)}
 .ah-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
@@ -524,6 +524,45 @@ section{position:relative}
   .ab-nums{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){.ah h1 .w,.ah-fade{opacity:1;transform:none;filter:none}}
+
+
+/* About hero intro (after the reference): fade up from dark, blur-in copy, floating 3D cluster */
+.ah::before{content:"";position:absolute;inset:0;z-index:5;background:#050d08;pointer-events:none;opacity:1;transition:opacity 1.8s var(--ease) .1s}
+.ah.in::before{opacity:0}
+.ah-photo{filter:blur(var(--pb,14px)) saturate(var(--psat,.6));transition:transform 2.8s var(--ease),filter 2.2s var(--ease)}
+.ah.in .ah-photo{--pb:0px;--psat:1}
+.ah .pill.ah-fade{filter:blur(8px);transition:opacity .9s var(--ease),transform 1s var(--ease),filter .9s var(--ease)}
+.ah.in .pill.ah-fade{filter:none}
+.ah-fx{position:absolute;z-index:3;top:clamp(110px,16vh,150px);right:clamp(40px,7vw,130px);width:380px;height:390px;pointer-events:none;perspective:1100px;transform:translate3d(var(--fx,0px),var(--fy,0px),0)}
+.fx-item{position:absolute;opacity:0;transition:opacity .9s var(--ease),transform 1.4s var(--ease),filter 1s var(--ease);filter:blur(10px);transition-delay:var(--d,0s)}
+.ah.in .fx-item{opacity:1;filter:none}
+.fx-bob{animation:bob var(--bt,6s) ease-in-out infinite alternate;animation-delay:var(--bd,0s)}
+@keyframes bob{from{transform:translateY(-6px)}to{transform:translateY(8px)}}
+.fx-card{left:90px;top:0;width:210px;height:290px;transform:translateY(90px) rotateX(28deg) rotateY(-18deg) scale(.9);--d:1.5s}
+.ah.in .fx-card{transform:translate3d(var(--c1x,0px),var(--c1y,0px),0) rotateX(6deg) rotateY(-14deg) rotateZ(2deg)}
+.fx-card .fx-bob{position:relative;height:100%;border-radius:18px;overflow:hidden;background:url("assets/img/stats/processor.jpg") center/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/processor.jpg") center/cover,#20352a;box-shadow:0 40px 70px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.25)}
+.fx-card .fx-bob::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,18,11,.85))}
+.fx-cap{position:absolute;z-index:1;left:14px;right:14px;bottom:14px;color:#fff}
+.fx-cap em{display:block;font-family:var(--serif);font-size:20px;margin-bottom:10px}
+.fx-bar{display:grid;gap:4px;margin-top:8px;font-size:10.5px;color:rgba(255,255,255,.7)}
+.fx-bar i{display:block;height:3px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+.fx-bar i::after{content:"";display:block;height:100%;width:0;background:var(--bc,var(--lime));border-radius:inherit;transition:width 2.2s var(--ease) 2.4s}
+.ah.in .fx-bar i::after{width:var(--w)}
+.fx-bubble{left:-70px;top:34px;transform:translate(-30px,20px) scale(.85);--d:2.1s}
+.ah.in .fx-bubble{transform:translate3d(var(--c2x,0px),var(--c2y,0px),0)}
+.fx-bubble .fx-bob{position:relative;width:200px}
+.fx-bubble .b{padding:10px 13px;border-radius:14px;font-size:12px;line-height:1.4;font-weight:600;color:var(--ink);background:rgba(255,255,255,.92);box-shadow:0 16px 30px -14px rgba(0,0,0,.5)}
+.fx-bubble .b.ghost{position:absolute;inset:-12px 10px auto -6px;color:rgba(11,31,22,.35);background:rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transform:scale(.94);z-index:-1}
+.fx-stat{right:-36px;top:96px;transform:translate(30px,40px) scale(.85);--d:2.5s}
+.ah.in .fx-stat{transform:translate3d(var(--c3x,0px),var(--c3y,0px),0)}
+.fx-stat .fx-bob{width:172px;padding:14px;border-radius:16px;background:rgba(255,255,255,.94);color:var(--ink);box-shadow:0 24px 40px -18px rgba(0,0,0,.55)}
+.fx-stat strong{display:block;font-size:28px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.fx-stat span{display:block;margin:4px 0 12px;font-size:11px;color:var(--muted)}
+.fx-stat a{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--ink);color:#fff;font-size:11.5px;font-weight:700;transition:background .3s,color .3s}
+.fx-stat a:hover{background:var(--lime);color:var(--ink)}
+.ah.settled .fx-item{transition:opacity .9s var(--ease),transform .6s var(--ease),filter 1s var(--ease);transition-delay:0s}
+@media (max-width:1199px),(max-height:740px){.ah-fx{display:none}}
+@media (prefers-reduced-motion:reduce){.ah::before{opacity:0}.fx-item{opacity:1;filter:none}.fx-bob{animation:none}}
 
 /* Responsive */
 @media (max-width:1080px){
@@ -1071,13 +1110,13 @@ section{position:relative}
     <div class="ah-copy">
       <span class="pill ah-fade"><b>About</b>Bharat Sustainable Natural Rubber</span>
       <h1 id="ahTitle">India's National <em>EUDR Compliance</em> and Sustainability Certification Platform for Natural Rubber</h1>
-      <p class="ah-lead ah-fade" style="--d:.7s">BSNR connects India's smallholder rubber farmers, dealers, processors, manufacturers and exporters on one shared system for EUDR compliance and sustainability certification, at zero cost to farmers.</p>
-      <div class="ah-actions ah-fade" style="--d:.85s">
+      <p class="ah-lead ah-fade" style="--d:1.3s">BSNR connects India's smallholder rubber farmers, dealers, processors, manufacturers and exporters on one shared system for EUDR compliance and sustainability certification, at zero cost to farmers.</p>
+      <div class="ah-actions ah-fade" style="--d:1.5s">
         <a class="btn btn--lime" href="#partner">Learn How BSNR Works <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         <a class="btn btn--ghost" href="register-yourself.html">Register your Interest</a>
       </div>
     </div>
-    <div class="ah-side ah-fade" style="--d:1s">
+    <div class="ah-side ah-fade" style="--d:2.7s">
       <div class="ah-nav"><button type="button" id="ahPrev" aria-label="Previous"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M10 6H2M5.5 2.5L2 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" id="ahNext" aria-label="Next"><svg width="14" height="14" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
       <div class="ah-card" id="ahCard" aria-live="polite">
             <div class="ah-slide on" aria-hidden="false"><h3>Our Story</h3><p>When the EU Deforestation Regulation came into force, the Rubber Board of India, along with TRST01, launched BSNR so the compliance burden would not fall on individual farmers and small businesses.</p><a href="#story">Read our story <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
@@ -1086,6 +1125,16 @@ section{position:relative}
         <div class="ah-dots" id="ahDots"><i class="on"></i><i></i><i></i></div>
       </div>
     </div>
+  </div>
+  <div class="ah-fx" id="ahFx" aria-hidden="true">
+    <div class="fx-item fx-card"><div class="fx-bob" style="--bt:7s">
+      <div class="fx-cap"><em>Traced from the tree</em>
+        <div class="fx-bar">Plot mapping<i style="--w:86%"></i></div>
+        <div class="fx-bar">Satellite verification<i style="--w:64%;--bc:#e8c45a"></i></div>
+      </div>
+    </div></div>
+    <div class="fx-item fx-bubble"><div class="fx-bob" style="--bt:5.5s;--bd:-2s"><div class="b ghost">Registration, mapping and documents</div><div class="b">Free for every farmer: registration, plot mapping and documentation.</div></div></div>
+    <div class="fx-item fx-stat"><div class="fx-bob" style="--bt:6.5s;--bd:-4s"><strong id="fxNum">0</strong><span id="fxLbl">Growers onboarded on BSNR</span><a href="register-yourself.html" tabindex="-1">Register <svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>
   </div>
   <span class="ah-scroll" aria-hidden="true"></span>
 </section>
@@ -1688,7 +1737,24 @@ section{position:relative}
   });
   wrapWords(title);
   // play the entrance each time the About page is opened
-  const ahEnter = () => { ah.classList.remove('in'); requestAnimationFrame(() => requestAnimationFrame(() => ah.classList.add('in'))); };
+  const fxNum = $('#fxNum'), fxLbl = $('#fxLbl'), fx = $('#ahFx');
+  let fxTimer;
+  const fxCount = () => {
+    clearTimeout(fxTimer);
+    fxNum.textContent = '0';
+    fxTimer = setTimeout(() => {
+      const v = liveStats && Number(liveStats.TotalRegisteredGrower);
+      if (Number.isFinite(v) && v > 0) { fxLbl.textContent = 'Growers onboarded on BSNR'; countUp(fxNum, v); }
+      else { fxLbl.textContent = 'Cost for a farmer to join BSNR'; fxNum.textContent = '₹0'; }
+    }, reduce ? 0 : 2700);
+  };
+  const ahEnter = () => {
+    ah.classList.remove('in', 'settled');
+    clearTimeout(ah._st); ah._st = setTimeout(() => ah.classList.add('settled'), 4200);
+    requestAnimationFrame(() => requestAnimationFrame(() => ah.classList.add('in')));
+    if (!reduce) $('#header').animate([{ transform: 'translateY(-140%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 1000, delay: 400, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' });
+    fxCount();
+  };
   addEventListener('hashchange', () => { if (location.hash === '#bsnr-about') ahEnter(); });
   document.addEventListener('click', e => { if (e.target.closest('a[href="#bsnr-about"]')) setTimeout(ahEnter, 0); });
   ahEnter();
@@ -1708,6 +1774,11 @@ section{position:relative}
     photo.style.setProperty('--py', (cy * -40 + sc * 120).toFixed(2) + 'px');
     lx += (tx + .5 - lx) * .08; ly += (ty + .5 - ly) * .08;
     ah.style.setProperty('--lx', (lx * 100).toFixed(1) + '%'); ah.style.setProperty('--ly', (ly * 100).toFixed(1) + '%');
+    // floating cluster: each layer moves by a different amount for depth
+    fx.style.setProperty('--fx', (cx * 30).toFixed(2) + 'px'); fx.style.setProperty('--fy', (cy * 22 - sc * 80).toFixed(2) + 'px');
+    [[1, 18], [2, 34], [3, 46]].forEach(([k, m]) => {
+      fx.style.setProperty(`--c${k}x`, (cx * m).toFixed(2) + 'px'); fx.style.setProperty(`--c${k}y`, (cy * m * .7).toFixed(2) + 'px');
+    });
   };
   ahLoop();
 
