@@ -1255,6 +1255,13 @@ section{position:relative}
 
   document.getElementById('yr').textContent = new Date().getFullYear();
 
+  // Resolve asset folders. In a preview frame (about:srcdoc) there is no file
+  // location, so URL() would throw and stop the whole script.
+  const tryURL = (p, b) => { try { return new URL(p, b).href; } catch (e) { return null; } };
+  const localURL = p => /^(https?|file):/.test(location.href) ? tryURL(p, location.href) : null;
+  const siteURL = p => tryURL(p, document.baseURI);
+
+
   /* Pages: #bsnr-about shows About BSNR, anything else shows home */
   const ROUTES = { '#bsnr-about': 'about', '#home': 'home' };
   const pages = $$('.page');
@@ -1279,8 +1286,8 @@ section{position:relative}
     e.preventDefault(); e.stopPropagation();
     const h = a.getAttribute('href');
     // build the URL from this page (the <base> tag would otherwise point it at the live site)
-    if (location.hash !== h) history.pushState(null, '', location.href.split('#')[0] + h);
-    route();
+    try { if (location.hash !== h) history.pushState(null, '', location.href.split('#')[0] + h); } catch (err) {}
+    showPage(ROUTES[h] || 'home', true);
   }, true);
   route();
 
@@ -1360,7 +1367,7 @@ section{position:relative}
   /* Hero: walking down a real rubber plantation. Scrolling drives native playback
      (smooth, unlike seeking frame by frame); the scene tilts toward the cursor. */
   const walkVid = $('#walkVid'), walk = walkVid.parentElement, hlWrap = $('.hl-wrap', stage);
-  [...new Set([new URL('assets/video/', location.href).href, new URL('assets/video/', document.baseURI).href, walkVid.dataset.cdn])]
+  [...new Set([localURL('assets/video/'), siteURL('assets/video/'), walkVid.dataset.cdn].filter(Boolean))]
     .forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
       const src = document.createElement('source');
       src.src = base + 'hero-walk.' + ext; src.type = type; walkVid.append(src);
@@ -1453,10 +1460,10 @@ section{position:relative}
   const initVideo = $('#initVideo');
   // The <base> tag points relative URLs at the live site, so also try a copy next to this file, then the CDN
   const vidBases = [...new Set([
-    new URL('assets/video/', location.href).href,
-    new URL('assets/video/', document.baseURI).href,
+    localURL('assets/video/'),
+    siteURL('assets/video/'),
     initVideo.dataset.cdn
-  ])];
+  ].filter(Boolean))];
   vidBases.forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
     const src = document.createElement('source');
     src.src = base + 'rubber-plantation.' + ext; src.type = type;
@@ -1494,7 +1501,7 @@ section{position:relative}
 
   /* Critical aspects: the footage holds still until you hover, then the latex flows */
   const aspPanel = $('#aspPanel'), aspVideo = $('#aspVideo');
-  [...new Set([new URL('assets/video/', location.href).href, new URL('assets/video/', document.baseURI).href, aspVideo.dataset.cdn])]
+  [...new Set([localURL('assets/video/'), siteURL('assets/video/'), aspVideo.dataset.cdn].filter(Boolean))]
     .forEach(base => [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([ext, type]) => {
       const src = document.createElement('source');
       src.src = base + aspVideo.dataset.name + '.' + ext; src.type = type;
@@ -1580,7 +1587,7 @@ section{position:relative}
 
   /* Register: short real clip for the selected role; only the visible one plays */
   const regVids = $$('.reg-vid');
-  regVids.forEach(v => [...new Set([new URL('assets/video/roles/', location.href).href, new URL('assets/video/roles/', document.baseURI).href, v.closest('.reg-art').style.getPropertyValue('--poster').match(/https:\/\/cdn[^"&)]+\//)[0]])]
+  regVids.forEach(v => [...new Set([localURL('assets/video/roles/'), siteURL('assets/video/roles/'), v.closest('.reg-art').style.getPropertyValue('--poster').match(/https:\/\/cdn[^"&)]+\//)[0]].filter(Boolean))]
     .forEach(base => { const s = document.createElement('source'); s.src = base + v.dataset.role + '.mp4'; s.type = 'video/mp4'; v.append(s); }));
   let regSeen = false;
   const regPlay = () => regVids.forEach(v => {
