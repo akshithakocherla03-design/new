@@ -523,14 +523,55 @@ section{position:relative}
 @media (prefers-reduced-motion:reduce){.ah::before{opacity:0}.ah h1 .w,.ah-fade,.fx-item{opacity:1;transform:none;filter:none}.fx-bob{animation:none}}
 
 /* About content */
-.ab-story{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px);align-items:start}
-.ab-story h2{margin:18px 0 0}
-.ab-story .lead+.lead{margin-top:16px}
-.quote{margin:0;padding:clamp(28px,4vw,48px);border-radius:var(--radius);background:var(--forest);color:#fff;position:relative;overflow:hidden}
-.quote::before{content:"\201C";position:absolute;top:-30px;right:20px;font-family:var(--serif);font-size:220px;line-height:1;color:rgba(200,241,105,.14)}
-.quote p{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);line-height:1.3}
-.quote footer{margin-top:22px;font-size:14px;color:rgba(255,255,255,.65)}
-.quote footer b{color:var(--lime);font-weight:700}
+/* Our Story: dark panel, three cards (image · farmer's words · image), condensed story below */
+.os-panel{position:relative;overflow:hidden;isolation:isolate;border-radius:var(--radius);color:#fff;background:radial-gradient(60% 50% at 50% 0%,rgba(75,175,71,.18),transparent 70%),linear-gradient(180deg,#0f2f21,var(--ink));padding:clamp(40px,6vw,88px) clamp(20px,4vw,64px)}
+.os-head{text-align:center;margin-bottom:clamp(32px,4.5vw,56px)}
+.os-head .eyebrow{color:var(--lime)}
+.os-head h2{margin-top:16px;color:#fff}
+.os-cards{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:16px;perspective:1400px}
+.os-card{position:relative;min-height:clamp(340px,30vw,420px);border-radius:22px;overflow:hidden;isolation:isolate;opacity:0;transform:translateY(60px) rotateX(18deg);transform-origin:50% 100%;transition:opacity .9s var(--ease),transform 1.2s var(--ease),box-shadow .5s;transition-delay:var(--d,0s);box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.os-cards.in .os-card{opacity:1;transform:rotateX(var(--trx,0deg)) rotateY(var(--try,0deg)) translateZ(var(--tz,0px))}
+.os-cards.settled .os-card{transition:opacity .9s var(--ease),transform .5s var(--ease),box-shadow .5s;transition-delay:0s}
+.os-cards.settled .os-card.tilting{transition:transform .15s linear,box-shadow .4s}
+.os-card.tilting{box-shadow:0 50px 80px -30px rgba(0,0,0,.75)}
+.os-glare{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.22),transparent 55%);opacity:0;transition:opacity .4s;mix-blend-mode:screen}
+.os-card.tilting .os-glare{opacity:1}
+/* image cards: photo wipes in, then caption rises */
+.os-img .ph{position:absolute;inset:0;z-index:-1;background-size:cover;background-position:center;clip-path:inset(100% 0 0 0);transform:scale(1.25);transition:clip-path 1.3s var(--ease),transform 2.2s var(--ease);transition-delay:calc(var(--d,0s) + .2s)}
+.os-cards.in .os-img .ph{clip-path:inset(0 0 0 0);transform:scale(1.04)}
+.os-img:hover .ph{transform:scale(1.12)!important;transition:transform 1.2s var(--ease)}
+.os-img::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,18,11,.15) 30%,rgba(6,18,11,.9))}
+.os-cap{position:absolute;left:22px;right:22px;bottom:22px;opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform 1s var(--ease);transition-delay:calc(var(--d,0s) + .9s)}
+.os-cards.in .os-cap{opacity:1;transform:none}
+.os-cap small{display:inline-flex;padding:5px 10px;border-radius:999px;background:var(--lime);color:var(--ink);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.os-cap h3{margin:12px 0 6px;font-size:clamp(20px,1.7vw,24px)}
+.os-cap p{font-size:14px;line-height:1.5;color:rgba(255,255,255,.8)}
+/* the farmer's words */
+.os-quote{display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:clamp(26px,3vw,40px);background:var(--lime);color:var(--ink)}
+.os-quote::before{content:"\201C";position:absolute;top:-36px;right:18px;font-family:var(--serif);font-size:230px;line-height:1;color:rgba(11,31,22,.1);transform:translateY(30px);opacity:0;transition:opacity 1s var(--ease),transform 1.2s var(--ease);transition-delay:calc(var(--d,0s) + .4s)}
+.os-cards.in .os-quote::before{opacity:1;transform:none}
+.os-quote small{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--forest)}
+.os-quote blockquote{margin:14px 0 0;font-family:var(--serif);font-size:clamp(22px,2vw,29px);line-height:1.25}
+.os-quote blockquote .w{opacity:.12;transition:opacity .4s}
+.os-quote blockquote .w.on{opacity:1}
+.os-who{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(11,31,22,.18);opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
+.os-who.on{opacity:1;transform:none}
+.os-who i{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--lime);font-style:normal;font-family:var(--serif);font-size:20px}
+.os-who b{display:block;font-size:15px}
+.os-who span{font-size:13px;color:#2f4a36}
+/* condensed story underneath */
+.os-text{max-width:760px;margin:clamp(36px,5vw,64px) auto 0;text-align:center}
+.os-text p{font-size:clamp(15px,1.25vw,17px);line-height:1.7;color:rgba(255,255,255,.75)}
+.os-text p+p{margin-top:14px}
+.os-text b{color:#fff;font-weight:700}
+.os-text .w{opacity:.18;transition:opacity .35s}
+.os-text .w.on{opacity:1}
+.os-more{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:700;color:var(--lime);border-bottom:1.5px solid rgba(200,241,105,.4);padding-bottom:3px;transition:border-color .3s}
+.os-more:hover{border-color:var(--lime)}
+.os-more svg{transition:transform .4s var(--ease)}
+.os-more:hover svg{transform:translateX(5px)}
+@media (max-width:860px){.os-cards{grid-template-columns:1fr}.os-card{min-height:300px}.os-quote{order:-1}}
+@media (prefers-reduced-motion:reduce){.os-card,.os-cap,.os-who,.os-quote::before{opacity:1;transform:none}.os-img .ph{clip-path:none}.os-quote blockquote .w,.os-text .w{opacity:1}}
 .ab-cards{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}
 .ab-card{padding:clamp(26px,3.5vw,44px);border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow)}
 .ab-card h3{margin:16px 0 14px;font-size:clamp(26px,2.6vw,36px)}
@@ -1131,17 +1172,34 @@ section{position:relative}
 
 <!-- ================= Story ================= -->
 <section class="sec" id="story">
-  <div class="wrap ab-story">
-    <div>
-      <span class="eyebrow rv">Our Story</span>
-      <h2 class="split"><span class="ln"><span>The story</span></span><span class="ln"><span style="--d:.08s">behind <span class="serif">BSNR</span></span></span></h2>
-      <p class="lead rv" style="margin-top:28px">When the EU Deforestation Regulation came into force, it placed a new infrastructure and compliance cost on the entire rubber value chain, a cost that smallholder farmers were least equipped to carry on their own. Rather than let that burden fall on individual farmers and small businesses, the Rubber Board of India, along with TRST01, launched Bharat Sustainable Natural Rubber (BSNR) to safeguard the industry with one coordinated national platform.</p>
-      <p class="lead rv">The partnership was deliberate in its design: a single system and standard for the whole industry instead of fragmented, company-led compliance, data held centrally under the Rubber Board with stakeholder identities protected through unique BSNR IDs, and a platform built for first-time digital users rather than large enterprises alone.</p>
+  <div class="wrap">
+    <div class="os-panel">
+      <div class="os-head">
+        <span class="eyebrow rv">Our Story</span>
+        <h2 class="split"><span class="ln"><span>The story behind <span class="serif">BSNR</span></span></span></h2>
+      </div>
+      <div class="os-cards" id="osCards">
+        <article class="os-card os-img" style="--d:0s">
+          <div class="ph" style="background-image:url(&quot;assets/img/stats/growers.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/growers.jpg&quot;)"></div><span class="os-glare"></span>
+          <div class="os-cap"><small>The challenge</small><h3>A new cost on every grower</h3><p>EUDR placed a compliance cost on the whole rubber value chain, hardest on smallholders.</p></div>
+        </article>
+        <article class="os-card os-quote" style="--d:.15s">
+          <span class="os-glare"></span>
+          <div><small>In a farmer's words</small>
+          <blockquote id="osQuote">I have always farmed legally in a non-deforested area. The BSNR initiative has come as a relief, giving us the confidence that even a smallholder farmer like me can meet the global requirements.</blockquote></div>
+          <div class="os-who" id="osWho"><i>P</i><div><b>Padmanabhan</b><span>Natural rubber smallholder, Ernakulam, Kerala</span></div></div>
+        </article>
+        <article class="os-card os-img" style="--d:.3s">
+          <div class="ph" style="background-image:url(&quot;assets/img/stats/plot.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/plot.jpg&quot;)"></div><span class="os-glare"></span>
+          <div class="os-cap"><small>The response</small><h3>One national platform</h3><p>The Rubber Board of India, with TRST01, launched BSNR to carry that burden together.</p></div>
+        </article>
+      </div>
+      <div class="os-text" id="osText">
+        <p>Rather than let the cost of EUDR fall on individual farmers and small businesses, the <b>Rubber Board of India</b> and <b>TRST01</b> built one coordinated national platform for the industry.</p>
+        <p>A single standard instead of fragmented, company-led compliance, data held centrally under the Rubber Board with identities protected by <b>unique BSNR IDs</b>, and a platform designed for first-time digital users.</p>
+        <a class="os-more" href="#partner">Learn how BSNR works <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
     </div>
-    <blockquote class="quote rv" style="--d:.1s">
-      <p>When I first heard about the new EUDR regulation, I felt a deep fear. I have always farmed legally in a non-deforested area, yet the thought of losing access to markets because of documents and technology I had never seen before was overwhelming. The BSNR initiative has come as a relief, giving us the confidence that even a smallholder farmer like me can meet the global requirements.</p>
-      <footer><b>Padmanabhan</b> · natural rubber smallholder farmer, Ernakulam district, Kerala</footer>
-    </blockquote>
   </div>
 </section>
 
@@ -1815,6 +1873,31 @@ section{position:relative}
     ['--try', '--trx', '--tz', '--ppx', '--ppy'].forEach(k => fxCard.style.removeProperty(k));
   });
   ahLoop();
+  /* Our Story: cards rise in, farmer's words light up, story text follows; cards tilt on hover */
+  const osCards = $('#osCards'), osQuote = $('#osQuote'), osWho = $('#osWho'), osText = $('#osText');
+  const osWords = el => { el.innerHTML = el.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g, (m, tag, w) => tag || `<span class="w">${w}</span>`); return $$('.w', el); };
+  const qW = osWords(osQuote), tW = $$('p', osText).flatMap(osWords);
+  const light = (ws, start, step) => ws.forEach((w, k) => setTimeout(() => w.classList.add('on'), reduce ? 0 : start + k * step));
+  new IntersectionObserver(([en], o) => {
+    if (!en.isIntersecting) return;
+    o.disconnect();
+    osCards.classList.add('in');
+    setTimeout(() => osCards.classList.add('settled'), 2200);
+    light(qW, 700, 55);
+    setTimeout(() => osWho.classList.add('on'), reduce ? 0 : 700 + qW.length * 55);
+  }, { threshold: .3 }).observe(osCards);
+  new IntersectionObserver(([en], o) => { if (en.isIntersecting) { o.disconnect(); light(tW, 100, 22); } }, { threshold: .4 }).observe(osText);
+  $$('.os-card', osCards).forEach(c => {
+    c.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse' || reduce || !osCards.classList.contains('settled')) return;
+      const r = c.getBoundingClientRect(), nx = (e.clientX - r.left) / r.width * 2 - 1, ny = (e.clientY - r.top) / r.height * 2 - 1;
+      c.classList.add('tilting');
+      c.style.setProperty('--try', nx * 10 + 'deg'); c.style.setProperty('--trx', -ny * 9 + 'deg'); c.style.setProperty('--tz', '24px');
+      c.style.setProperty('--gx', (nx + 1) * 50 + '%'); c.style.setProperty('--gy', (ny + 1) * 50 + '%');
+    });
+    c.addEventListener('pointerleave', () => { c.classList.remove('tilting'); ['--try', '--trx', '--tz'].forEach(k => c.style.removeProperty(k)); });
+  });
+
   }
 })();
 </script>
