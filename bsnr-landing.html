@@ -572,7 +572,7 @@ section{position:relative}
 .os-more:hover svg{transform:translateX(5px)}
 @media (max-width:860px){.os-cards{grid-template-columns:1fr}.os-card{min-height:300px}.os-quote{order:-1}}
 @media (prefers-reduced-motion:reduce){.os-card,.os-cap,.os-who,.os-quote::before{opacity:1;transform:none}.os-img .ph{clip-path:none}.os-quote blockquote .w,.os-text .w{opacity:1}}
-.ab-cards{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}
+.ab-cards{display:grid;grid-template-columns:1fr;gap:16px}
 .ab-card{padding:clamp(26px,3.5vw,44px);border-radius:var(--radius);background:var(--paper);box-shadow:var(--shadow)}
 .ab-card h3{margin:16px 0 14px;font-size:clamp(26px,2.6vw,36px)}
 .ab-card p{color:var(--muted)}
@@ -601,6 +601,36 @@ section{position:relative}
   .ab-nums{grid-template-columns:1fr}
 }
 
+
+/* National Recognition: pinned; the photo starts large and centred, then slides right
+   while the copy resolves on the left. The photo keeps its 3:2 shape, so nothing is cropped. */
+.nr{position:relative;height:260vh}
+.nr-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;--p:0}
+.nr-fig{position:absolute;margin:0;left:var(--fl);top:var(--ft);width:var(--fw);aspect-ratio:3/2;border-radius:calc(var(--radius) - 6px);overflow:hidden;box-shadow:0 40px 80px -40px rgba(11,31,22,.5);background:#dfe5da;will-change:left,top,width}
+.nr-fig img{width:100%;height:100%;object-fit:contain;display:block}
+.nr-fig figcaption{position:absolute;left:16px;bottom:14px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;color:#fff;background:rgba(11,31,22,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:clamp(0,calc((var(--p) - .9) * 10),1);transition:opacity .4s}
+.nr-copy{position:absolute;left:var(--cl);top:50%;width:var(--cw);transform:translateY(-50%)}
+.nr-copy .eyebrow{color:var(--leaf)}
+.nr-title{margin:16px 0 22px;font-size:clamp(34px,4.2vw,62px)}
+.nr-w{display:inline-block;opacity:0;filter:blur(12px);transform:translateX(-30px);transition:opacity .8s var(--ease),filter .8s var(--ease),transform 1s var(--ease);transition-delay:calc(var(--i) * 80ms)}
+.nr-stage.show .nr-w{opacity:1;filter:none;transform:none}
+.nr-in{display:block;opacity:0;filter:blur(8px);transform:translateX(-24px);transition:opacity .9s var(--ease),filter .9s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s)}
+.nr-stage.show .nr-in{opacity:1;filter:none;transform:none}
+.nr-lead{font-size:clamp(15px,1.25vw,18px);line-height:1.65;color:var(--muted);--d:.45s}
+.nr-lead b{color:var(--ink)}
+.nr-facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px;--d:.65s}
+.nr-facts div{padding:16px;border-radius:16px;background:var(--paper);box-shadow:0 0 0 1px var(--line)}
+.nr-facts strong{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--leaf)}
+.nr-facts span{display:block;margin-top:6px;font-weight:700}
+@media (max-width:860px){
+  .nr{height:auto;padding:clamp(56px,10vw,90px) 0}
+  .nr-stage{position:static;height:auto;overflow:visible;display:flex;flex-direction:column-reverse;gap:28px;padding:0 16px}
+  .nr-copy{position:static;width:auto;transform:none}
+  .nr-fig{position:relative;left:auto;top:auto;width:auto}
+  .nr-fig figcaption{font-size:11px}
+  .nr-fig figcaption{opacity:1}
+}
+@media (prefers-reduced-motion:reduce){.nr-w,.nr-in{opacity:1;filter:none;transform:none}}
 
 /* Responsive */
 @media (max-width:1080px){
@@ -1203,14 +1233,28 @@ section{position:relative}
   </div>
 </section>
 
-<!-- ================= Recognition + Partner ================= -->
+<!-- ================= National Recognition (pinned, image slides aside) ================= -->
+<section class="nr" id="recognition" aria-label="National Recognition">
+  <div class="nr-stage">
+    <div class="nr-copy">
+      <span class="eyebrow nr-in">National Recognition</span>
+      <h2 class="nr-title"><span class="nr-w">India's</span> <span class="nr-w">official</span> <span class="nr-w">answer</span> <span class="nr-w">to</span> <span class="nr-w serif">EUDR</span></h2>
+      <p class="nr-lead nr-in">The Ministry of Commerce and Industry, Government of India, designated the <b>Rubber Board</b> as the nodal agency for EUDR compliance for rubber, making BSNR the country's official, nation-level answer to the regulation.</p>
+      <div class="nr-facts nr-in">
+        <div><strong>Nodal agency</strong><span>Rubber Board of India</span></div>
+        <div><strong>Designated by</strong><span>Ministry of Commerce &amp; Industry</span></div>
+      </div>
+    </div>
+    <figure class="nr-fig" id="nrFig">
+      <img src="assets/img/aboutbsnr.jpg" alt="Rubber Board officials lighting the lamp at the Platinum Jubilee Rubber Growers' Conference, Kottayam, 16 January 2025" loading="lazy">
+      <figcaption>Platinum Jubilee &amp; Rubber Growers' Conference · Kottayam, January 2025</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= Technology Partner ================= -->
 <section class="sec" style="padding-top:0">
   <div class="wrap ab-cards">
-    <article class="ab-card dark rv" id="recognition">
-      <span class="eyebrow">National Recognition</span>
-      <h3>India's Official Answer to EUDR</h3>
-      <p>BSNR's momentum earned national endorsement when the Ministry of Commerce and Industry, Government of India, designated the Rubber Board as the nodal agency for EUDR compliance for rubber, making BSNR the country's official, nation-level answer to the regulation.</p>
-    </article>
     <article class="ab-card rv" id="partner" style="--d:.1s">
       <span class="eyebrow">Technology Partner</span>
       <h3>Built in Partnership with TRST01</h3>
@@ -1873,6 +1917,32 @@ section{position:relative}
     ['--try', '--trx', '--tz', '--ppx', '--ppy'].forEach(k => fxCard.style.removeProperty(k));
   });
   ahLoop();
+  /* National Recognition: scroll drives the photo from centre stage to the right */
+  {
+    const nr = $('#recognition'), stage = $('.nr-stage', nr);
+    $$('.nr-w', nr).forEach((w, i) => w.style.setProperty('--i', i));
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const nrTick = () => {
+      if (nr.offsetParent === null || innerWidth <= 860) { stage.classList.add('show'); return; }
+      const r = nr.getBoundingClientRect(), span = r.height - innerHeight;
+      const raw = Math.min(1, Math.max(0, -r.top / (span * .55)));
+      const p = reduce ? 1 : ease(raw);
+      const W = innerWidth, H = innerHeight, pad = Math.max(16, (W - 1240) / 2 + 16);
+      const hTop = 96, availH = H - hTop - 40;
+      // start: as big as fits, centred; end: right half
+      const w0 = Math.min(W - 2 * pad, availH * 1.5), w1 = Math.min((W - 2 * pad) * .52, availH * 1.5);
+      const w = w0 + (w1 - w0) * p;
+      const l0 = (W - w0) / 2, l1 = W - pad - w1, l = l0 + (l1 - l0) * p;
+      const h = w / 1.5, t = hTop + (availH - h) / 2;
+      stage.style.setProperty('--p', p.toFixed(4));
+      stage.style.setProperty('--fw', w + 'px'); stage.style.setProperty('--fl', l + 'px'); stage.style.setProperty('--ft', t + 'px');
+      stage.style.setProperty('--cl', pad + 'px'); stage.style.setProperty('--cw', Math.max(280, l1 - pad - 48) + 'px');
+      stage.classList.toggle('show', p > .9);
+    };
+    addEventListener('scroll', nrTick, { passive: true }); addEventListener('resize', nrTick);
+    nrTick();
+  }
+
   /* Our Story: cards rise in, farmer's words light up, story text follows; cards tilt on hover */
   const osCards = $('#osCards'), osQuote = $('#osQuote'), osWho = $('#osWho'), osText = $('#osText');
   const osWords = el => { el.innerHTML = el.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g, (m, tag, w) => tag || `<span class="w">${w}</span>`); return $$('.w', el); };
