@@ -1086,6 +1086,101 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 @media (max-width:560px){.fq-q{grid-template-columns:26px 1fr auto;gap:10px;padding:18px 12px}.fq-item:hover .fq-q{padding-left:14px}.fq-a-in{padding:0 14px 0 48px}.fq-cat-head{grid-template-columns:auto 1fr}.fq-cat-n{display:none}.fq-cat-ic{width:46px;height:46px}.fq-search kbd{display:none}.fq-chip{font-size:13px}}
 @media (prefers-reduced-motion:reduce){.fq-cat-ic{opacity:1;transform:none}.fq-cat-head::after{transform:none}}
 
+/* ===== Resources page: Deforestation-style hero, then a scroll-driven stack of resource cards, then a scatter of photos around a counting number ===== */
+.rs-hero::before{background:url("assets/img/res/hero.jpg") center 55%/cover,url("https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@21e390e32aab9c3e414ebf471ca5cac01d5e5a25/assets/img/res/hero.jpg") center 55%/cover;filter:saturate(.9) brightness(.55)}
+.rs-hero .df-head{font-size:clamp(40px,6.4vw,100px)}
+/* the stack: each card rises over the last, which settles back and peeks above it */
+.rs-stack{position:relative;height:calc(var(--n) * 85vh + 40vh)}
+.rs-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.rs-card{--capw:clamp(190px,19vw,260px);--gap:clamp(24px,3vw,44px);position:absolute;left:50%;top:55%;width:min(880px,100vw - 2 * (var(--capw) + var(--gap) + 28px),(100vh - 190px) * 1.6);aspect-ratio:16/10;transform:translate(-50%,-50%) translateY(var(--y,0px)) scale(var(--s,1));will-change:transform}
+.rs-media{position:absolute;inset:0;overflow:hidden;border-radius:28px;background:var(--poster) center/cover #0b1f16;box-shadow:0 50px 90px -50px rgba(11,31,22,.75),0 0 0 1px rgba(11,31,22,.06);filter:brightness(var(--b,1)) saturate(var(--b,1))}
+.rs-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .9s,transform 6s linear}
+.rs-vid.playing{opacity:1}
+.rs-card.on .rs-vid{transform:scale(1.02)}
+.rs-shade{position:absolute;inset:0;background:radial-gradient(70% 70% at 50% 50%,transparent 30%,rgba(6,20,13,.45)),linear-gradient(180deg,rgba(6,20,13,.15),rgba(6,20,13,.35))}
+.rs-cap{position:absolute;top:50%;width:var(--capw);opacity:0;filter:blur(8px);transform:translateY(calc(-50% + 18px));transition:opacity .6s var(--ease),filter .6s var(--ease),transform .8s var(--ease);pointer-events:none}
+.rs-card[data-side="right"] .rs-cap{left:calc(100% + var(--gap))}
+.rs-card[data-side="left"] .rs-cap{right:calc(100% + var(--gap))}
+.rs-card.on .rs-cap{opacity:1;filter:none;transform:translateY(-50%);transition-delay:.2s;pointer-events:auto}
+.rs-cap-k{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--leaf)}
+.rs-cap-k em{font-style:normal;color:#a6b2ab}
+.rs-cap h2{margin:10px 0 10px;font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.3vw,34px);line-height:1.05;letter-spacing:-.01em}
+.rs-cap p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+.rs-cap .btn{margin-top:16px}
+.rs-dots{position:absolute;left:50%;bottom:clamp(14px,3vh,28px);display:flex;gap:8px;transform:translateX(-50%)}
+.rs-dots i{width:6px;height:6px;border-radius:50%;background:rgba(11,31,22,.18);transition:background .3s,transform .4s var(--ease)}
+.rs-dots i.on{background:var(--leaf);transform:scale(1.6)}
+/* chips: a small live interface inside each card */
+.rs-chip{position:absolute;left:50%;top:50%;z-index:1;display:flex;align-items:center;gap:12px;width:min(80%,380px);padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 24px 44px -20px rgba(0,0,0,.55);opacity:0;transform:translate(-50%,-50%) translateY(16px) scale(.95);transition:opacity .6s var(--ease) .35s,transform .9s var(--ease) .35s}
+.rs-card.on .rs-chip{opacity:1;transform:translate(-50%,-50%)}
+.rs-chip-txt{flex:1;min-width:0;display:grid;gap:6px}
+.rs-chip-txt b{font-size:13.5px;line-height:1.25}
+.rs-chip-txt small{font-size:12px;color:var(--muted)}
+.rs-bar{display:block;height:4px;border-radius:4px;background:rgba(11,31,22,.1);overflow:hidden}
+.rs-bar i{display:block;height:100%;width:var(--pc,0%);border-radius:inherit;background:linear-gradient(90deg,var(--leaf),var(--lime))}
+.rs-play{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;background:var(--forest);color:var(--lime);padding-left:2px}
+.rs-card.on .rs-play{animation:rsPulse 2.4s var(--ease) infinite}
+@keyframes rsPulse{0%{box-shadow:0 0 0 0 rgba(75,175,71,.5)}100%{box-shadow:0 0 0 14px rgba(75,175,71,0)}}
+.rs-time{font-style:normal;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted)}
+.rs-chip--ask{width:min(86%,420px);padding:10px 10px 10px 16px;border-radius:999px}
+.rs-ask-ic{color:var(--muted)}
+.rs-type{flex:1;min-width:0;overflow:hidden;white-space:nowrap;font-size:14px;font-weight:600}
+.rs-caret{width:2px;height:18px;margin-left:-10px;background:var(--leaf);animation:rsBlink 1s steps(1) infinite}
+@keyframes rsBlink{50%{opacity:0}}
+.rs-send{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--lime);color:var(--ink);transition:transform .3s var(--ease)}
+.rs-chip--ask.sent .rs-send{transform:scale(1.2) rotate(-30deg)}
+.rs-chip--list{flex-direction:column;align-items:stretch;gap:10px;width:min(72%,300px);padding:16px}
+.rs-chip--list b{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--leaf)}
+.rs-chip--list ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rs-chip--list li{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:var(--muted);transition:color .4s}
+.rs-chip--list li i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(11,31,22,.2);color:transparent;transition:background .4s,color .4s,box-shadow .4s,transform .5s var(--ease)}
+.rs-chip--list li.done{color:var(--ink)}
+.rs-chip--list li.done i{background:var(--lime);color:var(--ink);box-shadow:none;transform:scale(1.12)}
+.rs-file-ic{display:grid;place-items:center;flex:none;width:42px;height:48px;border-radius:10px;background:#fbe9e5;color:#c4462d}
+.rs-done{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;background:var(--lime);color:var(--ink);transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.rs-chip--file.done .rs-done{transform:scale(1)}
+.rs-chip--risk{width:min(84%,400px);flex-wrap:wrap}
+.rs-flag{display:grid;flex:none;width:34px;height:24px;overflow:hidden;border-radius:5px;box-shadow:0 0 0 1px rgba(11,31,22,.1)}
+.rs-flag i:nth-child(1){background:#f29a38}.rs-flag i:nth-child(2){background:#fff;position:relative}.rs-flag i:nth-child(3){background:#2f8a3b}
+.rs-flag i:nth-child(2)::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;box-shadow:inset 0 0 0 1px #24408e}
+.rs-meter{position:relative;display:grid;grid-template-columns:repeat(3,1fr);flex-basis:100%;margin-top:4px;padding-top:14px;font-size:11px;font-weight:700;text-align:center;color:var(--muted)}
+.rs-meter::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--lime),#f2b84b 50%,#ef6a4f)}
+.rs-meter i{position:absolute;top:-5px;left:calc(100% * 5 / 6);width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--forest);box-shadow:0 0 0 3px #fff;transition:left 1.4s cubic-bezier(.3,1.3,.4,1) .7s}
+.rs-card.on .rs-meter i{left:calc(100% / 6)}
+.rs-meter span:first-child{color:var(--forest)}
+/* closing scatter: photos drift at different speeds around a number that counts up */
+.rs-scatter{position:relative;height:130vh;overflow:hidden}
+.rs-thumbs{position:absolute;inset:0;z-index:0}
+.rs-th{position:absolute;width:var(--w);aspect-ratio:var(--ar,4/5);object-fit:cover;border-radius:12px;box-shadow:0 20px 40px -24px rgba(11,31,22,.6);opacity:var(--o,0);transform:translateY(var(--py,0px)) scale(var(--sc,.7)) rotate(var(--r,0deg));will-change:transform,opacity}
+.rs-th:nth-child(1){left:7%;top:16%;--w:clamp(70px,9vw,130px);--r:-4deg}
+.rs-th:nth-child(2){left:22%;top:58%;--w:clamp(56px,6vw,90px);--ar:1;--r:3deg}
+.rs-th:nth-child(3){left:4%;top:66%;--w:clamp(80px,10vw,150px);--ar:4/3}
+.rs-th:nth-child(4){left:31%;top:8%;--w:clamp(48px,5vw,76px);--r:5deg}
+.rs-th:nth-child(5){left:74%;top:10%;--w:clamp(70px,8.5vw,128px);--ar:1;--r:-3deg}
+.rs-th:nth-child(6){left:87%;top:36%;--w:clamp(54px,6vw,92px);--r:4deg}
+.rs-th:nth-child(7){left:70%;top:66%;--w:clamp(84px,10vw,152px);--ar:4/3;--r:2deg}
+.rs-th:nth-child(8){left:88%;top:76%;--w:clamp(48px,5vw,80px);--r:-5deg}
+.rs-th:nth-child(9){left:57%;top:4%;--w:clamp(44px,4.5vw,66px);--ar:1}
+.rs-th:nth-child(10){left:38%;top:80%;--w:clamp(60px,7vw,104px);--ar:4/3;--r:-3deg}
+.rs-big{position:sticky;z-index:1;top:0;height:100vh;display:grid;place-content:center;justify-items:center;gap:6px;text-align:center;padding:0 16px}
+.rs-big strong{font-family:var(--serif);font-weight:400;font-size:clamp(120px,16vw,240px);line-height:.8;letter-spacing:-.04em;color:var(--forest)}
+.rs-big p{font-size:clamp(24px,2.6vw,38px);line-height:1.15;color:var(--ink)}
+.rs-roles{margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+@media (max-width:860px){
+  .rs-stack{height:auto;padding:clamp(40px,8vw,64px) 0 8px}
+  .rs-stage{position:static;height:auto;overflow:visible;width:min(var(--wrap),100% - 32px);margin:0 auto}
+  .rs-card{position:relative;left:auto;top:auto;width:100%;aspect-ratio:auto;transform:none;margin-bottom:56px}
+  .rs-media{position:relative;aspect-ratio:4/3;filter:none}
+  .rs-card .rs-cap,.rs-card.on .rs-cap{position:static;width:auto;margin-top:20px;opacity:1;filter:none;transform:none;pointer-events:auto}
+  .rs-card .rs-chip{transition-delay:.1s}
+  .rs-dots{display:none}
+  .rs-scatter{height:auto;min-height:90vh}
+  .rs-big{position:relative;height:auto;min-height:90vh}
+  .rs-th:nth-child(2),.rs-th:nth-child(4),.rs-th:nth-child(9),.rs-th:nth-child(10){display:none}
+  .rs-th:nth-child(3){top:78%}.rs-th:nth-child(7){top:80%;left:66%}
+}
+@media (prefers-reduced-motion:reduce){.rs-cap,.rs-chip{transition:none}.rs-th{--o:1;--sc:1}}
+
 /* Responsive */
 @media (max-width:1080px){
   .menu,.nav-cta .btn--ghost{display:none}
@@ -1138,7 +1233,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
         <li class="has-drop">
           <button aria-expanded="false">Resources <svg class="chev" width="10" height="10" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="drop">
-            <a href="User%20Guide.html">Resources &amp; Guides</a>
+            <a href="#resources" data-route="res">Resources &amp; Guides</a>
             <a href="All%20Blogs%20Page.html">Blog</a>
             <a href="pricing.html">Pricing</a>
           </div>
@@ -1177,7 +1272,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     <a href="#eudr-faq" data-route="faq">EUDR FAQ</a>
   </details>
   <details><summary>Resources <svg class="chev" width="14" height="14" viewBox="0 0 10 10"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></summary>
-    <a href="User%20Guide.html">Resources &amp; Guides</a>
+    <a href="#resources" data-route="res">Resources &amp; Guides</a>
     <a href="All%20Blogs%20Page.html">Blog</a>
     <a href="pricing.html">Pricing</a>
   </details>
@@ -2132,6 +2227,84 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 </section>
 </main>
 
+<main class="page" data-page="res" hidden>
+<section class="df-hero rs-hero">
+  <div class="wrap">
+    <span class="eyebrow df-later">Resources &amp; Guides</span>
+    <h1 class="df-head">
+      <span class="df-l"><span class="df-w">Your Step-by-Step Guide</span></span>
+      <span class="df-l"><span class="df-w df-brand">to EUDR Compliance</span></span>
+    </h1>
+    <div class="df-intro df-later">
+      <p class="df-lead">Tutorial videos and step-by-step user guides for every stakeholder on the BSNR portal, from registration to your Due Diligence Statement.</p>
+      <ol class="df-index"><li style="--k:0"><a href="#rsStack" class="rs-jump" data-k="0"><b>01</b><span>Tutorial Videos</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:1"><a href="#rsStack" class="rs-jump" data-k="1"><b>02</b><span>User Guide for Dealers &amp; Processors</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:2"><a href="#rsStack" class="rs-jump" data-k="2"><b>03</b><span>User Guide for Manufacturers</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:3"><a href="#rsStack" class="rs-jump" data-k="3"><b>04</b><span>User Guide for Exporters</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li><li style="--k:4"><a href="#rsStack" class="rs-jump" data-k="4"><b>05</b><span>EUDR Country Classification Implications</span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li></ol>
+    </div>
+  </div>
+  <a class="df-cue df-later" href="#rsStack"><i></i>Scroll to explore</a>
+</section>
+
+<section class="rs-stack" id="rsStack" style="--n:5">
+  <div class="rs-stage">
+    <article class="rs-card on" data-k="0" data-side="right">
+      <div class="rs-media" style="--poster:url(&quot;assets/video/rubber-plantation.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8f93d315f697c41a2e82c520d448165175ad906c/assets/video/rubber-plantation.jpg&quot;)"><video class="rs-vid" muted loop playsinline preload="none" data-name="rubber-plantation" data-folder="" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@8f93d315f697c41a2e82c520d448165175ad906c/assets/video/" data-webm="1" aria-label="Rubber plantation"></video><span class="rs-shade" aria-hidden="true"></span><div class="rs-chip rs-chip--play"><span class="rs-play"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg></span><span class="rs-chip-txt"><b>Registration to DDS download</b><i class="rs-bar"><i></i></i></span><em class="rs-time">0:00</em></div></div>
+      <div class="rs-cap"><span class="rs-cap-k">01 <em>/ 05</em></span><h2>Tutorial Videos</h2><p>Step by Step tutorial videos for farmers, estates, dealers, processors, manufacturers and exporters; from registration to DDS &amp; Polygon file download.</p><a class="btn btn--sm" href="https://www.youtube.com/@BSNR_RBxTRST01/playlists" target="_blank" rel="noopener">Click here to watch <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+    </article>
+    <article class="rs-card" data-k="1" data-side="left">
+      <div class="rs-media" style="--poster:url(&quot;assets/video/roles/dealer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/dealer.jpg&quot;)"><video class="rs-vid" muted loop playsinline preload="none" data-name="dealer" data-folder="roles/" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/" data-webm="0" aria-label="Sacks traded at the market"></video><span class="rs-shade" aria-hidden="true"></span><div class="rs-chip rs-chip--ask"><span class="rs-ask-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><span class="rs-type" data-type="How do I link suppliers and buyers?|How do I record a transaction?|How do I register as a dealer?"></span><i class="rs-caret"></i><span class="rs-send"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+      <div class="rs-cap"><span class="rs-cap-k">02 <em>/ 05</em></span><h2>User Guide for Dealers &amp; Processors</h2><p>Step-by-step guide for dealers, sub-dealers &amp; processors to achieve EUDR compliance on the BSNR portal. It includes instructions for registration, linking suppliers and buyers, and recording transactions.</p><a class="btn btn--sm" href="assets/img/agriculture/Dealers%20%26%20Processors%20PPT.pdf" target="_blank" rel="noopener">Download <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5v7M3 5.8L6 8.8l3-3M2 10.5h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+    </article>
+    <article class="rs-card" data-k="2" data-side="right">
+      <div class="rs-media" style="--poster:url(&quot;assets/video/roles/manufacturer.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/manufacturer.jpg&quot;)"><video class="rs-vid" muted loop playsinline preload="none" data-name="manufacturer" data-folder="roles/" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/" data-webm="0" aria-label="Rubber worked at the factory"></video><span class="rs-shade" aria-hidden="true"></span><div class="rs-chip rs-chip--list"><b>Manufacturer guide</b><ol><li style="--k:0"><i><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Registration</li><li style="--k:1"><i><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Linking suppliers and buyers</li><li style="--k:2"><i><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Defining processes</li><li style="--k:3"><i><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Recording transactions</li></ol></div></div>
+      <div class="rs-cap"><span class="rs-cap-k">03 <em>/ 05</em></span><h2>User Guide for Manufacturers</h2><p>Step-by-step guide for manufacturers to achieve EUDR compliance on the BSNR portal. It includes instructions for registration, linking suppliers and buyers, defining processes and recording transactions.</p><a class="btn btn--sm" href="assets/img/agriculture/Manufacturers%20PPT.pdf" target="_blank" rel="noopener">Download <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5v7M3 5.8L6 8.8l3-3M2 10.5h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+    </article>
+    <article class="rs-card" data-k="3" data-side="left">
+      <div class="rs-media" style="--poster:url(&quot;assets/video/roles/exporter.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/exporter.jpg&quot;)"><video class="rs-vid" muted loop playsinline preload="none" data-name="exporter" data-folder="roles/" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@93d593d01ef95203bb41ff78135271c488aef54c/assets/video/roles/" data-webm="0" aria-label="Loaded for export"></video><span class="rs-shade" aria-hidden="true"></span><div class="rs-chip rs-chip--file"><span class="rs-file-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/></svg></span><span class="rs-chip-txt"><b>Traceability certificate</b><small><span class="rs-pct">0</span>% downloaded</small><i class="rs-bar"><i></i></i></span><span class="rs-done"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3L9.5 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+      <div class="rs-cap"><span class="rs-cap-k">04 <em>/ 05</em></span><h2>User Guide for Exporters</h2><p>Step-by-step guide for exporters to achieve EUDR compliance on the BSNR portal. It includes instructions for registration, payment linking suppliers and buyers, defining processes, recording transactions &amp; download of traceability certificate</p><a class="btn btn--sm" href="assets/img/agriculture/Exporters%20PPT.pdf" target="_blank" rel="noopener">Download <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5v7M3 5.8L6 8.8l3-3M2 10.5h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+    </article>
+    <article class="rs-card" data-k="4" data-side="right">
+      <div class="rs-media" style="--poster:url(&quot;assets/video/latex.jpg&quot;),url(&quot;https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@16194a8b466fd09054b5b13ff6f29a317f9254e2/assets/video/latex.jpg&quot;)"><video class="rs-vid" muted loop playsinline preload="none" data-name="latex" data-folder="" data-cdn="https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@16194a8b466fd09054b5b13ff6f29a317f9254e2/assets/video/" data-webm="1" aria-label="Latex dripping from a tapped tree"></video><span class="rs-shade" aria-hidden="true"></span><div class="rs-chip rs-chip--risk"><span class="rs-flag" aria-hidden="true"><i></i><i></i><i></i></span><span class="rs-chip-txt"><b>India</b><small>EUDR country classification</small></span><span class="rs-meter"><span>Low</span><span>Standard</span><span>High</span><i></i></span></div></div>
+      <div class="rs-cap"><span class="rs-cap-k">05 <em>/ 05</em></span><h2>EUDR Country Classification Implications</h2><p>India has been classified as a Low Risk country under EUDR. Read the content to understand what this means for rubber stakeholders and why continued compliance is critical.</p><a class="btn btn--sm" href="assets/img/agriculture/EUDR%20Country%20Risk%20Classification%20Implications.pdf" target="_blank" rel="noopener">Download <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5v7M3 5.8L6 8.8l3-3M2 10.5h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div>
+    </article>
+    <div class="rs-dots" aria-hidden="true"><i data-k="0"></i><i data-k="1"></i><i data-k="2"></i><i data-k="3"></i><i data-k="4"></i></div>
+  </div>
+</section>
+
+<section class="rs-scatter" id="rsScatter">
+  <div class="rs-thumbs" aria-hidden="true">
+    <img class="rs-th" style="--k:0" src="assets/img/stats/plot.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/plot.jpg'">
+    <img class="rs-th" style="--k:1" src="assets/img/defo/mapping.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/mapping.jpg'">
+    <img class="rs-th" style="--k:2" src="assets/img/stats/growers.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/growers.jpg'">
+    <img class="rs-th" style="--k:3" src="assets/img/trace/register.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@7d7154451de05e539fbb648f36fb933b41403c01/assets/img/trace/register.jpg'">
+    <img class="rs-th" style="--k:4" src="assets/img/stats/processor.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/processor.jpg'">
+    <img class="rs-th" style="--k:5" src="assets/img/defo/contribute.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@b7b3657dde59685c12dee45b1178ccd7af3dee20/assets/img/defo/contribute.jpg'">
+    <img class="rs-th" style="--k:6" src="assets/img/trace/certificate.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@7d7154451de05e539fbb648f36fb933b41403c01/assets/img/trace/certificate.jpg'">
+    <img class="rs-th" style="--k:7" src="assets/img/risk/farmer.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@91747eea3a00ca377caa728edcaf5c0b9555974c/assets/img/risk/farmer.jpg'">
+    <img class="rs-th" style="--k:8" src="assets/img/stats/exporter.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@33ecb6efc59524257d82930f98010abb98401e53/assets/img/stats/exporter.jpg'">
+    <img class="rs-th" style="--k:9" src="assets/img/trace/mapping.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@7d7154451de05e539fbb648f36fb933b41403c01/assets/img/trace/mapping.jpg'">
+  </div>
+  <div class="rs-big">
+    <strong><span class="rs-num" data-to="6">0</span></strong>
+    <p class="serif">stakeholder groups guided from registration<br>to DDS &amp; polygon file download</p>
+    <span class="rs-roles">Farmers · Estates · Dealers · Processors · Manufacturers · Exporters</span>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta rv">
+      <img src="assets/img/res/hero.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@21e390e32aab9c3e414ebf471ca5cac01d5e5a25/assets/img/res/hero.jpg'">
+      <span class="pill"><b>Tutorials</b> BSNR on YouTube</span>
+      <h2>Watch, then get <span class="serif">started.</span></h2>
+      <p class="lead">Follow the tutorial videos on the BSNR channel, then register on the portal to begin your EUDR compliance.</p>
+      <div class="row-btns">
+        <a class="btn btn--lime" href="https://www.youtube.com/@BSNR_RBxTRST01/playlists" target="_blank" rel="noopener">Watch the tutorials <span class="arr"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--ghost" href="register-yourself.html">Register your Interest</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
 <!-- ================= Footer ================= -->
 <footer class="footer">
   <div class="wrap">
@@ -2196,7 +2369,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 
 
   /* Pages: each hash in ROUTES shows its page, anything else shows home */
-  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#risk-legality': 'risk', '#traceability-due-diligence': 'trace', '#eudr-faq': 'faq', '#home': 'home' };
+  const ROUTES = { '#bsnr-about': 'about', '#deforestation-analysis': 'defo', '#risk-legality': 'risk', '#traceability-due-diligence': 'trace', '#eudr-faq': 'faq', '#resources': 'res', '#home': 'home' };
   const pages = $$('.page');
   let curPage = null;
   const showPage = (name, jump) => {
@@ -2206,7 +2379,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     $$('[data-route]').forEach(a => a.classList.toggle('active', a.dataset.route === name));
     // nothing on a hidden page should keep playing
     $$('.page[hidden] video').forEach(v => v.pause());
-    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR', risk: 'Risk & Legality Assessments · BSNR', trace: 'Traceability & Due Diligence · BSNR', faq: 'EUDR FAQs · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
+    document.title = { about: 'About BSNR', defo: 'Deforestation Analysis · BSNR', risk: 'Risk & Legality Assessments · BSNR', trace: 'Traceability & Due Diligence · BSNR', faq: 'EUDR FAQs · BSNR', res: 'Resources & Guides · BSNR' }[name] || 'Bharat Sustainable Natural Rubber';
     document.body.classList.remove('menu-open'); document.body.style.overflow = '';
     if (jump) scrollTo({ top: 0, behavior: 'instant' });
     $$('.has-drop.open').forEach(li => li.classList.remove('open'));
@@ -2753,6 +2926,132 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
   questionPage('risk', '#risk-legality');
   questionPage('trace', '#traceability-due-diligence');
   questionPage('faq', '#eudr-faq');
+  questionPage('res', '#resources');
+
+  /* Resources: each card rises over the last as you scroll; its caption, clip and chip come alive while it leads */
+  {
+    const page = $('.page[data-page="res"]'), stack = $('#rsStack'), cards = $$('.rs-card', stack), dots = $$('.rs-dots i', stack), N = cards.length;
+    const desk = () => innerWidth > 860;
+    // clips: try next to this file, then the live site, then the CDN copy
+    $$('.rs-vid', page).forEach(v => {
+      const f = v.dataset.folder, n = v.dataset.name;
+      [...new Set([localURL('assets/video/' + f), siteURL('assets/video/' + f), v.dataset.cdn].filter(Boolean))].forEach(base => {
+        if (v.dataset.webm === '1') { const w = document.createElement('source'); w.src = base + n + '.webm'; w.type = 'video/webm'; v.append(w); }
+        const m = document.createElement('source'); m.src = base + n + '.mp4'; m.type = 'video/mp4'; v.append(m);
+      });
+      v.addEventListener('playing', () => v.classList.add('playing'));
+    });
+    const play = (card, on) => {
+      const v = $('.rs-vid', card);
+      if (on && !reduce && !page.hidden) { if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); } v.play().catch(() => {}); } else v.pause();
+    };
+
+    // chip loops, started when a card leads and stopped when it doesn't
+    const loops = new Map();
+    const chipStart = card => {
+      if (loops.has(card) || reduce) return;
+      const chip = $('.rs-chip', card), timers = [];
+      const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+      const every = (fn, ms) => timers.push(setInterval(fn, ms));
+      if (chip.classList.contains('rs-chip--play')) {
+        let t = 0; const time = $('.rs-time', chip);
+        every(() => { t = (t + 1) % 120; chip.style.setProperty('--pc', (t / 120 * 100) + '%'); time.textContent = `${Math.floor(t / 10 / 60)}:${String(Math.floor(t / 10) % 60).padStart(2, '0')}`; }, 100);
+      } else if (chip.classList.contains('rs-chip--ask')) {
+        const out = $('.rs-type', chip), qs = out.dataset.type.split('|'); let q = 0;
+        const type = () => {
+          const txt = qs[q++ % qs.length]; let i = 0; out.textContent = ''; chip.classList.remove('sent');
+          const tick = () => { out.textContent = txt.slice(0, ++i); if (i < txt.length) later(tick, 45 + Math.random() * 50); else later(() => { chip.classList.add('sent'); later(type, 1300); }, 700); };
+          later(tick, 500);
+        };
+        type();
+      } else if (chip.classList.contains('rs-chip--list')) {
+        const lis = $$('li', chip);
+        const run = () => { lis.forEach(l => l.classList.remove('done')); lis.forEach((l, i) => later(() => l.classList.add('done'), 700 + i * 650)); later(run, 700 + lis.length * 650 + 2200); };
+        run();
+      } else if (chip.classList.contains('rs-chip--file')) {
+        const pct = $('.rs-pct', chip);
+        const run = () => {
+          let v = 0; chip.classList.remove('done');
+          const id = setInterval(() => {
+            v = Math.min(100, v + 2 + Math.random() * 5); pct.textContent = Math.round(v); chip.style.setProperty('--pc', v + '%');
+            if (v >= 100) { clearInterval(id); chip.classList.add('done'); later(run, 2400); }
+          }, 70);
+          timers.push(id);
+        };
+        later(run, 500);
+      }
+      loops.set(card, timers);
+    };
+    const chipStop = card => { (loops.get(card) || []).forEach(t => { clearTimeout(t); clearInterval(t); }); loops.delete(card); };
+
+    let lead = -1;
+    const setLead = k => {
+      if (k === lead) return;
+      lead = k;
+      cards.forEach((c, i) => { const on = i === k; c.classList.toggle('on', on); play(c, on); on ? chipStart(c) : chipStop(c); });
+      dots.forEach((d, i) => d.classList.toggle('on', i === k));
+    };
+    // scroll position in cards: 0 shows the first, N-1 the last
+    const progress = () => {
+      const r = stack.getBoundingClientRect(), span = r.height - innerHeight;
+      return Math.min(N - 1, Math.max(0, (-r.top / span) * N - .3));
+    };
+    const tick = () => {
+      if (page.hidden || !desk()) return;
+      const t = progress(), H = cards[0].offsetHeight;
+      cards.forEach((c, i) => {
+        const enter = i === 0 ? 1 : Math.min(1, Math.max(0, t - (i - 1)));
+        const depth = Math.min(3, Math.max(0, t - i));
+        const e = 1 - Math.pow(1 - enter, 3);
+        const y = (1 - e) * (innerHeight * .55 + H * .6) - depth * H * .085;
+        c.style.setProperty('--y', y.toFixed(1) + 'px');
+        c.style.setProperty('--s', (1 - depth * .055).toFixed(4));
+        c.style.setProperty('--b', (1 - Math.min(1, depth) * .35).toFixed(3));
+        c.style.zIndex = i;
+        c.style.visibility = depth > 2.6 ? 'hidden' : '';
+      });
+      setLead(Math.min(N - 1, Math.round(t)));
+    };
+    let ticking = false;
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; tick(); }); } }, { passive: true });
+    addEventListener('resize', tick);
+    // phones: cards sit in a column, so the one in view leads
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (desk()) return;
+      const c = en.target;
+      if (en.isIntersecting) { c.classList.add('on'); play(c, true); chipStart(c); } else { c.classList.remove('on'); play(c, false); chipStop(c); }
+    }), { threshold: .45 });
+    cards.forEach(c => io.observe(c));
+    addEventListener('pageshow:res', () => { lead = -1; setTimeout(tick, 30); });
+    // hero links jump to their card in the stack
+    $$('.rs-jump', page).forEach(a => a.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation();
+      const k = +a.dataset.k;
+      if (!desk()) { cards[k].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); return; }
+      const span = stack.offsetHeight - innerHeight;
+      scrollTo({ top: stack.getBoundingClientRect().top + scrollY + span * (k + .3) / N + 2, behavior: reduce ? 'auto' : 'smooth' });
+    }, true));
+
+    // closing scatter: photos drift at their own speeds, the number counts up once
+    const sc = $('#rsScatter'), ths = $$('.rs-th', sc), num = $('.rs-num', sc);
+    const speeds = [1.4, .7, 1.1, 1.8, .9, 1.5, .6, 1.2, 2, .8];
+    const drift = () => {
+      if (page.hidden || reduce) return;
+      const r = sc.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const p = (innerHeight - r.top) / (innerHeight + r.height);   // 0 entering, 1 leaving
+      const a = Math.min(1, Math.max(0, (p - .08) / .3));           // arrival
+      ths.forEach((im, i) => {
+        im.style.setProperty('--py', ((.5 - p) * speeds[i] * 260).toFixed(1) + 'px');
+        im.style.setProperty('--o', Math.min(1, a * 1.4 - i * .04).toFixed(3));
+        im.style.setProperty('--sc', (.7 + .3 * a).toFixed(3));
+      });
+    };
+    addEventListener('scroll', drift, { passive: true }); addEventListener('resize', drift);
+    let counted = false;
+    new IntersectionObserver(([en]) => { if (en.isIntersecting && !counted) { counted = true; countUp(num, +num.dataset.to); } }, { threshold: .5 }).observe($('.rs-big', sc));
+    addEventListener('pageshow:res', () => setTimeout(drift, 40));
+  }
 
   /* EUDR FAQ: accordions, expand all, live search with highlighting, scroll-tracking category menu */
   {

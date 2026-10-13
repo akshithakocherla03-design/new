@@ -9,7 +9,7 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -90,6 +90,19 @@ All 32 live questions and answers in the live page's 4 categories (7 / 6 / 8 / 1
 4. **Search** (`#fqSearch`, "/" focuses it): matches the start of words, highlights hits, opens answers whose match is in the body, hides empty categories, shows per-category counts and has an empty state.
 5. **CTA:** "Still have questions?", which is new and not on the live page.
 
+## Resources page (`#resources`)
+The live content is kept: the headline "Your Step-by-Step Guide to EUDR Compliance" and its five cards (Tutorial Videos plus four PDF guides) with their live titles, text, links and buttons. The card layout and motion follow the user's screen recording.
+1. **Hero:** the headline over a path through a rubber plantation (`assets/img/res/hero.jpg`), with an index of the five resources that jumps to each card.
+2. **Card stack** (`#rsStack`, sticky). Each card rises over the previous one as you scroll; the earlier cards shrink, dim and peek above.
+   - **Captions:** the serif title, text and button sit beside each card and alternate sides, fading in with a blur.
+   - **Clips:** each card plays real footage, and only the leading card's clip plays. Tutorial Videos uses the plantation clip, the three user guides use the dealer, manufacturer and exporter role clips, and Country Classification uses the latex clip.
+   - **Chips:** each card has a live chip drawn from its content: a player with a progress bar, a search bar that types questions, a checklist that ticks itself, a certificate download with a percentage, and an "India · EUDR country classification" meter that slides to Low.
+   - **Dots:** progress dots sit under the cards.
+3. **Scatter** (`#rsScatter`): site photos drift at different speeds around a serif "6" that counts up, with "stakeholder groups guided from registration to DDS & polygon file download".
+4. **CTA:** "Watch, then get started.", which is new.
+
+On phones the cards stack in a column; each card leads while it's in view and its caption sits below it.
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
@@ -99,10 +112,11 @@ All 32 live questions and answers in the live page's 4 categories (7 / 6 / 8 / 1
 - `assets/img/risk/`: hero, farmer, dealer
 - `assets/img/trace/`: hero, register, mapping, transactions, storage, certificate
 - `assets/img/faq/hero.jpg`
+- `assets/img/res/hero.jpg`
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Resources/User Guide, Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
