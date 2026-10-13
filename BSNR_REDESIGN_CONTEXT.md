@@ -3,13 +3,13 @@
 ## What this is
 A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://bsnr.rubberboard.org.in/), run by the Rubber Board of India with TRST01 as the technology partner. The original site uses Bootstrap with plenty of text. The goal is a very modern, cinematic, animated site that keeps the existing content.
 
-- **Repo:** `akshithakocherla03-design/new`, branch `claude/magical-pasteur-owx3vy` (the repo is otherwise an unrelated project; only the files below matter).
+- **Repo:** `akshithakocherla03-design/new`, branch `claude/sweet-mccarthy-pvu3zz` (continued from `claude/magical-pasteur-owx3vy`) (the repo is otherwise an unrelated project; only the files below matter).
 - **Deliverable:** ONE file, `bsnr-landing.html`. **All pages and all future changes go into this same file** (the user asked for this explicitly). Send the updated file back to the user after every change.
 - The user gives feedback section by section, often with reference screenshots or screen recordings, and wants changes made directly.
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo">`. Routing is by hash: `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, anything else shows Home. Links use `data-route="about|defo|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, anything else shows Home. Links use `data-route="about|defo|risk|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -62,19 +62,31 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
    - Phones get a stacked version with a photo per question.
 3. **CTA:** "Get your farm mapped."
 
+## Risk & Legality Assessments page (`#risk-legality`)
+Built on the Deforestation layout: same `df-*` markup and CSS, plus `rk-*` extras. The script is shared: `questionPage(name, hash)` runs the hero intro, scrollytelling, index links and tabs for both pages (scoped to each page, so no IDs are needed).
+1. **Hero:** "Risk & Legality / **Assessments**" over a dark plantation with collection cups (`assets/img/risk/hero.jpg`), eyebrow "EUDR · Article 10", lead line and an index of five questions.
+2. **Questions** (5 × 100vh):
+   - Q1 why (Article 10, 4 fact tiles)
+   - Q2 farmer coverage (9 numbered area tiles, `.rk-areas`)
+   - Q3 risk rating (Low / Medium / High tabs with a sliding meter, `.rk-meter`, driven by `--t` set on `.df-body`)
+   - Q4 dealer coverage (4 fact tiles)
+   - Q5 after approval (Sub-dealer / Main dealer tabs)
+3. **General FAQs** (9 questions, About-page FAQ style), then a **CTA**: "Know your risk rating."
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
 - `assets/img/stats/`: plot, growers, dealer, processor, manufacturer, exporter
 - `assets/img/about/hero.jpg`
 - `assets/img/defo/`: eudr, mapping, consequences, contribute, analysis
+- `assets/img/risk/`: hero, why, farmer, rating, dealer, approval
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Risk & Legality Assessments, Traceability & Due Diligence, EUDR FAQ, Resources/User Guide, Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Traceability & Due Diligence, EUDR FAQ, Resources/User Guide, Blog, Pricing, Contact, register pages. When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
 - Keep test screenshots out of the repo (use the scratchpad).
-- Commit and push after each change to `claude/magical-pasteur-owx3vy`; don't open a PR unless asked.
+- Commit and push after each change to `claude/sweet-mccarthy-pvu3zz`; don't open a PR unless asked.
 - Reply plainly: what changed, any content written by the assistant (flag it for review), what was verified, and anything to upload before going live.
