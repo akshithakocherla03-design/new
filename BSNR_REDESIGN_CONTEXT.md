@@ -9,7 +9,7 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## How the file works
 - `<base href="https://bsnr.rubberboard.org.in/">` makes relative `assets/...` and page links resolve against the live site, so the file previews anywhere. Asset loading tries, in order: next to the file, the live site, then a **jsDelivr CDN copy pinned to a repo commit** (`https://cdn.jsdelivr.net/gh/akshithakocherla03-design/new@<commit>/assets/...`). When new assets are added: commit them first, then use that commit hash for the CDN fallback.
-- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog|contact|farmer">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, `#contact` shows Contact, `#register-farmer` shows Farmer Registration, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|contact|farmer|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
+- **Pages inside one file:** `<main class="page" data-page="home|about|defo|risk|trace|faq|res|blog|contact|farmer|estate">`. Routing is by hash (`ROUTES` in the script): `#bsnr-about` shows About, `#deforestation-analysis` shows Deforestation Analysis, `#risk-legality` shows Risk & Legality, `#traceability-due-diligence` shows Traceability & Due Diligence, `#eudr-faq` shows the EUDR FAQs, `#resources` shows Resources & Guides, `#blog` shows the Blog, `#contact` shows Contact, `#register-farmer` shows Farmer Registration, `#register-estate` shows Estate Registration, anything else shows Home. Links use `data-route="about|defo|risk|trace|faq|res|blog|contact|farmer|estate|home"`. `showPage()` dispatches `pageshow:<name>` events; page entrance animations listen for these (not for clicks). Videos on hidden pages are paused, and open dropdowns close on navigation.
 - URL helpers `localURL` / `siteURL` guard against `about:srcdoc` previews, where `new URL` would throw and stop the whole script.
 - Live stats come from `POST https://bsnrapp.rubberboard.org.in/api/Farmer/GetStackholderDetails`. CORS only allows the live origin, so locally the stats show fallbacks. The result is stored in `liveStats`; `countUp()` and `fmt()` are shared helpers.
 - One main `<script>` (an IIFE) holds the shared helpers `$`, `$$` and `reduce` (prefers-reduced-motion). Page-specific blocks are wrapped in `{ }`. There is no three.js any more.
@@ -140,6 +140,12 @@ The live page is "How it works · Farmer Registration" with four tabs. Every ste
 
 On phones the steps stack, each with its scene above its points, and each scene plays while it's in view.
 
+## Estate Registration page (`#register-estate`, from Register → Estate)
+Same design as Farmer, sharing one script: `regPage(name, hash)` drives both pages, scoped by `.page[data-page]` with no IDs. Live text is kept word for word, and the Register links go to `bsnrapp.rubberboard.org.in/#/estate`. There are five steps: Register, Pay One-Time Registration Fee, Map your Dealers / Processor / Manufacturer, Areas for Mapping (with the live "Declaration of Area for Mapping" and "Payment for the Declared Area" points), and Review and Submit.
+- **Fee scene** (`.es-fee`, `feeDemo`): the estate area counts from 0 to 60 ha along a bar with a 50 ha marker. When it passes 50, "Under 50 ha: exempt" is struck out and "60 ha × ₹250 = ₹15,000 + GST" appears, then "Pay & continue" turns into "Fee paid".
+- **Hero:** "Estate / Registration" over rows of tapped trees (`assets/img/estate/hero.jpg`), with badges "5 simple steps" and "Exempt under 50 ha".
+- **Fit:** short-screen rules (`max-height:780px` and `600px`) tighten the step column so the long fee and mapping steps fit down to 1000×555. These rules apply to Farmer too.
+
 ## Asset folders (in the repo; must be uploaded to the live site before going live)
 - `assets/video/`: `hero-walk.*`, `rubber-plantation.*`, `latex.*` (webm, mp4, jpg poster)
 - `assets/video/roles/`: estate, dealer, manufacturer, processor, exporter (mp4 and jpg)
@@ -153,10 +159,11 @@ On phones the steps stack, each with its scene above its points, and each scene 
 - `assets/img/blog/`: featured, farm, tapper, vessel
 - `assets/img/contact/hero.jpg`
 - `assets/img/farmer/hero.jpg`
+- `assets/img/estate/hero.jpg`
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Pricing and the other register pages (Estate, Dealer, Manufacturer, Processor, Trader, Exporters). When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Pricing and the other register pages (Dealer, Manufacturer, Processor, Trader, Exporters). When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
