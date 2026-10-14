@@ -176,7 +176,7 @@ Built from the Dealer page. It has the four live steps, word for word: Register 
 - To go live: upload `bsnr-landing.html` as the site's `index.html`, plus these asset folders.
 
 ## Pages not yet redesigned (still link to the live site)
-Pricing and the other register pages ( Manufacturer, Processor, Trader, Exporters). When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
+Pricing and the other register pages (Processor, Trader, Exporters). When redesigning one, add it as a new `<main class="page" data-page="...">` with a hash route (as was done for Deforestation Analysis) and switch its menu, footer and in-page links to `data-route`.
 
 ## Working conventions used so far
 - Test with Playwright (Chromium at `/opt/pw-browsers`, module at `/opt/node22/lib/node_modules/playwright`) at 1440×860, about 1000×600 and 390×844. Check for script errors and horizontal overflow; for the intro, capture frames over time.
