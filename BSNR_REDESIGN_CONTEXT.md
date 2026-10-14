@@ -194,3 +194,7 @@ Pricing, and the Exporter "how it works" page. When redesigning one, add it as a
 - Keep test screenshots out of the repo (use the scratchpad).
 - Commit and push after each change to `claude/sweet-mccarthy-pvu3zz`; don't open a PR unless asked.
 - Reply plainly: what changed, any content written by the assistant (flag it for review), what was verified, and anything to upload before going live.
+- Registration pages (Farmer to Processor) share `regPage(name, hash)`. Trader and Exporter share `regForm(name, hash)`, and the question-style pages share `questionPage(name, hash)`. Reuse these for new pages.
+- Also test 1280×640 and 1000×555 for pinned and scroll-driven sections, and check that the active step fits on screen.
+- Sharing for review: the site can't be published as a Claude artifact or any hosted link, because it carries Rubber Board branding and real registration flows. Share the HTML file itself, or offer a PDF of page screenshots and MP4 walkthrough videos instead.
+- Offered but not yet done: a redesign of the Exporter "how it works" page (five steps), the Pricing page, and adding the Blog's two hidden posts to its chapter row.
