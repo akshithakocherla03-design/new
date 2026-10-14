@@ -166,6 +166,19 @@ body.menu-open .sheet{clip-path:circle(150% at calc(100% - 44px) 44px);visibilit
   .hero-cta .btn{flex:1 1 100%;justify-content:center}
   .hero-kicker .pill span.long{display:none}
 }
+/* phones held sideways: keep the headline clear of the pill and the buttons */
+@media (max-height:520px) and (orientation:landscape){
+  .hero-kicker{top:86px}
+  .hero-kicker .pill span.long{display:none}
+  .hl-wrap{padding:40px 16px 0}
+  .hl{gap:10px}
+  .hl .t{font-size:clamp(26px,9.5vh,44px);max-width:22ch}
+  .hl .s{display:none}
+  .hero-bottom{bottom:14px}
+  .count{display:none}
+  .hero-cta{width:auto}
+  .hero-cta .btn{flex:0 0 auto}
+}
 
 /* Ticker */
 .ticker{margin-top:16px;display:flex;align-items:center;gap:0;background:var(--ink);color:#fff;border-radius:999px;overflow:hidden}
@@ -347,7 +360,7 @@ section{position:relative}
 }
 
 /* Implementation plan: stacked sticky rows that collapse to their title as you scroll */
-.plan{--st-top:84px;--st-h:76px;padding-top:clamp(56px,7vw,96px)}
+.plan{--st-top:84px;--st-h:calc(clamp(34px,4.6vw,64px) + clamp(14px,1.6vw,20px) + 14px);padding-top:clamp(56px,7vw,96px)}
 .st-intro{display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap;margin-bottom:clamp(32px,5vw,64px)}
 .st-intro .lead{max-width:40ch}
 .st-stack{position:relative}
@@ -372,7 +385,7 @@ section{position:relative}
 .st-row.stuck .st-desc{opacity:.0;transition:opacity .4s}
 .st-row .st-desc{transition:opacity .4s}
 @media (max-width:860px){
-  .plan{--st-top:76px;--st-h:58px}
+  .plan{--st-top:76px;--st-h:calc(clamp(26px,7.5vw,40px) + 24px)}
   .st-row{grid-template-columns:56px 1fr;align-content:start;min-height:0;padding-bottom:40px}
   .st-desc{padding-top:14px}
   .st-row:last-child{min-height:0;padding-bottom:16px}
@@ -524,8 +537,10 @@ section{position:relative}
   .ah{min-height:720px}
   .ah-fx{width:420px;margin-left:-210px}
   .fx-card{left:20px}
-  .fx-stat{right:0;top:150px}
+  .fx-stat{right:0;top:18px}
   .fx-bubble,.fx-badge{display:none}
+  .ah h1 .l{display:inline}
+  .ah h1 .l+.l::before{content:" "}
   .ah-foot{flex-direction:column;align-items:flex-start}
   .ah-hint{display:none}
 }
@@ -1430,6 +1445,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
 .fm-mq-track i{font-style:normal;font-size:clamp(18px,2vw,28px);opacity:.6}
 /* documents to keep ready: cards flip up in turn */
 .fm-keep-head h2{margin:16px 0 clamp(24px,3vw,40px);font-size:clamp(34px,4.2vw,62px);line-height:1;letter-spacing:-.04em}
+.fm-keep{overflow-x:clip}
 .fm-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;perspective:1200px}
 .fm-card{position:relative;overflow:hidden;padding:clamp(22px,2.4vw,32px);border-radius:24px;background:var(--paper);box-shadow:0 0 0 1px var(--line);transform-origin:50% 100%;transform:rotateX(-35deg) translateY(60px);opacity:0;transition:transform 1.1s var(--ease),opacity .8s,box-shadow .4s;transition-delay:calc(var(--k) * .14s)}
 .fm-cards.in .fm-card{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));opacity:1}
@@ -4751,7 +4767,7 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     const hd = $('#header'), top = hd.offsetTop + hd.offsetHeight + Math.max(30, Math.min(72, innerHeight * .075));
     ah.style.setProperty('--ah-top', top + 'px');
     const fxTop = top + ahTop.offsetHeight + Math.max(36, Math.min(76, innerHeight * .08));
-    ah.classList.remove('tight');
+    ah.classList.remove('tight'); ah.style.minHeight = '';
     const footTop = ah.offsetHeight - ahFoot.offsetHeight - parseFloat(getComputedStyle(ahFoot).bottom) - 14;
     const small = innerWidth < 700, natW = small ? 420 : 660, natH = small ? 350 : 352;
     let k = Math.min(1.12, (footTop - fxTop) / natH, (innerWidth - 24) / natW);
@@ -4759,6 +4775,8 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     const tight = k < .82 && !small;
     ah.classList.toggle('tight', tight);
     if (tight) k = Math.min(1.12, (ah.offsetHeight - 20 - fxTop) / natH, (innerWidth - 24) / natW);
+    // short phones: make the hero taller so the cards keep a readable size and clear the footer text
+    if (small && k < .8) { k = Math.min(.8, (innerWidth - 24) / natW); ah.style.minHeight = Math.ceil(fxTop + natH * k + ah.offsetHeight - footTop) + 'px'; }
     k = Math.max(.6, k);
     ah.style.setProperty('--fx-top', fxTop + 'px');
     fx.style.setProperty('--fxs', k.toFixed(3));
@@ -4858,22 +4876,24 @@ mark.fq-hit{padding:0 1px;border-radius:3px;background:var(--lime);color:var(--i
     const words = $$('.tp-p').flatMap(p => { p.innerHTML = p.innerHTML.replace(/(<[^>]+>)|([^\s<]+)/g, (m, t, w) => t || `<span class="w">${w}</span>`); return $$('.w', p); });
     const once = (el, fn, th = .3) => new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); fn(); } }, { threshold: th }).observe(el);
     // centre each line first; after the words write in, the lines glide to the left
+    // phones skip the centre-and-glide so the body copy is not held back while people scroll
+    const small = () => matchMedia('(max-width:700px)').matches;
     const centre = () => {
       if (head.classList.contains('settle')) return;
       const W = head.clientWidth;
-      $$('.tp-l', head).forEach(l => l.style.setProperty('--cx', Math.max(0, (W - l.offsetWidth) / 2) + 'px'));
+      $$('.tp-l', head).forEach(l => l.style.setProperty('--cx', small() ? '0px' : Math.max(0, (W - l.offsetWidth) / 2) + 'px'));
     };
     centre(); head.classList.add('ready'); addEventListener('resize', centre);
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(centre);
     once(top, () => {
       centre();
       top.classList.add('on'); head.classList.add('on');
-      const settleAt = reduce ? 0 : 2100;
+      const settleAt = reduce ? 0 : small() ? 500 : 2100;
       setTimeout(() => { head.classList.add('settle'); }, settleAt);
       setTimeout(() => {
         top.classList.add('settled');
-        words.forEach((w, k) => setTimeout(() => w.classList.add('on'), reduce ? 0 : 300 + k * 18));
-      }, reduce ? 0 : settleAt + 900);
+        words.forEach((w, k) => setTimeout(() => w.classList.add('on'), reduce ? 0 : 300 + k * (small() ? 6 : 18)));
+      }, reduce ? 0 : settleAt + (small() ? 300 : 900));
     });
     const count = (el, to, dec) => {
       const d = 1900, t0 = performance.now();
