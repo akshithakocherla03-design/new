@@ -16,10 +16,11 @@ A redesign of the **Bharat Sustainable Natural Rubber (BSNR)** website (https://
 
 ## Design language
 - **Colours** (CSS variables): `--ink #0b1f16`, `--forest #0e3324`, `--leaf #4baf47`, `--lime #c8f169`, `--cream #f5f3ec`, `--paper #fff`, `--muted #5d6d64`, `--ease cubic-bezier(.22,1,.36,1)`.
-- **Fonts:** Manrope (sans) and Instrument Serif (italic accents, class `.serif`).
+- **Fonts:** Manrope only, and nothing italic (the user asked for this). The old serif accents (class `.serif`, `var(--serif)` rules) now use Manrope in bold and upright; accent words keep their lime colour. The footer has no outlined "BSNR" wordmark (removed at the user's request).
 - **Look:** dark forest panels with rounded corners, real cinematic photos and videos (graded: deeper shadows, greener foliage, vignette), glass cards, lime accents, grain.
 - **Motion:** blur-to-sharp word reveals, cards tilting back under the cursor, counters that count up, scroll-driven sections. `prefers-reduced-motion` is respected.
-- **The user rejects anything cartoonish or 3D-rendered: always use REAL footage and photos** (free Pexels/Pixabay; credit is optional). Check that text stays readable over images, and test at laptop sizes (the user often views at about 1000×555–640).
+- **The user rejects anything cartoonish or 3D-rendered: always use REAL footage and photos** (free Pexels/Pixabay; credit is optional).
+- **People in photos must look South Indian, ideally from Kerala** (the user's request). The grower, contribute, trace register and trace mapping photos and the dealer clip were replaced with Kerala photos from Wikimedia Commons (CC BY-SA 4.0). Their credits are in an HTML comment at the top of `bsnr-landing.html`; the licence needs a visible credit before going live. Commons rate-limits its API heavily; its 1920px thumbnails from `upload.wikimedia.org` download reliably. Check that text stays readable over images, and test at laptop sizes (the user often views at about 1000×555–640).
 
 ## Home page (`data-page="home"`), top to bottom
 1. **Header:** glass pill nav with dropdowns (About EUDR, Resources, Register) and a mobile sheet menu.
